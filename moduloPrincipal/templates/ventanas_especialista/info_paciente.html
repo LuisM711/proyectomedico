@@ -1,0 +1,115 @@
+{% extends 'layouts/nav_especialista.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/perfil_clinico.css' %}">
+
+<div class="login-page" >
+
+    {% if paciente %}
+    <div class="ficha-identificacion">
+        
+        <center><div class="imagen" style="width: 50%;">
+            {% if paciente.id_usuario.foto %}
+                    <img style = "width: 100%; height: 150px; margin-top: 10px; margin-bottom: 10px;;"src="{{ paciente.id_usuario.foto.url }}" alt="Foto del usuario">
+                    {% else %}
+                    <img style = "width: 100%; height: 150px; margin-top: 10px; margin-bottom: 10px;;" src="{% static 'images/imagen_usuario_defecto.jpg' %}" alt="Foto del usuario">
+                {% endif %}
+        </div></center>
+        <h4>Ficha de identificación</h4>
+        <div class="info-paciente">
+            <p>Nombre: {{paciente.id_usuario.id_usuario.first_name}} {{paciente.id_usuario.id_usuario.last_name}}</p>
+            <p>Edad: {{edad}} años</p>
+            {% if paciente.genero == 'M' %}
+                <p>Sexo: Masculino</p>
+            {% else %}
+                <p>Sexo: Femenino</p>
+            {% endif %}
+
+            {% if paciente.estado_civil == '1' %}
+                <p>Estado civil: Casado</p>
+            {% else %}
+                <p>Estado civil: Soltero</p>
+            {% endif %}
+
+            {% if paciente.estilo_vida == 'A' %}
+                <p>Estilo de vida: Activo</p>
+            {% elif paciente.estilo_vida == 'S' %}
+                <p>Estilo de vida: Sedentario</p>
+            {% else %}
+                <p>Estilo de vida: Vegano</p>
+            {% endif %}
+
+
+            <p>Peso: {{paciente.peso}} kg</p>
+            <p>Talla: {{paciente.talla}} m</p>
+            <p>IMC: {{imc}}</p>
+            <p>Filtracion Glomedular: {{fgm}}  ml/min</p>
+            
+        </div> 
+        <!-- <center><button>Descargar Documento</button></center> -->
+        
+        
+    </div>
+    {% endif %}
+
+	<div class="historial-clinico">
+
+        <div class="contenido" id="GENERAL">
+
+            <div class="antecedentes-patologicos">
+                <h3>Antecedentes personales patologicos</h3>
+                  
+
+
+
+                {% for patologia in ant_patologicos %}
+                    <p>{{patologia.patologia}}</p> 
+
+                   
+                {% endfor %}
+
+                
+            </div>
+            <div class="antecedentes-no-patologicos">
+                <h3>Antecedentes personales no patologicos</h3>
+                
+                <h4>Toxicomania</h4> 
+                    {% for toxicomania in toxicomanias %}
+                        <p>{{toxicomania.nombre}}: Si  Cantidad: {{toxicomania.cantidad}}  Frecuencia: {{toxicomania.frecuencia}}  Tiempo: {{toxicomania.tiempo}} años</p>
+                    {% endfor %}
+                
+                <h4>Antecendentes quirurjicos</h4>
+                    {% for quirurjico in ant_quirurjicos %}
+                        <p>Tipo: {{quirurjico.tipo}} Tiempo: {{quirurjico.tiempo}} años</p>
+                   
+                    {% endfor %}
+
+                <h4>Antecedentes transfusionales</h4>
+                {% for transfusional in ant_transfusionales %}
+                    <p>Tipo: {{transfusional.tipo}} Tiempo: {{transfusional.tiempo}} años</p>
+               
+                {% endfor %}
+
+                <h4>Alergias</h4>
+                {% for alergia in alergias %}
+                    <p>{{alergia.nombre}}</p>
+                {% endfor %}
+
+
+                <h4>Vacunación</h4>
+                {% for vacuna in vacunas %}
+                    <p>Nombre: {{vacuna.nombre}}  Dosis: {{vacuna.dosis}}  Año: {{vacuna.año}}</p>
+                  
+                {% endfor %}
+
+
+            </div>
+        </div>
+	</div>
+
+	
+</div>
+
+
+{% endblock %}

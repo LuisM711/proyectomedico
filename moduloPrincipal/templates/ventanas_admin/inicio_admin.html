@@ -1,0 +1,32 @@
+{% extends 'layouts/nav_administrador.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/inicio_admin.css' %}">
+  <body>
+
+    <div class="Botones">
+
+
+        <form action="{% url 'listarespecialistas_admin' %}">
+          <button class="especialistas">Administrar <br> Especialistas</button>
+        </form>
+          
+        <form action="{% url 'listarpacientes_admin' %}">
+          <button class="pacientes">Administrar <br> Pacientes</button>
+        </form>
+      
+
+
+
+
+        <form action="{% url 'especialidades_admin' %}">
+          <button class="especialistas">Administrar <br> Especialidades</button>
+        </form>
+        
+
+    </div>
+
+  </body>
+
+{% endblock %}

@@ -1,0 +1,183 @@
+{% extends 'layouts/nav_paciente.html' %}
+{% load static %}
+{% block content %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/lista_pacientes.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+
+<div class="login-page">
+    <center><h1>Especialistas</h1></center>
+    <center>
+        <div class="barra_busqueda">
+            <input type="text" name="buscar" id="buscar-input" placeholder="Buscar...">
+            <button class="btn_buscar" id="buscar-boton">Buscar</button>
+            <button class="btn_mostrar" id="mostrar-boton" style="display: none;">Mostrar Todos</button>
+        </div>
+    </center>
+    <div class="radio-buttons">
+        <center>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group" id="Botones">
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="btnradio1">Disponibles</label>
+              
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                <label class="btn btn-outline-success" for="btnradio2">Confirmados</label>
+            </div>
+        </center>
+    </div>
+
+    <div class="lista-pacientes" id="pacientes-pendientes">
+        {% if especialistas %}
+            {% for especialista in especialistas %}
+                {% if especialista.estatus == '1' %}
+                    {% if especialista.id not in lista_solicitados %}
+                        <div class="info-paciente">
+                            <div class="imagen" style="margin-left: 5px; margin-right: 5px;">
+                                {% if especialista.id_usuario.foto %}
+                                    <img style = "width: 56px; height: 72px;"src="{{ especialista.id_usuario.foto.url }}" alt="Foto del usuario">
+                                {% else %}
+                                    <img style = "width: 56px; height: 72px;"src="{% static 'images/imagen_usuario_defecto.jpg' %}" alt="Foto del usuario">
+                                {% endif %}
+                            </div>
+                            <div class="datos">
+                                <h3>{{especialista.id_usuario.id_usuario.first_name}} {{ especialista.id_usuario.id_usuario.last_name }} </h3>
+                                <h4>Especialidad: {{especialista.id_especialidad.nombre}}</h4>
+                            </div>
+                            <div class="botones">
+
+                                <form method="post" action="/enviar_solicitud/{{especialista.id}}" >
+                                    {% csrf_token %}
+                                    <a href="/informacion/especialista/{{especialista.id}}/{{especialista.id_usuario.id}}/{{especialista.id_usuario.id_usuario.id}}"> <button type="button" id="info"> <abbr title='{{especialista.info_ad}}'>Mostrar <br> información</abbr></button></a>
+                                    <button data-request-id="{{ especialista.id }}" id="aceptar">Enviar <br> solicitud</button>
+                                </form>
+                                
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p>No se encontraron especialistas.</p>
+        {% endif %}
+    </div>
+
+    <div class="lista-pacientes" id="pacientes-confirmados" style="display: none;">
+        {% if solicitudes %}
+            {% for solicitud in solicitudes %}
+                {% if solicitud.id_especialista.estatus == '1' %}
+                    {% if solicitud.estatus == 'A' %}
+                        <div class="info-paciente">
+                            <div class="imagen" style="margin-left: 5px; margin-right: 5px;">
+                                {% if solicitud.id_especialista.id_usuario.foto %}
+                                    <img style = "width: 56px; height: 72px;"src="{{ solicitud.id_especialista.id_usuario.foto.url }}" alt="Foto del usuario">
+                                {% else %}
+                                    <img style = "width: 56px; height: 72px;"src="{% static 'images/imagen_usuario_defecto.jpg' %}" alt="Foto del usuario">
+                                {% endif %}
+                            </div>
+                            <div class="datos">
+                                <h3>{{ solicitud.id_especialista.id_usuario.id_usuario.first_name }} {{ solicitud.id_especialista.id_usuario.id_usuario.last_name }}</h3>
+                                <h4>Especialidad: {{solicitud.id_especialista.id_especialidad.nombre}}</h4>
+                            </div>
+                            <div class="botones">
+                                {% csrf_token %}
+                                <a href="/informacion/especialista/{{solicitud.id_especialista.id}}/{{solicitud.id_especialista.id_usuario.id}}/{{solicitud.id_especialista.id_usuario.id_usuario.id}}"><button id="info"><abbr title='{{solicitud.id_especialista.info_ad}}'>Mostrar <br> información</abbr></button></a>
+                                <a href="/agendarcita/{{solicitud.id_especialista.id}}"><button id="aceptar">Agendar <br> cita</button></a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p>No se encontraron especialistas.</p>
+        {% endif %}
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const pacientesPendientes = document.getElementById("pacientes-pendientes");
+        const pacientesConfirmados = document.getElementById("pacientes-confirmados");
+        const btnSolicitudes = document.getElementById("btnradio1");
+        const btnConfirmados = document.getElementById("btnradio2");
+        const buscarInput = document.getElementById("buscar-input");
+        const buscarBoton = document.getElementById("buscar-boton");
+        const mostrarBoton = document.getElementById("mostrar-boton");
+        const aceptarBotones = document.querySelectorAll("#aceptar");
+        const rechazarBotones = document.querySelectorAll("#rechazar");
+        const bajaBotones = document.querySelectorAll("#baja");
+        
+        let busqueda = false;
+
+        function MostrarPacientes() {
+            const listaPacientes = btnSolicitudes.checked ? pacientesPendientes : pacientesConfirmados;
+            const pacientes = listaPacientes.getElementsByClassName("info-paciente");
+
+            for (const paciente of pacientes) {
+                paciente.style.display = "flex";
+            }
+
+            busqueda = false;
+            buscarInput.value = "";
+            mostrarBoton.style.display = "none";
+        }
+
+        buscarBoton.addEventListener("click", function () {
+            const searchTerm = buscarInput.value.trim().toLowerCase();
+            const listaPacientes = btnSolicitudes.checked ? pacientesPendientes : pacientesConfirmados;
+            const pacientes = listaPacientes.getElementsByClassName("info-paciente");
+
+            for (const paciente of pacientes) {
+                const nombrePaciente = paciente.querySelector(".datos h3").textContent.toLowerCase();
+
+                if (nombrePaciente.includes(searchTerm)) {
+                    paciente.style.display = "flex";
+                } else {
+                    paciente.style.display = "none";
+                }
+            }
+
+            busqueda = true;
+            mostrarBoton.style.display = "block";
+        });
+
+        mostrarBoton.addEventListener("click", MostrarPacientes);
+
+        btnSolicitudes.addEventListener("change", function () {
+            pacientesPendientes.style.display = "block";
+            pacientesConfirmados.style.display = "none";
+
+            if (!busqueda) {
+                mostrarBoton.style.display = "none";
+            }
+        });
+
+        btnConfirmados.addEventListener("change", function () {
+            pacientesPendientes.style.display = "none";
+            pacientesConfirmados.style.display = "block";
+
+            if (!busqueda) {
+                mostrarBoton.style.display = "none";
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+    });
+</script>
+
+
+
+
+
+
+{% endblock %}

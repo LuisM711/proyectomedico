@@ -1,0 +1,67 @@
+body {
+
+  background: rgb(255, 255, 255);
+
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;      
+}
+
+.imagen_perfil{
+  padding: 1%;
+  border: 2px solid gray;
+  border-radius: 10px;
+  float: left;
+
+  width: 25%;
+
+  text-align: center;
+  margin-left: 10%;
+}
+
+.informacion_general{
+  padding: 1%;
+  border: 2px solid gray;
+  border-radius: 10px;
+
+  float:right;
+  width: 40%;
+
+  margin-right: 8%;
+}
+
+button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #00A89C;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+button:hover,button:active,button:focus {
+  background: #348a73;
+}
+
+input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+#cambiar_contra {
+color: #00A89C;
+text-decoration: none;
+font-size: 14px;
+}

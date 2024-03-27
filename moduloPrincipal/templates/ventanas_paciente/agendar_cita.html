@@ -1,0 +1,212 @@
+{% extends 'layouts/nav_paciente.html' %}
+{% load static %}
+{% block content %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/agendar_cita.css' %}">
+
+
+
+{% if Error %}
+    <br>
+    <br>
+    <div class="horario">
+        <h2>{{Error}}</h2>
+
+    </div>
+{% else %}
+    <div class="login-page">
+        <button class="agendarcita" onclick="document.getElementById('aviso').setAttribute('data-on','on')">Agendar cita</button>
+
+    </div>
+    <br>
+    <br>
+    <div class="horario">
+        <h2>Horario de atencion</h2>
+
+        <p> <strong>Lunes:    </strong> {{horario.Lunes}} <br>
+            <strong>Martes:   </strong> {{horario.Martes}} <br>
+            <strong>Miercoles:</strong> {{horario.Miercoles}} <br>
+            <strong>Jueves:   </strong> {{horario.Jueves}} <br>
+            <strong>Viernes:  </strong> {{horario.Viernes}} <br>
+            <strong>Sabado:   </strong> {{horario.Sabado}} <br>
+            <strong>Domingo:  </strong> {{horario.Domingo}}
+        </p>
+    </div>
+
+    <br>
+
+    <form>
+        <div class="form" id ="aviso" data-on="off" >
+            <h1>Agendar cita</h1>
+            <div class="registro_datos">
+                <input type="date" name="date" id="date" value="{{fecha_act}}" min="{{fecha_act}}" max="{{fecha_max}}" onchange="cambiarFecha()"/>
+
+                <!-- Select de horas del dia lunes -->
+                <select name="select_lunes" id="select_lunes" hidden>
+                    <option value="" disabled>Elige una hora</option>
+                    {% for elemento in horas_lunes %}
+                        <option value={{elemento}} >{{elemento}}</option>
+                    {% endfor %}
+                </select>
+                <!-- Select de horas del dia martes -->
+                <select name="select_martes" id="select_martes" hidden>
+                    <option value="" disabled>Elige una hora</option>
+                    {% for elemento in horas_martes %}
+                        <option value={{elemento}} >{{elemento}}</option>
+                    {% endfor %}
+                </select>
+                <!-- Select de horas del dia miercoles -->
+                <select name="select_miercoles" id="select_miercoles" hidden>
+                    <option value="" disabled>Elige una hora</option>
+                    {% for elemento in horas_miercoles %}
+                        <option value={{elemento}} >{{elemento}}</option>
+                    {% endfor %}
+                </select>
+                <!-- Select de horas del dia jueves -->
+                <select name="select_jueves" id="select_jueves" hidden>
+                    <option value="" disabled>Elige una hora</option>
+                    {% for elemento in horas_jueves %}
+                        <option value={{elemento}} >{{elemento}}</option>
+                    {% endfor %}
+                </select>
+                <!-- Select de horas del dia viernes -->
+                <select name="select_viernes" id="select_viernes" hidden>
+                    <option value="" disabled>Elige una hora</option>
+                    {% for elemento in horas_viernes %}
+                        <option value={{elemento}} >{{elemento}}</option>
+                    {% endfor %}
+                </select>
+                <!-- Select de horas del dia sabado -->
+                <select name="select_sabado" id="select_sabado" hidden>
+                    <option value="" disabled>Elige una hora</option>
+                    {% for elemento in horas_sabado %}
+                        <option value={{elemento}} >{{elemento}}</option>
+                    {% endfor %}
+                </select>
+                <!-- Select de horas del dia domingo -->
+                <select name="select_domingo" id="select_domingo" hidden>
+                    <option value="" disabled>Elige una hora</option>
+                    {% for elemento in horas_domingo %}
+                        <option value={{elemento}} >{{elemento}}</option>
+                    {% endfor %}
+                </select>
+
+                <textarea name="motivos" id="motivos" rows="4" cols="50" placeholder="Motivo de la consulta"></textarea>
+            </div>
+            <button class="cerrar" onclick="document.getElementById('aviso').setAttribute('data-on','off')">Cerrar</button>
+            <button class="agendar" type="button" onclick="ValidarCita()">Agendar</button>
+        </div>
+    </form>
+{% endif %}
+
+
+<script>
+    let date = new Date('{{fecha_act}}');
+    mostrarSelect(date);
+
+    //Funcion para cambiar enviar la fecha del input date a la funcion mostrarSelect
+    function cambiarFecha(){
+        var input = document.getElementById("date");
+        var fecha = new Date(input.value); 
+        mostrarSelect(fecha);
+    }
+
+    //Funcion para mostrar un select u otro dependiendo del dia elegido
+    function mostrarSelect(date){
+        //Se obtiene el dia de la semana
+        var dia= date.getDay();
+        //se toman todos los select y se ocultan
+        var select_lunes = document.getElementById("select_lunes");
+        var select_martes = document.getElementById("select_martes");
+        var select_miercoles = document.getElementById("select_miercoles");
+        var select_jueves = document.getElementById("select_jueves");
+        var select_viernes = document.getElementById("select_viernes");
+        var select_sabado = document.getElementById("select_sabado");
+        var select_domingo = document.getElementById("select_domingo");
+        select_lunes.hidden=true;
+        select_martes.hidden=true;
+        select_miercoles.hidden=true;
+        select_jueves.hidden=true;
+        select_viernes.hidden=true;
+        select_sabado.hidden=true;
+        select_domingo.hidden=true;
+
+        //se valida el dia elegido y se muestra ese select
+        if (dia==0){
+            select_lunes.hidden=false;
+        }else if(dia==1){
+            select_martes.hidden=false;
+        }else if(dia==2){
+            select_miercoles.hidden=false;
+        }else if(dia==3){
+            select_jueves.hidden=false;
+        }else if(dia==4){
+            select_viernes.hidden=false;
+        }else if(dia==5){
+            select_sabado.hidden=false;
+        }else{
+            select_domingo.hidden=false;
+        }
+    }
+
+    function ValidarCita() {
+        var input = document.getElementById("date");
+        var fecha = new Date(input.value); 
+        var dia= fecha.getDay();
+        var motivo = document.getElementById("motivos").value;
+
+        if (dia==0){
+            select= document.getElementById("select_lunes");
+        }else if(dia==1){
+            select= document.getElementById("select_martes");
+        }else if(dia==2){
+            select= document.getElementById("select_miercoles");
+        }else if(dia==3){
+            select= document.getElementById("select_jueves");
+        }else if(dia==4){
+            select= document.getElementById("select_viernes");
+        }else if(dia==5){
+            select= document.getElementById("select_sabado");
+        }else{
+            select= document.getElementById("select_domingo");
+        }
+
+
+
+        const data = {
+            fecha: input.value,
+            hora: select.value,
+            id_paciente:'{{id_paciente}}',
+            id_especialista:'{{id_especialista}}',
+            motivo: motivo,
+        };
+
+        const url = `/agendarcita/`;
+
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.Success) {
+                    alert("Cita agendada exitosamente");
+                    window.location.href = '/listarcitas/paciente/';
+                } else {
+                    alert(data.Descripcion);
+                }
+            })
+            .catch((error) => {
+                console.error("Error de red al intentar agendar la cita", error);
+        });
+    }
+
+
+</script>
+
+{% endblock %}

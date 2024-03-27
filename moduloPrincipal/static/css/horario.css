@@ -1,0 +1,52 @@
+.login-page {
+    width: 90%px;
+    padding: 2% 0 0;
+    margin: auto;
+}
+  
+  
+.form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 90%;
+    margin: 0 auto 100px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.horario-row {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+
+.horarioForm .turno1{
+    width: 38%;
+
+}
+
+
+.horarioForm .turno2{
+    width: 38%;
+}
+
+
+.horario-row label {
+    width: 8%;
+    text-align: left;
+    font-size: 20px;
+}
+
+.turno1 input{
+    width:20%;
+    float:left;
+    margin-left: 2%;
+}
+.turno2 input{
+    width:20%;
+    float:left;
+    margin-left: 2%;
+}
+

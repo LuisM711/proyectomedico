@@ -1,0 +1,270 @@
+{% extends 'layouts/nav_especialista.html' %}
+{% load static %}
+{% block content %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/lista_pacientes.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+
+<div class="login-page">
+    <center><h1>Pacientes</h1></center>
+    <center>
+        <div class="barra_busqueda">
+            <input type="text" name="buscar" id="buscar-input" placeholder="Buscar...">
+            <button class="btn_buscar" id="buscar-boton">Buscar</button>
+            <button class="btn_mostrar" id="mostrar-boton" style="display: none;">Mostrar Todos</button>
+        </div>
+    </center>
+    <div class="radio-buttons">
+        <center>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group" id="Botones">
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="btnradio1">Solicitudes</label>
+              
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                <label class="btn btn-outline-success" for="btnradio2">Confirmados</label>
+            </div>
+        </center>
+    </div>
+
+    <div class="lista-pacientes" id="pacientes-pendientes">
+        {% if pacientes %}
+            {% for paciente in pacientes %}
+                {% if paciente.solicitud.id_paciente.estatus == '1' %}
+                    {% if paciente.solicitud.estatus == 'P' %}
+                        <div class="info-paciente">
+                            <div class="imagen" style="margin-left: 5px; margin-right: 5px;">
+                                {% if paciente.solicitud.id_paciente.id_usuario.foto %}
+                                    <img style = "width: 56px; height: 72px;"src="{{ paciente.solicitud.id_paciente.id_usuario.foto.url }}" alt="Foto del usuario">
+                                {% else %}
+                                    <img style = "width: 56px; height: 72px;" src="{% static 'images/imagen_usuario_defecto.jpg' %}" alt="Foto del usuario">
+                                {% endif %}
+                            </div>
+                            <div class="datos">
+                                <h3>{{ paciente.solicitud.id_paciente.id_usuario.id_usuario.first_name }} {{ paciente.solicitud.id_paciente.id_usuario.id_usuario.last_name }}</h3>
+                                <h4>Edad: {{ paciente.edad }}</h4>
+                            </div>
+                            <div class="botones">
+                                {% csrf_token %}
+                                <a href="/informacion/paciente/{{paciente.solicitud.id_paciente_id}}"><button id="info" >Mostrar <br> información</button></a>
+                                <button data-request-id="{{ paciente.solicitud.id }}" id="aceptar">Aceptar <br> solicitud</button>
+                                <button id="show_button_rechazar" onclick="show_rechazar_solicitud ('{{paciente.solicitud.id}}')">Rechazar <br> solicitud</button>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            <!-- Dialogo que se usa para mostrar una ventana de confirmacion al rechazar una solicitud -->
+            <dialog id="alert_rechazar">
+                <h2>Seguro que quieres rechazar la solicitud</h2>
+                
+                <button onClick="this.parentElement.close()" type="button" id="info">No</button>
+                <button data-request-id="{{ paciente.solicitud.id }}" id="rechazar">Si</button>
+            </dialog>
+            
+        {% else %}
+            <p>No se encontraron pacientes.</p>
+        {% endif %}
+    </div>
+
+    <div class="lista-pacientes" id="pacientes-confirmados" style="display: none;">
+        {% if pacientes %}
+            {% for paciente in pacientes %}
+                {% if paciente.solicitud.id_paciente.estatus == '1' %}
+                    {% if paciente.solicitud.estatus == 'A' %}
+                        <div class="info-paciente">
+                            <div class="imagen" style="margin-left: 5px; margin-right: 5px;">
+                                {% if paciente.solicitud.id_paciente.id_usuario.foto %}
+                                    <img style = "width: 56px; height: 72px;" src="{{ paciente.solicitud.id_paciente.id_usuario.foto.url }}" alt="Foto del usuario">
+                                {% else %}
+                                    <img style = "width: 56px; height: 72px;" src="{% static 'images/imagen_usuario_defecto.jpg' %}" alt="Foto del usuario">
+                                {% endif %}
+                            </div>
+                            <div class="datos">
+                                <h3>{{ paciente.solicitud.id_paciente.id_usuario.id_usuario.first_name }} {{ paciente.solicitud.id_paciente.id_usuario.id_usuario.last_name }}</h3>
+                                <h4>Edad: {{ paciente.edad }}</h4>
+                            </div>
+                            <div class="botones">
+                                {% csrf_token %}
+                                <a href="/informacion/paciente/full/{{paciente.solicitud.id_paciente_id}}"><button id="info" >Mostrar <br> información</button></a>
+                                
+                                <button onclick="show_dar_de_baja ('{{paciente.solicitud.id}}')" id="show_button_dar_de_baja">Dar de <br> baja</button>
+
+                            
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            <!-- Dialogo que se usa para mostrar una ventana de confirmacion al dar de baja una solicitud -->
+            <dialog id="alert_dar_de_baja">
+                <h2>Seguro que quieres dar de baja a este paciente?</h2>
+                
+                <button onClick="this.parentElement.close()" type="button" id="info">No</button>
+                <button data-request-id="{{ paciente.solicitud.id }}" id="baja">Si</button>
+            </dialog>
+        {% else %}
+            <p>No se encontraron pacientes.</p>
+        {% endif %}
+    </div>
+</div>
+
+
+<script>
+    //Variable id que se usara para los dialog de eliminar
+    id = 0;
+    document.addEventListener("DOMContentLoaded", function () {
+        
+
+        const pacientesPendientes = document.getElementById("pacientes-pendientes");
+        const pacientesConfirmados = document.getElementById("pacientes-confirmados");
+        const btnSolicitudes = document.getElementById("btnradio1");
+        const btnConfirmados = document.getElementById("btnradio2");
+        const buscarInput = document.getElementById("buscar-input");
+        const buscarBoton = document.getElementById("buscar-boton");
+        const mostrarBoton = document.getElementById("mostrar-boton");
+        const aceptarBotones = document.querySelectorAll("#aceptar");
+        const rechazarBotones = document.querySelectorAll("#rechazar");
+        const bajaBotones = document.querySelectorAll("#baja");
+
+        
+        let busqueda = false;
+
+        function MostrarPacientes() {
+            const listaPacientes = btnSolicitudes.checked ? pacientesPendientes : pacientesConfirmados;
+            const pacientes = listaPacientes.getElementsByClassName("info-paciente");
+
+            for (const paciente of pacientes) {
+                paciente.style.display = "flex";
+            }
+
+            busqueda = false;
+            buscarInput.value = "";
+            mostrarBoton.style.display = "none";
+        }
+
+        buscarBoton.addEventListener("click", function () {
+            const searchTerm = buscarInput.value.trim().toLowerCase();
+            const listaPacientes = btnSolicitudes.checked ? pacientesPendientes : pacientesConfirmados;
+            const pacientes = listaPacientes.getElementsByClassName("info-paciente");
+
+            for (const paciente of pacientes) {
+                const nombrePaciente = paciente.querySelector(".datos h3").textContent.toLowerCase();
+
+                if (nombrePaciente.includes(searchTerm)) {
+                    paciente.style.display = "flex";
+                } else {
+                    paciente.style.display = "none";
+                }
+            }
+
+            busqueda = true;
+            mostrarBoton.style.display = "block";
+        });
+
+        mostrarBoton.addEventListener("click", MostrarPacientes);
+
+        btnSolicitudes.addEventListener("change", function () {
+            pacientesPendientes.style.display = "block";
+            pacientesConfirmados.style.display = "none";
+
+            if (!busqueda) {
+                mostrarBoton.style.display = "none";
+            }
+        });
+
+        btnConfirmados.addEventListener("change", function () {
+            pacientesPendientes.style.display = "none";
+            pacientesConfirmados.style.display = "block";
+
+            if (!busqueda) {
+                mostrarBoton.style.display = "none";
+            }
+        });
+
+
+
+        aceptarBotones.forEach(function (boton) {
+            boton.addEventListener("click", function () {
+                const solicitudId = boton.getAttribute("data-request-id");
+                actualizaEstatus(solicitudId, "A");
+            });
+        });
+
+        rechazarBotones.forEach(function (boton) {
+            id= this.id;
+            boton.addEventListener("click", function () {
+                actualizaEstatus(id , "R");
+            });
+        });
+
+        bajaBotones.forEach(function (boton) {
+            id= this.id;
+            boton.addEventListener("click", function () {
+                actualizaEstatus(id, "B");
+            });
+        });
+
+        function actualizaEstatus(solicitudId, nuevoEstatus) {
+            const data = {
+                id: solicitudId,
+                estatus: nuevoEstatus,
+            };
+
+            const url = `/listarpacientes/${solicitudId}`;
+
+            fetch(url, {
+                method: "PUT",
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json",
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        console.error("Error al cambiar el estatus de la solicitud");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error de red al cambiar el estatus de la solicitud", error);
+                });
+        }
+
+
+
+    });
+
+    //funcion para mostrar dialog para rechazar solicitud
+    function show_rechazar_solicitud (id) {
+        const alertDialog = document.querySelector("#alert_rechazar");
+        //se establece el id con el valor enviado a la funcion
+        this.id = id;
+
+        alertDialog.showModal();
+    };
+
+    //funcion para mostrar dialog para dar de baja un paciente
+    function show_dar_de_baja (id) {
+        const alertDialog = document.querySelector("#alert_dar_de_baja");
+        //se establece el id con el valor enviado a la funcion
+        this.id = id;
+        alertDialog.showModal();
+    };
+
+    
+
+
+
+</script>
+
+
+
+
+
+
+{% endblock %}

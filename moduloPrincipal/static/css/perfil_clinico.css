@@ -1,0 +1,340 @@
+.login-page {
+  width: 100%;
+  display: inline;
+}
+p{
+  margin-bottom: 5px;
+}
+.historial-clinico {
+  float: inline-start;
+  width: 70%;
+  margin-top: 20px;
+  margin-left: 20px;
+  min-height: 370px;
+  justify-items: center;
+  text-align: center;
+  
+}
+.contenido{
+  border-radius: 15px;
+  border: 2px solid #8A8686;
+  min-height: 720px;
+}
+.pestañitas{
+  z-index: -1;
+  text-align: end;
+  margin-right: 20px;
+}
+.pestañitas button{
+  z-index: -1;
+  width: 10%;
+  border: none;
+  border-radius: 10px 20px 0px 0px;
+  margin-left: -10px;
+}
+#dx-tx{
+  background-color: #CCFDF7;
+}
+#dx-tx:hover{
+  background-color: #aef3ec;
+}
+#pa{
+  background-color: #B5E4DF;
+}
+#pa:hover{
+  background-color: #94cac5;
+}
+#general{
+  background-color: #75E0DA;
+}
+#general:hover{
+  background-color: #59bdb8;
+}
+.ficha-identificacion {
+  float: inline-start;
+  width: 25%;
+  margin-top: 20px;
+  margin-left: 20px;
+  min-height: 350px;
+  justify-items: center;
+  text-align: center;
+  border-radius: 15px;
+  border: 2px solid #8A8686;
+}
+.ficha-identificacion button{
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  border-radius: 10px;
+  outline: 0;
+  background: #00A89C;
+  width: 50%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+.ficha-identificacion button:hover,.ficha-identificacion button:active,.ficha-identificacion button:focus {
+  background: #348a73;
+}
+
+
+.padecimientos-motivo, .diagnostico{
+  float: inline-start;
+  width: 48%;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+.exploracion-fisica, .tratamiento{
+  float: inline-end;
+  width: 48%;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.inputs{
+  border-radius: 15px;
+  border: 2px solid #8A8686;
+  text-align: left;
+} 
+
+.inputs input{
+  border-radius: 15px;
+  border: 2px solid #8A8686;
+  width: 45%;
+  margin-left: 5px;
+  display: inline-block;
+}
+.inputs label{
+  margin-left: 5px;
+  display: inline-block;
+  width: 35%;
+}
+.descripcion label, .farmacologico label, .nofarmacologico label{
+  margin-left: 5px;
+  display: inline-block;
+  width: 100%;
+}
+.descripcion textarea, .farmacologico textarea, .nofarmacologico textarea{
+  margin-bottom: 10px;
+  width: 97%;
+  border-radius: 15px;
+  border: 2px solid #8A8686;
+}
+
+.padecimientos-motivo textarea, .diagnostico textarea{
+  width: 100%;
+  border-radius: 15px;
+  border: 2px solid #8A8686;
+}
+.botones-PA button{
+  border: none;
+  height: 32px;
+  border-radius: 32px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+
+.botones_registrar{
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  border-radius: 10px;
+  outline: 0;
+  background: #00A89C;
+
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+.botones_registrar:hover,.botones_registrar:active,.botones_registrar:focus {
+  background: #348a73;
+}
+
+.elemento_historial{
+  overflow: hidden;
+
+}
+
+.nombre_elemento{
+  width: 75%;
+  float:left;
+  overflow: hidden;
+}
+
+.editar_elemento{
+  margin-left: 1%;
+  width: 10%;
+  float:left;
+  border-radius: 10px;
+  background-color: #b3b3b3;
+}
+
+
+.editar_elemento:hover{
+  background-color: #747272;
+}
+.eliminar_elemento{
+  margin-left: 1%;
+  width: 10%;
+  float:left;
+  background-color: #910909;
+  color: white;
+  border-radius: 10px;
+
+}
+
+.eliminar_elemento:hover{
+  background-color: #690909;
+}
+
+.no{
+
+  width: 10%;
+  float:left;
+  border-radius: 10px;
+  background-color: #b3b3b3;
+}
+
+
+.no:hover{
+  background-color: #747272;
+}
+.si{
+  margin-left: 1%;
+  width: 10%;
+  float:left;
+  background-color: #910909;
+  color: white;
+  border-radius: 10px;
+
+}
+
+.si:hover{
+  background-color: #690909;
+}
+
+
+#aceptar{
+  background-color: #75E0DA;
+}
+#anterior{
+  background-color: #CCFDF7;
+}
+#aceptar:hover, #anterior:hover{
+  background: #348a73;
+}
+#GENERAL{
+  padding-left: 10px;
+  text-align: left;
+}
+#GENERAL h3{
+  margin-left: 10px;
+}
+#GENERAL h4{
+  margin-left: 20px;
+}
+#GENERAL p{
+  margin-left: 30px;
+}
+
+sup {
+  font-size: smaller;
+}
+
+/** {
+  border: 2px solid red;
+} */
+
+
+@media (max-width: 1400px) {
+  .ficha-identificacion {
+    float: inline-start;
+    width: 25%;
+    margin-top: 20px;
+    margin-left: 20px;
+    min-height: 350px;
+    justify-items: center;
+    text-align: center;
+    border-radius: 15px;
+    border: 2px solid #8A8686;
+  }
+  .ficha-identificacion button{
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    border-radius: 10px;
+    outline: 0;
+    background: #00A89C;
+    width: 50%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  .ficha-identificacion button:hover,.ficha-identificacion button:active,.ficha-identificacion button:focus {
+    background: #348a73;
+  }
+  
+  .historial-clinico {
+    float: inline-start;
+    width: 70%;
+    margin-top: 20px;
+    margin-left: 20px;
+    min-height: 370px;
+    justify-items: center;
+    text-align: center;
+    
+  }
+
+  .nombre_elemento{
+    width: 65%;
+    float:left;
+    overflow: hidden;
+  }
+  
+  .editar_elemento{
+    margin-left: 1%;
+    width: 8%;
+    float:left;
+    border-radius: 10px;
+    background-color: #b3b3b3;
+  }
+  
+  
+  .editar_elemento:hover{
+    background-color: #747272;
+  }
+  .eliminar_elemento{
+    margin-left: 1%;
+    width: 10%;
+    float:left;
+    background-color: #910909;
+    color: white;
+    border-radius: 10px;
+  
+  }
+  
+  .eliminar_elemento:hover{
+    background-color: #690909;
+  }
+
+  
+  
+  
+  
+}
+
+

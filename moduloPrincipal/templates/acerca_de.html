@@ -1,0 +1,54 @@
+{% extends 'layouts/nav_inicio.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/acerca_de.css' %}">
+<div class="login-page" >
+	<div class="form">
+        <h1>Acerca de</h1>
+
+		<div style="overflow: hidden;">
+			<img  style = "width: 250px; height: 250px; margin-bottom: 10%;margin-left: 10px; float: left;" src="{% static 'images/logo.png' %}">
+
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias aspernatur aliquid repellendus deserunt perspiciatis, ex voluptate neque iure provident id. Dignissimos laudantium ex vitae, iste consectetur architecto amet iusto ab.
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias aspernatur aliquid repellendus deserunt perspiciatis, ex voluptate neque iure provident id. Dignissimos laudantium ex vitae, iste consectetur architecto amet iusto ab.</p>
+		</div>
+		
+		<div style="overflow: hidden;">
+			<div class="card" style="width: 18rem; float: left;" id="cardiologia" >
+				<center><img style = "width: 52px; height: 52px;" src="{% static 'images/cardiologia.png' %}" class="card-img-top" alt="..."></center>
+				<div class="card-body">
+				  <h5 class="card-title">Cardiologia</h5>
+				  <hr>
+				  <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+				</div>
+
+			</div>
+		
+			<div class="card" style="width: 18rem;float: left; margin-left: 3%" id="cardiologia" >
+				<center><img style = "width: 52px; height: 52px; " src="{% static 'images/nutricion.png' %}" class="card-img-top" alt="..."></center>
+				<div class="card-body">
+				  <h5 class="card-title">Nutricion</h5>
+				  <hr>
+				  <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+				</div>
+
+			</div>
+
+			<div class="card" style="width: 18rem;float: left; margin-left: 3%" id="cardiologia" >
+				<center><img style = "width: 52px; height: 52px; " src="{% static 'images/pediatria.png' %}" class="card-img-top" alt="..."></center>
+				<div class="card-body">
+				  <h5 class="card-title">Pediatria</h5>
+				  <hr>
+				  <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+	
+</div>
+
+{% endblock %}

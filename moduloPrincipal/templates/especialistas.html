@@ -1,0 +1,35 @@
+{% extends 'layouts/nav_inicio.html' %}
+{% load static %}
+{% block content %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/especialistas.css' %}">
+<div class="login-page">
+	<div class="form">
+        <h1>Especialistas</h1>
+		<div class="lista-especialistas">
+			{% for especialista in entity %}
+
+				<div class="especialista">
+					{% if especialista.id_usuario.foto %}
+						<img style = "width: 148px; height: 200px; "src="{{ especialista.id_usuario.foto.url }}" alt="Foto del usuario">
+					{% else %}
+						<img style = "width: 148px; height: 200px; "src="{% static 'images/imagen_usuario_defecto.jpg' %}" alt="Foto del usuario">
+					{% endif %}
+					<h3>{{especialista.id_usuario.id_usuario.first_name}} {{especialista.id_usuario.id_usuario.last_name}}</h3>
+					<p> Especialista en {{especialista.id_especialidad.nombre}}</p>
+					<p>{{especialista.cedula}}</p>
+					<p>{{especialista.info_ad}}</p>
+				</div>
+
+			{% endfor %}
+		</div>
+		<div>
+			{% include 'layouts/paginator.html' %}
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+<!--  -->

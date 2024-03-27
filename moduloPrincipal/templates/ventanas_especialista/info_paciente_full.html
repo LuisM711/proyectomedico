@@ -1,0 +1,835 @@
+{% extends 'layouts/nav_especialista.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/consulta_medica.css' %}">
+<div class="login-page" >
+    {% if paciente %}
+    <div class="ficha-identificacion">
+        
+        <center><div class="imagen" style="width: 50%;">
+            {% if paciente.id_usuario.foto %}
+                    <img style = "width: 100%; height: 150px; margin-top: 10px; margin-bottom: 10px;;" src="{{ paciente.id_usuario.foto.url }}" alt="Foto del usuario">
+                    {% else %}
+                    <img style = "width: 100%; height: 150px; margin-top: 10px; margin-bottom: 10px;;" src="{% static 'images/imagen_usuario_defecto.jpg' %}" alt="Foto del usuario">
+                {% endif %}
+        </div></center>
+        <h4>Ficha de identificación</h4>
+        <div class="info-paciente">
+            <p>Nombre: {{paciente.id_usuario.id_usuario.first_name}} {{paciente.id_usuario.id_usuario.last_name}}</p>
+            <p>Edad: {{edad}} años</p>
+            {% if paciente.genero == 'M' %}
+                <p>Sexo: Masculino</p>
+            {% else %}
+                <p>Sexo: Femenino</p>
+            {% endif %}
+
+            {% if paciente.estado_civil == '1' %}
+                <p>Estado civil: Casado</p>
+            {% else %}
+                <p>Estado civil: Soltero</p>
+            {% endif %}
+
+            {% if paciente.estilo_vida == 'A' %}
+                <p>Estilo de vida: Activo</p>
+            {% elif paciente.estilo_vida == 'S' %}
+                <p>Estilo de vida: Sedentario</p>
+            {% else %}
+                <p>Estilo de vida: Vegano</p>
+            {% endif %}
+
+
+            <p>Peso: {{paciente.peso}} kg</p>
+            <p>Talla: {{paciente.talla}} m</p>
+            <p>IMC: {{imc}}</p>
+            <p>Filtracion Glomedular: {{fgm}}  ml/min</p>
+            
+        </div> 
+        <center><button>Descargar Documento</button></center>
+        
+        
+    </div>
+    {% endif %}
+	<div class="historial-clinico">
+        <div class="pestañitas">
+            <button id="general" onclick="mostrarContenido('GENERAL')">General</button>
+            <button id="pa" onclick="mostrarContenido('CITAS')">Citas</button>
+
+        </div>
+        <div class="contenido" id="GENERAL">
+
+            <div class="antecedentes-patologicos">
+                <h3>Antecedentes personales patologicos</h3>
+                  
+                <button class="botones_registrar" id="show_button_patologia">Registrar patologia</button>
+                    <dialog id="alert_dialog_patologia">
+                        <form method="post" action="{% url 'registrar_patologia' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="id_paciente" id="id_paciente" value="{{paciente.id}}">
+                            <p>Ingresa los datos de la patologia</p>
+                            <label>Nombre</label>
+                            <input type="text" required name="patologia"/>
+                            <button>Registrar</button>
+
+                        </form>
+                        <br>
+                        <br>
+                        
+                        <button onClick="this.parentElement.close()" type="button">Cerrar</button>
+                    
+                    </dialog>
+                  
+                    <br>
+
+
+                {% for patologia in ant_patologicos %}
+                    <div class="elemento_historial">
+                        {% csrf_token %}
+                        <p class="nombre_elemento">{{patologia.patologia}}</p> 
+                        <button class="editar_elemento" onclick="editar_patologia('{{patologia.patologia}}', '{{patologia.id}}')">Editar</button>
+                        <button class="eliminar_elemento" onclick="eliminar_patologia('{{patologia.id}}')" >Eliminar</button>
+                        
+                    </div>
+                {% endfor %}
+
+                <!-- Dialogos para eliminar y editar patologia -->
+
+                <dialog id="alert_eliminar_patologia">
+                    <h2>Seguro que quieres eliminar la patologia</h2>
+                    <p></p>
+                    <button onClick="this.parentElement.close()" type="button" id="info" class="no">No</button>
+                    <button onclick="DeletePatologia()" class="si">Si</button>
+                </dialog>
+
+                <dialog id="dialog_editar_patologia">
+                    <form method="POST" action="{% url 'registrar_patologia' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="_put" value="PUT">
+                        <input type="hidden" name="id" id="id" value="0">
+                        <input type="hidden" name="id_paciente" id="id_paciente" value="{{paciente.id}}">
+                        
+                        <p>Ingresa los datos de la patologia</p>
+                        <label>Nombre</label>
+                        <input type="text" required name="patologia" id="patologia"/>
+                        <button>Editar</button>
+
+                    </form>
+                    <br>
+                    <br>
+                    
+                    <button onClick="this.parentElement.close()" type="button">Cerrar</button>
+                
+                </dialog>
+
+            </div>
+            <div class="antecedentes-no-patologicos">
+                <h3>Antecedentes personales no patologicos</h3>
+                
+                <h4>Toxicomania</h4> 
+                    <button  class="botones_registrar" id="show_button_toxicomanias">Registrar toxicomania</button>
+                    <dialog id="alert_dialog_toxicomanias">
+                        <form method="post" action="{% url 'registrar_toxicomania' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="id_paciente" id="id_paciente" value="{{paciente.id}}">
+                            <p>Ingresa los datos de la toxicomania</p>
+                            <label>Nombre</label>
+                            <input type="text" required name="nombre"/>
+                            <label>Cantidad</label>
+                            <input type="number" required name="cantidad"/>
+                            <label>Frecuencia</label>
+                            <input type="text" required name="frecuencia"/>
+                            <label>Tiempo (en años)</label>
+                            <input type="number" required name="tiempo"/>
+                            <button>Registrar</button>
+                        </form>
+                        <br>
+                        <br>
+                        
+                        <button onClick="this.parentElement.close()" type="button">Cerrar</button>
+                    
+                    </dialog>
+                  
+
+
+                    <br>
+                  
+                    {% for toxicomania in toxicomanias %}
+                    <div class="elemento_historial">
+                        {% csrf_token %}
+                        <p class="nombre_elemento">{{toxicomania.nombre}}: Si  Cantidad: {{toxicomania.cantidad}}  Frecuencia: {{toxicomania.frecuencia}}  Tiempo: {{toxicomania.tiempo}} años</p> 
+                        <button class="editar_elemento" onclick="editar_toxicomania('{{toxicomania.nombre}}', '{{toxicomania.cantidad}}', '{{toxicomania.frecuencia}}', '{{toxicomania.tiempo}}', '{{toxicomania.id}}')">Editar</button>
+                        <button class="eliminar_elemento" onclick="eliminar_toxicomania('{{toxicomania.id}}')" >Eliminar</button>
+                    </div>
+                    {% endfor %}
+
+                    <!-- Dialogos para editar y eliminar toxicomania -->
+
+                    <dialog id="alert_eliminar_toxicomania">
+                        <h2>Seguro que quieres eliminar la toxicomania</h2>
+                        <p></p>
+                        <button onClick="this.parentElement.close()" type="button" id="info" class="no">No</button>
+                        <button onclick="DeleteToxicomania()" class="si">Si</button>
+                    </dialog>
+    
+                    <dialog id="dialog_editar_toxicomania">
+                        <form method="POST" action="{% url 'registrar_toxicomania' %}">
+
+
+                            {% csrf_token %}
+                            <input type="hidden" name="_put" value="PUT">
+                            <input type="hidden" name="id" id="id" value="0">
+                            <input type="hidden" name="id_paciente" id="id_paciente" value="{{paciente.id}}">
+
+                            <p>Ingresa los datos de la toxicomania</p>
+                            <label>Nombre</label>
+                            <input type="text" required name="nombre" id="nombre"/>
+                            <label>Cantidad</label>
+                            <input type="number" required name="cantidad" id="cantidad"/>
+                            <label>Frecuencia</label>
+                            <input type="text" required name="frecuencia" id="frecuencia"/>
+                            <label>Tiempo (en años)</label>
+                            <input type="number" required name="tiempo" id="tiempo"/>
+                            <button>Editar</button>
+    
+                        </form>
+                        <br>
+                        <br>
+                        
+                        <button onClick="this.parentElement.close()" type="button">Cerrar</button>
+                    
+                    </dialog>
+                
+                <h4>Antecendentes quirurjicos</h4>
+
+                    <button class="botones_registrar" id="show_button_ant_quirurjico">Registrar antecedente quirurjico</button>
+                    <dialog id="alert_dialog_ant_quirurjico">
+                        <form method="post" action="{% url 'registrar_ant_quirurjico' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="id_paciente" id="id_paciente" value="{{paciente.id}}">
+                            <p>Ingresa los datos del antecedente</p>
+                            <label>Tipo</label>
+                            <input type="text" required name="tipo"/>
+                            <label>Tiempo (en años)</label>
+                            <input type="number" required name="tiempo"/>
+                            <button>Registrar</button>
+
+
+                        </form>
+                        <br>
+                        <br>
+                        
+                        <button onClick="this.parentElement.close()" type="button">Cerrar</button>
+                    
+                    </dialog>
+                
+                    <br>
+
+                    {% for quirurjico in ant_quirurjicos %}
+                        <div class="elemento_historial">
+                            {% csrf_token %}
+                            <p class="nombre_elemento">Tipo: {{quirurjico.tipo}} Tiempo: {{quirurjico.tiempo}} años</p> 
+                            <button class="editar_elemento" onclick="editar_ant_quirurjico('{{quirurjico.tipo}}', '{{quirurjico.tiempo}}', '{{quirurjico.id}}')">Editar</button>
+                            <button class="eliminar_elemento" onclick="eliminar_ant_quirurjico('{{quirurjico.id}}')" >Eliminar</button>
+                        </div>
+                    {% endfor %}
+
+                     <!-- Dialogos para editar y eliminar un antecedente quirurjico -->
+                     <dialog id="alert_eliminar_ant_quirurjico">
+                        <h2>Seguro que quieres eliminar el antecedente quirurjico</h2>
+                        <p></p>
+                        <button onClick="this.parentElement.close()" type="button" id="info" class="no">No</button>
+                        <button onclick="DeleteAntQuirurjico()" class="si">Si</button>
+                    </dialog>
+    
+                    <dialog id="dialog_editar_ant_quirurjico">
+                        <form method="POST" action="{% url 'registrar_ant_quirurjico' %}">
+
+
+                            {% csrf_token %}
+                            <input type="hidden" name="_put" value="PUT">
+                            <input type="hidden" name="id" id="id" value="0">
+                            <input type="hidden" name="id_paciente" id="id_paciente" value="{{paciente.id}}">
+
+                            <p>Ingresa los datos del antecedente quirurjico</p>
+                            <label>Tipo</label>
+                            <input type="text" required name="tipo" id="tipo"/>
+
+                            <label>Tiempo (en años)</label>
+                            <input type="number" required name="tiempo" id="tiempo"/>
+                            <button>Editar</button>
+    
+                        </form>
+                        <br>
+                        <br>
+                        
+                        <button onClick="this.parentElement.close()" type="button">Cerrar</button>
+                    
+                    </dialog>
+
+                <h4>Antecedentes transfusionales</h4>
+                    <button  class="botones_registrar" id="show_button_ant_trans">Registrar antecedente transfusional</button>
+                    <dialog id="alert_dialog_ant_trans">
+                        <form method="post" action="{% url 'registrar_ant_transfusional' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="id_paciente" id="id_paciente" value="{{paciente.id}}">
+                            <p>Ingresa los datos</p>
+                            <label>Tipo</label>
+                            <input type="text" required name="tipo"/>
+                            <label>Tiempo (en años)</label>
+                            <input type="number" required name="tiempo"/>
+                            <button>Registrar</button>
+                        </form>
+                        <br>
+                        <br>
+                        <button onClick="this.parentElement.close()" type="button">Cerrar</button>
+                    </dialog>
+                
+                    <br>
+                    {% for transfusional in ant_transfusionales %}
+                        <div class="elemento_historial">
+                            {% csrf_token %}
+                            <p class="nombre_elemento">Tipo: {{transfusional.tipo}} Tiempo: {{transfusional.tiempo}} años</p> 
+                            <button class="editar_elemento" onclick="editar_ant_transfusional('{{transfusional.tipo}}', '{{transfusional.tiempo}}', '{{transfusional.id}}')">Editar</button>
+                            <button class="eliminar_elemento" onclick="eliminar_ant_transfusional('{{transfusional.id}}')" >Eliminar</button>
+                        </div>
+                    {% endfor %}
+
+
+                    <!-- Dialogos para editar y eliminar un antecedente quirurjico -->
+                    <dialog id="alert_eliminar_ant_transfusional">
+                        <h2>Seguro que quieres eliminar el antecedente transfusional</h2>
+                        <p></p>
+                        <button onClick="this.parentElement.close()" type="button" id="info" class="no">No</button>
+                        <button onclick="DeleteAntTransfusional()" class="si">Si</button>
+                    </dialog>
+
+                    <dialog id="dialog_editar_ant_transfusional">
+                        <form method="POST" action="{% url 'registrar_ant_transfusional' %}">
+
+
+                            {% csrf_token %}
+                            <input type="hidden" name="_put" value="PUT">
+                            <input type="hidden" name="id" id="id" value="0">
+                            <input type="hidden" name="id_paciente" id="id_paciente" value="{{paciente.id}}">
+
+
+                            <p>Ingresa los datos del antecedente transfusionalo</p>
+                            <label>Tipo</label>
+                            <input type="text" required name="tipo" id="tipo"/>
+
+                            <label>Tiempo (en años)</label>
+                            <input type="number" required name="tiempo" id="tiempo"/>
+                            <button>Editar</button>
+
+                        </form>
+                        <br>
+                        <br>
+                        
+                        <button onClick="this.parentElement.close()" type="button">Cerrar</button>
+                    
+                    </dialog>
+
+
+                <h4>Alergias</h4>
+                    <button  class="botones_registrar" id="show_button_alergia">Registrar alergia</button>
+                    <dialog id="alert_dialog_alergia">
+                        <form method="post" action="{% url 'registrar_alergia' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="id_paciente" id="id_paciente" value="{{paciente.id}}">
+                            <p>Ingresa los datos de la alergia</p>
+                            <label>Nombre</label>
+                            <input type="text" required name="nombre"/>
+                            <button>Registrar</button>
+
+                        </form>
+                        <br>
+                        <br>
+                        
+                        <button onClick="this.parentElement.close()" type="button">Cerrar</button>
+                    
+                    </dialog>
+                  
+                    <br>
+                    {% for alergia in alergias %}
+                        <div class="elemento_historial">
+                            {% csrf_token %}
+                            <p class="nombre_elemento">{{alergia.nombre}}</p> 
+                            <button class="editar_elemento" onclick="editar_alergia('{{alergia.nombre}}', '{{alergia.id}}')">Editar</button>
+                            <button class="eliminar_elemento" onclick="eliminar_alergia('{{alergia.id}}')" >Eliminar</button>
+                            
+                        </div>
+                    {% endfor %}
+                    <!-- Dialogos para eliminar y editar alergia-->
+                    <dialog id="alert_eliminar_alergia">
+                        <h2>Seguro que quieres eliminar la alergia</h2>
+                        <p></p>
+                        <button onClick="this.parentElement.close()" type="button" id="info" class="no">No</button>
+                        <button onclick="DeleteAlergia()" class="si">Si</button>
+                    </dialog>
+
+                    <dialog id="dialog_editar_alergia">
+                        <form method="POST" action="{% url 'registrar_alergia' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="_put" value="PUT">
+                            <input type="hidden" name="id" id="id" value="0">
+                            <input type="hidden" name="id_paciente" id="id_paciente" value="{{paciente.id}}">
+                            <p>Ingresa los datos de la alergia</p>
+                            <label>Nombre</label>
+                            <input type="text" required name="nombre" id="nombre"/>
+                            <button>Editar</button>
+                        </form>
+                        <br>
+                        <br>
+                        <button onClick="this.parentElement.close()" type="button">Cerrar</button>
+                    </dialog>
+
+
+                <h4>Vacunación</h4>
+
+                    <button  class="botones_registrar" id="show_button_vacuna">Registrar vacuna</button>
+                    
+                    <dialog id="alert_dialog_vacuna">
+                        <form method="post" action="{% url 'registrar_vacuna' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="id_paciente" id="id_paciente" value="{{paciente.id}}">
+                            <p>Ingresa los datos de la vacuna</p>
+                            <label>Nombre</label>
+                            <input type="text" required name="nombre"/>
+                            <label>Dosis</label>
+                            <input type="number" required name="dosis"/>
+                            <label>Año</label>
+                            <input type="number" value="2023" required name="year"/>
+
+                            <button>Registrar</button>
+
+                        </form>
+                        <br>
+                        <br>
+                        
+                        <button onClick="this.parentElement.close()" type="button">Cerrar</button>
+                    
+                    </dialog>
+
+                    {% for vacuna in vacunas %}
+                        <div class="elemento_historial">
+                            {% csrf_token %}
+                            <p class="nombre_elemento">Nombre: {{vacuna.nombre}}  Dosis: {{vacuna.dosis}}  Año: {{vacuna.año}}</p> 
+                            <button class="editar_elemento" onclick="editar_vacuna('{{vacuna.nombre}}', '{{vacuna.dosis}}','{{vacuna.año}}', '{{vacuna.id}}')">Editar</button>
+                            <button class="eliminar_elemento" onclick="eliminar_vacuna('{{vacuna.id}}')" >Eliminar</button>
+                            
+                        </div>
+                    {% endfor %}
+                    <!-- Dialogos para editar y eliminar una vacuna -->
+                    <dialog id="dialog_eliminar_vacuna">
+                        <h2>Seguro que quieres eliminar la vacuna</h2>
+                        <p></p>
+                        <button onClick="this.parentElement.close()" type="button" id="info" class="no">No</button>
+                        <button onclick="DeleteVacuna()" class="si">Si</button>
+                    </dialog>
+
+                    <dialog id="dialog_editar_vacuna">
+                        <form method="POST" action="{% url 'registrar_vacuna' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="_put" value="PUT">
+                            <input type="hidden" name="id" id="id" value="0">
+                            <input type="hidden" name="id_paciente" id="id_paciente" value="{{paciente.id}}">
+                            <p>Ingresa los datos de la vacuna</p>
+                            <label>Nombre</label>
+                            <input type="text" required name="nombre" id="nombre"/>
+                            <label>Dosis</label>
+                            <input type="number" required name="dosis" id="dosis"/>
+                            <label>Año</label>
+                            <input type="number" required name="year" id="year"/>
+                            <button>Editar</button>
+                        </form>
+                        <br>
+                        <br>
+                        <button onClick="this.parentElement.close()" type="button">Cerrar</button>                 
+                    </dialog>
+
+
+            </div>
+        </div>
+        <div class="contenido" id="CITAS" style="display: none;">
+            <div class="antecedentes-patologicos">
+            <br>
+
+            <h2>Citas pendientes de atender</h2>
+            {% for cita in citas %}
+
+                {% if cita.estatus == 'C' %} 
+                <p>Fecha: {{cita.fecha}},  Hora: {{cita.hora}}  
+                                                                        <a href="/consulta_medica/{{cita.id}}"><button>Llenar informacion</button></a> 
+                                                                {% endif %}</p> 
+            {% endfor %}
+            <br>
+            <br>
+            <h2>Citas ya atendidas</h2>
+            {% for cita in citas %}
+                {% if cita.estatus == 'A' %} 
+                <p>Fecha: {{cita.fecha}},  Hora: {{cita.hora}}  
+                                                                        <a href="/visualizar_consulta/{{cita.id}}"><button>Ver datos de la cita</button> </a>
+                                                                {% endif %}</p>         
+            {% endfor %}
+            </div>
+        </div>
+
+	</div>
+
+	
+</div>
+
+
+<script>
+    function mostrarContenido(id) {
+    document.querySelectorAll('.contenido').forEach(function (contenido) {
+        contenido.style.display = 'none';
+        });
+        document.getElementById(id).style.display = 'block';
+    }
+
+    //Variable id que se usara para los dialog de eliminar
+    id = 0;
+
+    //funciones para mostrar las ventanas para agregar los elementos del perfil clinico
+    const showButton_tox = document.querySelector("#show_button_toxicomanias");
+    showButton_tox.addEventListener("click", function () {
+        const alertDialog = document.querySelector("#alert_dialog_toxicomanias");
+        alertDialog.showModal();
+    });
+
+    const showButton_patologia = document.querySelector("#show_button_patologia");
+    showButton_patologia.addEventListener("click", function () {
+        const alertDialog = document.querySelector("#alert_dialog_patologia");
+        alertDialog.showModal();
+    });
+
+    const showButton_ant_quirurjico = document.querySelector("#show_button_ant_quirurjico");
+    showButton_ant_quirurjico.addEventListener("click", function () {
+        const alertDialog = document.querySelector("#alert_dialog_ant_quirurjico");
+        alertDialog.showModal();
+    });
+
+    const showButton_ant_trans= document.querySelector("#show_button_ant_trans");
+    showButton_ant_trans.addEventListener("click", function () {
+        const alertDialog = document.querySelector("#alert_dialog_ant_trans");
+        alertDialog.showModal();
+    });
+
+    const showButton_alergia= document.querySelector("#show_button_alergia");
+    showButton_alergia.addEventListener("click", function () {
+        const alertDialog = document.querySelector("#alert_dialog_alergia");
+        alertDialog.showModal();
+    });
+
+    const showButton_vacuna= document.querySelector("#show_button_vacuna");
+    showButton_vacuna.addEventListener("click", function () {
+        const alertDialog = document.querySelector("#alert_dialog_vacuna");
+        alertDialog.showModal();
+    });
+
+
+
+    //funcion para eliminar una patologia
+    function eliminar_patologia (id) {
+        const alertDialog = document.querySelector("#alert_eliminar_patologia");
+        //se establece el id con el valor enviado a la funcion
+        this.id=id
+        alertDialog.showModal();
+    };
+    //funcion para editar una patologia
+    function editar_patologia (patologia, id) {
+        const alertDialog = document.querySelector("#dialog_editar_patologia");
+        // Obtiene el input dentro del diálogo por su selector
+        const inputPatologia = alertDialog.querySelector("#patologia");
+        const idPatologia = alertDialog.querySelector("#id");
+        // Cambia el valor del input
+        inputPatologia.value = patologia;
+        idPatologia.value=id;
+        //se establece el id con el valor enviado a la funcion
+        this.id=id
+        alertDialog.showModal();
+    };
+    function DeletePatologia() {
+        const data = {
+            id: this.id
+        };
+        const url = `/registrar_patologia`;
+        fetch(url, {
+            method: "DELETE",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    console.error("Error al eliminar la patologia");
+                }
+            })
+            .catch((error) => {
+                console.error("Error de red al eliminar la patologia", error);
+            });
+    }
+
+    //funcion para eliminar una toxicomania
+    function eliminar_toxicomania (id) {
+        const alertDialog = document.querySelector("#alert_eliminar_toxicomania");
+        //se establece el id con el valor enviado a la funcion
+        this.id=id
+        alertDialog.showModal();
+    };
+    //funcion para editar una toxicomania
+    function editar_toxicomania (nombre,cantidad, frecuencia, tiempo, id) {
+        const alertDialog = document.querySelector("#dialog_editar_toxicomania");
+        // Obtiene el input dentro del diálogo por su selector
+        const inputNombre = alertDialog.querySelector("#nombre");
+        const inputCantidad = alertDialog.querySelector("#cantidad");
+        const inputFrecuencia = alertDialog.querySelector("#frecuencia");
+        const inputTiempo= alertDialog.querySelector("#tiempo");
+        const idTox = alertDialog.querySelector("#id");
+        // Cambia el valor del input
+        inputNombre.value = nombre;
+        inputCantidad.value = cantidad;
+        inputFrecuencia.value = frecuencia;
+        inputTiempo.value = tiempo;
+        idTox.value=id;
+        //se establece el id con el valor enviado a la funcion
+        this.id=id
+        alertDialog.showModal();
+    };
+    function DeleteToxicomania() {
+        const data = {
+            id: this.id
+        };
+        const url = `/registrar_toxicomanias`;
+        fetch(url, {
+            method: "DELETE",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    console.error("Error al eliminar la toxicomania");
+                }
+            })
+            .catch((error) => {
+                console.error("Error de red al eliminar la toxicomania", error);
+            });
+    }
+
+
+
+    //funcion para eliminar un ant_quirurjico
+    function eliminar_ant_quirurjico (id) {
+        const alertDialog = document.querySelector("#alert_eliminar_ant_quirurjico");
+        //se establece el id con el valor enviado a la funcion
+        this.id=id
+        alertDialog.showModal();
+    };
+    //funcion para editar un ant_quirurjico
+    function editar_ant_quirurjico (tipo, tiempo, id) {
+        const alertDialog = document.querySelector("#dialog_editar_ant_quirurjico");
+        // Obtiene el input dentro del diálogo por su selector
+        const inputTipo = alertDialog.querySelector("#tipo");
+        const inputTiempo= alertDialog.querySelector("#tiempo");
+        const idQuirurjico = alertDialog.querySelector("#id");
+        // Cambia el valor del input
+        inputTipo.value = tipo;
+        inputTiempo.value = tiempo;
+        idQuirurjico.value=id;
+        //se establece el id con el valor enviado a la funcion
+        this.id=id
+        alertDialog.showModal();
+    };
+    function DeleteAntQuirurjico() {
+        const data = {
+            id: this.id
+        };
+        const url = `/registrar_ant_quirurjico`;
+        fetch(url, {
+            method: "DELETE",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    console.error("Error al eliminar el antecedente quirurjico");
+                }
+            })
+            .catch((error) => {
+                console.error("Error de red al eliminar el antecedente quirurjico", error);
+            });
+    }
+
+
+     //funcion para eliminar un ant_transfusional
+     function eliminar_ant_transfusional (id) {
+        const alertDialog = document.querySelector("#alert_eliminar_ant_transfusional");
+        //se establece el id con el valor enviado a la funcion
+        this.id=id
+        alertDialog.showModal();
+    };
+    //funcion para editar un ant_transfusional
+    function editar_ant_transfusional (tipo, tiempo, id) {
+        const alertDialog = document.querySelector("#dialog_editar_ant_transfusional");
+        // Obtiene el input dentro del diálogo por su selector
+        const inputTipo = alertDialog.querySelector("#tipo");
+        const inputTiempo= alertDialog.querySelector("#tiempo");
+        const idTransfusional = alertDialog.querySelector("#id");
+        // Cambia el valor del input
+        inputTipo.value = tipo;
+        inputTiempo.value = tiempo;
+        idTransfusional.value=id;
+        //se establece el id con el valor enviado a la funcion
+        this.id=id
+        alertDialog.showModal();
+    };
+    function DeleteAntTransfusional() {
+        const data = {
+            id: this.id
+        };
+        const url = `/registrar_ant_transfusional`;
+        fetch(url, {
+            method: "DELETE",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    console.error("Error al eliminar el antecedente transfusional");
+                }
+            })
+            .catch((error) => {
+                console.error("Error de red al eliminar el antecedente transfusional", error);
+            });
+    }
+
+
+
+    //funcion para eliminar una alergia
+    function eliminar_alergia (id) {
+        const alertDialog = document.querySelector("#alert_eliminar_alergia");
+        //se establece el id con el valor enviado a la funcion
+        this.id=id
+        alertDialog.showModal();
+    };
+    //funcion para editar una alergia
+    function editar_alergia (nombre, id) {
+        const alertDialog = document.querySelector("#dialog_editar_alergia");
+        // Obtiene el input dentro del diálogo por su selector
+        const inputAlergia = alertDialog.querySelector("#nombre");
+        const idAlergia = alertDialog.querySelector("#id");
+        // Cambia el valor del input
+        inputAlergia.value = nombre;
+        idAlergia.value=id;
+        //se establece el id con el valor enviado a la funcion
+        this.id=id
+        alertDialog.showModal();
+    };
+    function DeleteAlergia() {
+        const data = {
+            id: this.id
+        };
+        const url = `/registrar_alergia`;
+        fetch(url, {
+            method: "DELETE",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    console.error("Error al eliminar la alergia");
+                }
+            })
+            .catch((error) => {
+                console.error("Error de red al eliminar la alergia", error);
+            });
+    }
+
+
+
+    //funcion para eliminar una vacuna
+    function eliminar_vacuna (id) {
+        const alertDialog = document.querySelector("#dialog_eliminar_vacuna");
+        //se establece el id con el valor enviado a la funcion
+        this.id=id
+        alertDialog.showModal();
+    };
+    //funcion para editar una vacuna
+    function editar_vacuna (nombre,dosis,year, id) {
+        const alertDialog = document.querySelector("#dialog_editar_vacuna");
+        // Obtiene el input dentro del diálogo por su selector
+        const inputVacuna = alertDialog.querySelector("#nombre");
+        const inputDosis = alertDialog.querySelector("#dosis");
+        const inputYear = alertDialog.querySelector("#year");
+        const idVacuna = alertDialog.querySelector("#id");
+
+        // Cambia el valor del input
+        inputVacuna.value = nombre;
+        inputDosis.value = dosis;
+        inputYear.value = year;
+        idVacuna.value=id;
+        //se establece el id con el valor enviado a la funcion
+        this.id=id
+        alertDialog.showModal();
+    };
+    function DeleteVacuna() {
+        const data = {
+            id: this.id
+        };
+        const url = `/registrar_vacuna`;
+        fetch(url, {
+            method: "DELETE",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    console.error("Error al eliminar la vacuna");
+                }
+            })
+            .catch((error) => {
+                console.error("Error de red al eliminar la vacuna", error);
+            });
+    }
+
+
+</script>
+
+
+{% endblock %}

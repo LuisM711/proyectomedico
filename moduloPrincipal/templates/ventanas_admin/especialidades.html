@@ -1,0 +1,179 @@
+{% extends 'layouts/nav_administrador.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/especialidades.css' %}">
+
+<body>
+
+    <div class="container">
+        <h1>Registro de Especialidades</h1>
+        
+        <form id="especialidadForm" method="post" action="{% url 'especialidades_admin' %}">
+            {% csrf_token %}
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            <label for="descripcion">Descripción:</label>
+            <input type="text" id="descripcion" name="descripcion" required>
+
+            <label>Registra Exploracion Fisica?</label>
+            <input type="checkbox" id="exp_fisica_check" style="width:20%" checked>
+            <input type="text" id="exp_fisica" name="exp_fisica" required hidden>
+
+            <label>Registra Diagnostico y Tratamiento?</label>
+            <input type="checkbox" id="diag_trat_check" style="width:20%" checked>
+            <input type="text" id="diag_trat" name="diag_trat" required hidden>
+            <br>
+            <br>
+            <button class='registrar' type="button" onclick="Validar_formulario()">Registrar</button>
+
+
+            <input id="enviar" type="submit" value="Registrar" hidden>
+        </form>
+
+        <table id="especialidadesTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Registra Exploracion Fisica?</th>
+                    <th>Registra Diagnostico y Tratamiento?</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for especialidad in especialidades %}
+                    <tr>
+                        <th>{{especialidad.id}}</th>
+                        <th>{{especialidad.nombre}}</th>
+                        <th>{{especialidad.descripcion}}</th>
+                        <th>{{especialidad.exploracion_fisica}}</th>
+                        <th>{{especialidad.diagnostico_tratamiento}}</th>
+                        <th><button onclick="editar_especialidad('{{especialidad.nombre}}','{{especialidad.descripcion}}', '{{especialidad.id}}', '{{especialidad.exploracion_fisica}}' , '{{especialidad.diagnostico_tratamiento}}')">Editar</button></th>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+
+
+        <dialog id="dialog_editar_especialidad">
+            <form method="POST" action="{% url 'especialidades_admin' %}">
+                {% csrf_token %}
+                <input type="hidden" name="_put" value="PUT">
+                <input type="hidden" name="id" id="id" value="0">
+               
+                <p>Ingresa los datos de la especialidad</p>
+                <label>Nombre</label>
+                <input type="text" required name="nombre" id="nombre"/>
+
+                <label>Descripcion</label>
+                <input type="text" required name="descripcion" id="descripcion"/>
+                
+                <label>Registra Exploracion Fisica?</label>
+                <input type="checkbox" id="exp_fisica_check_put" name="exp_fisica_check_put" style="width:20%" checked>
+                <input type="text" id="exp_fisica_put" name="exp_fisica_put" required hidden>
+
+                <label>Registra Diagnostico y Tratamiento?</label>
+                <input type="checkbox" id="diag_trat_check_put" name="diag_trat_check_put" style="width:20%" checked>
+                <input type="text" id="diag_trat_put" name="diag_trat_put" required hidden>
+                <br>
+                <br>
+                <button class='registrar' type="button" onclick="Validar_formulario_put()">Editar</button>
+
+
+                <input id="enviar_put" type="submit" value="Editar" hidden>
+
+
+            </form>
+            <br>
+            <br>
+            
+            <button onClick="this.parentElement.close()" type="button">Cerrar</button>
+        
+        </dialog>
+    </div>
+
+</body>
+
+<script>
+    //Variable id que se usara para los dialog de eliminar y editar
+    id = 0;
+    var boton = document.getElementById("enviar");
+    var boton_put = document.getElementById("enviar_put");
+
+    //funcion para editar una especialidad
+    function editar_especialidad (nombre,descripcion, id, exp_fisica, diag_trat) {
+        const alertDialog = document.querySelector("#dialog_editar_especialidad");
+        // Obtiene el input dentro del diálogo por su selector
+        const nombreEspecialidad = alertDialog.querySelector("#nombre");
+        const descripcionEspecialidad = alertDialog.querySelector("#descripcion");
+        const idEspecialidad = alertDialog.querySelector("#id");
+        const diagTrat = alertDialog.querySelector("#diag_trat_check_put");
+        const expFisica = alertDialog.querySelector("#exp_fisica_check_put");
+        // Cambia el valor del input
+        nombreEspecialidad.value = nombre;
+        descripcionEspecialidad.value = descripcion
+        idEspecialidad.value=id;
+        //cambia los checkbox
+
+        if (diag_trat=="si"){
+            diagTrat.checked=true;
+        }else{
+            diagTrat.checked=false;
+        }
+
+        if (exp_fisica=="si"){
+            expFisica.checked=true;
+        }else{
+            expFisica.checked=false;
+        }
+        this.id=id
+        alertDialog.showModal();
+    };
+
+    function Validar_formulario(){
+        var aux1 = document.getElementById("exp_fisica_check");
+        if (aux1.checked){
+            document.getElementById("exp_fisica").value="si";
+
+        }else{
+            document.getElementById("exp_fisica").value="no";
+        }
+
+        var aux2 = document.getElementById("diag_trat_check");
+        if (aux2.checked){
+            document.getElementById("diag_trat").value="si";
+        }else{
+            document.getElementById("diag_trat").value="no";
+        }
+        boton.click();
+    }
+
+    function Validar_formulario_put(){
+        var aux1 = document.getElementById("exp_fisica_check_put");
+        if (aux1.checked){
+            document.getElementById("exp_fisica_put").value="si";
+
+        }else{
+            document.getElementById("exp_fisica_put").value="no";
+        }
+
+        var aux2 = document.getElementById("diag_trat_check_put");
+        if (aux2.checked){
+            document.getElementById("diag_trat_put").value="si";
+
+        }else{
+            document.getElementById("diag_trat_put").value="no";
+        }
+
+        boton_put.click();
+    }
+
+</script>
+
+
+{% endblock %}

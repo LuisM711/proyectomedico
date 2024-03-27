@@ -1,0 +1,646 @@
+{% extends 'layouts/nav_especialista.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/horario.css' %}">
+
+
+
+<body>
+
+
+
+  <div class="login-page">
+
+    <div class="form">
+      
+      <h2>Ingrese su horario de lunes a domingo en formato 24 horas</h2>
+      <br>
+      <form id="Formulario_horario" class="horarioForm" method="POST"  action="{% url 'horario_especialista' %}">
+            {% csrf_token %}
+            <input type="hidden" name="_put" value="PUT">
+
+            <div class="horario-row">
+              <label>Lunes:</label>
+              <input type="checkbox" id="lunescheck1" name="lunescheck1" onchange="HabilitarTurno1('lunes')" style="width:1%; margin-left: 2%;" checked>Turno 1
+              <div class="turno1">
+                  <input type="number" min="0" max="23" id="lunes-hora1" name="lunes-hora1" placeholder="Hora" required value="{{datos.horario.Lunes.hora1_turno1}}">
+                  <input type="number" min="0" max="59" id="lunes-min1" name="lunes-min1" placeholder="Minutos" required value="{{datos.horario.Lunes.min1_turno1}}">
+                  <span style="float:left; margin-left: 1%; font-size: 20px;">-</span>
+                  <input type="number" min="0" max="23" id="lunes-hora1-2" name="lunes-hora1-2" placeholder="Hora" required value="{{datos.horario.Lunes.hora2_turno1}}">
+                  <input type="number" min="0" max="59" id="lunes-min1-2" name="lunes-min1-2" placeholder="Minutos" required value="{{datos.horario.Lunes.min2_turno1}}">
+              </div>
+              
+              <input type="checkbox" id="lunescheck2" name="lunescheck2" onchange="HabilitarTurno2('lunes')" style="width:1%; margin-left: 2%;" checked>Turno 2
+              <div class="turno2" style="margin-left: 2%;" >
+                  <input type="number" min="0" max="23" id="lunes-hora2" name="lunes-hora2" placeholder="Hora"  disabled required value="{{datos.horario.Lunes.hora1_turno2}}">
+                  <input type="number" min="0" max="59" id="lunes-min2" name="lunes-min2"placeholder="Minutos"  disabled required value="{{datos.horario.Lunes.min1_turno2}}">
+                  <span style="float:left; margin-left: 1%; font-size: 20px;">-</span>
+                  <input type="number" min="0" max="23" id="lunes-hora2-2" name="lunes-hora2-2" placeholder="Hora"  disabled required value="{{datos.horario.Lunes.hora2_turno2}}">
+                  <input type="number" min="0" max="59" id="lunes-min2-2" name="lunes-min2-2" placeholder="Minutos"  disabled required value="{{datos.horario.Lunes.min2_turno2}}">
+              </div>
+
+            </div>
+
+            <div class="horario-row">
+              <label>Martes:</label>
+              <input type="checkbox" id="martescheck1" name="martescheck1" onchange="HabilitarTurno1('martes')" style="width:1%; margin-left: 2%;" checked>Turno 1
+              <div class="turno1">
+                  <input type="number" min="0" max="23" id="martes-hora1"  name="martes-hora1" placeholder="Hora"  required value="{{datos.horario.Martes.hora1_turno1}}">
+                  <input type="number" min="0" max="59" id="martes-min1" name="martes-min1" placeholder="Minutos"  required value="{{datos.horario.Martes.min1_turno1}}">
+                  <span style="float:left; margin-left: 1%; font-size: 20px;">-</span>
+                  <input type="number" min="0" max="23" id="martes-hora1-2" name="martes-hora1-2" placeholder="Hora"  required value="{{datos.horario.Martes.hora2_turno1}}">
+                  <input type="number" min="0" max="59" id="martes-min1-2" name="martes-min1-2" placeholder="Minutos"  required value="{{datos.horario.Martes.min2_turno1}}">
+              </div>
+              
+              <input type="checkbox" id="martescheck2" name="martescheck2" onchange="HabilitarTurno2('martes')" style="width:1%; margin-left: 2%;" checked>Turno 2
+              <div class="turno2" style="margin-left: 2%;" >
+                  <input type="number" min="0" max="23" id="martes-hora2" name="martes-hora2" placeholder="Hora"  disabled required value="{{datos.horario.Martes.hora1_turno2}}">
+                  <input type="number" min="0" max="59" id="martes-min2" name="martes-min2" placeholder="Minutos"  disabled required value="{{datos.horario.Martes.min1_turno2}}">
+                  <span style="float:left; margin-left: 1%; font-size: 20px;">-</span>
+                  <input type="number" min="0" max="23" id="martes-hora2-2" name="martes-hora2-2" placeholder="Hora"  disabled required value="{{datos.horario.Martes.hora2_turno2}}">
+                  <input type="number" min="0" max="59" id="martes-min2-2" name="martes-min2-2" placeholder="Minutos"  disabled required value="{{datos.horario.Martes.min2_turno2}}">
+              </div>
+
+            </div>
+
+          
+            <div class="horario-row">
+              <label>Miercoles:</label>
+              <input type="checkbox" id="miercolescheck1" name="miercolescheck1" onchange="HabilitarTurno1('miercoles')" style="width:1%; margin-left: 2%;" checked>Turno 1
+              <div class="turno1">
+                  <input type="number" min="0" max="23" id="miercoles-hora1" name="miercoles-hora1" placeholder="Hora"  required value="{{datos.horario.Miercoles.hora1_turno1}}">
+                  <input type="number" min="0" max="59" id="miercoles-min1" name="miercoles-min1" placeholder="Minutos"  required value="{{datos.horario.Miercoles.min1_turno1}}">
+                  <span style="float:left; margin-left: 1%; font-size: 20px;">-</span>
+                  <input type="number" min="0" max="23" id="miercoles-hora1-2" name="miercoles-hora1-2" placeholder="Hora"  required value="{{datos.horario.Miercoles.hora2_turno1}}">
+                  <input type="number" min="0" max="59" id="miercoles-min1-2" name="miercoles-min1-2" placeholder="Minutos"  required value="{{datos.horario.Miercoles.min2_turno1}}">
+              </div>
+              
+              <input type="checkbox" id="miercolescheck2" name="miercolescheck2" onchange="HabilitarTurno2('miercoles')" style="width:1%; margin-left: 2%;" checked>Turno 2
+              <div class="turno2" style="margin-left: 2%;" >
+                  <input type="number" min="0" max="23" id="miercoles-hora2" name="miercoles-hora2" placeholder="Hora"  disabled required value="{{datos.horario.Miercoles.hora1_turno2}}">
+                  <input type="number" min="0" max="59" id="miercoles-min2" name="miercoles-min2" placeholder="Minutos"  disabled required value="{{datos.horario.Miercoles.min1_turno2}}"> 
+                  <span style="float:left; margin-left: 1%; font-size: 20px;">-</span>
+                  <input type="number" min="0" max="23" id="miercoles-hora2-2" name="miercoles-hora2-2" placeholder="Hora"  disabled required value="{{datos.horario.Miercoles.hora2_turno2}}">
+                  <input type="number" min="0" max="59" id="miercoles-min2-2" name="miercoles-min2-2" placeholder="Minutos"  disabled required value="{{datos.horario.Miercoles.min2_turno2}}">
+              </div>
+
+            </div>
+
+          
+            <div class="horario-row">
+              <label>Jueves:</label>
+              <input type="checkbox" id="juevescheck1" name="juevescheck1" onchange="HabilitarTurno1('jueves')" style="width:1%; margin-left: 2%;" checked>Turno 1
+              <div class="turno1">
+                  <input type="number" min="0" max="23" id="jueves-hora1" name="jueves-hora1" placeholder="Hora"  required value="{{datos.horario.Jueves.hora1_turno1}}">
+                  <input type="number" min="0" max="59" id="jueves-min1" name="jueves-min1" placeholder="Minutos"  required value="{{datos.horario.Jueves.min1_turno1}}">
+                  <span style="float:left; margin-left: 1%; font-size: 20px;">-</span>
+                  <input type="number" min="0" max="23" id="jueves-hora1-2" name="jueves-hora1-2" placeholder="Hora"  required value="{{datos.horario.Jueves.hora2_turno1}}">
+                  <input type="number" min="0" max="59" id="jueves-min1-2" name="jueves-min1-2" placeholder="Minutos"  required value="{{datos.horario.Jueves.min2_turno1}}">
+              </div>
+              
+              <input type="checkbox" id="juevescheck2" name="juevescheck2" onchange="HabilitarTurno2('jueves')" style="width:1%; margin-left: 2%;" checked>Turno 2
+              <div class="turno2" style="margin-left: 2%;" >
+                  <input type="number" min="0" max="23" id="jueves-hora2" name="jueves-hora2" placeholder="Hora"  disabled required value="{{datos.horario.Jueves.hora1_turno2}}">
+                  <input type="number" min="0" max="59" id="jueves-min2" name="jueves-min2" placeholder="Minutos"  disabled required value="{{datos.horario.Jueves.min1_turno2}}">
+                  <span style="float:left; margin-left: 1%; font-size: 20px;">-</span>
+                  <input type="number" min="0" max="23" id="jueves-hora2-2" name="jueves-hora2-2" placeholder="Hora"  disabled required value="{{datos.horario.Jueves.hora2_turno2}}">
+                  <input type="number" min="0" max="59" id="jueves-min2-2" name="jueves-min2-2" placeholder="Minutos"  disabled required value="{{datos.horario.Jueves.min2_turno2}}">
+              </div>
+
+            </div>
+
+
+          
+            <div class="horario-row">
+              <label>Viernes:</label>
+              <input type="checkbox" id="viernescheck1" name="viernescheck1" onchange="HabilitarTurno1('viernes')" style="width:1%; margin-left: 2%;" checked>Turno 1
+              <div class="turno1">
+                  <input type="number" min="0" max="23" id="viernes-hora1" name="viernes-hora1" placeholder="Hora"  required value="{{datos.horario.Viernes.hora1_turno1}}">
+                  <input type="number" min="0" max="59" id="viernes-min1" name="viernes-min1" placeholder="Minutos"  required value="{{datos.horario.Viernes.min1_turno1}}">
+                  <span style="float:left; margin-left: 1%; font-size: 20px;">-</span>
+                  <input type="number" min="0" max="23" id="viernes-hora1-2" name="viernes-hora1-2" placeholder="Hora"  required value="{{datos.horario.Viernes.hora2_turno1}}">
+                  <input type="number" min="0" max="59" id="viernes-min1-2" name="viernes-min1-2" placeholder="Minutos"  required value="{{datos.horario.Viernes.min2_turno1}}">
+              </div>
+              
+              <input type="checkbox" id="viernescheck2" name="viernescheck2" onchange="HabilitarTurno2('viernes')" style="width:1%; margin-left: 2%;" checked>Turno 2
+              <div class="turno2" style="margin-left: 2%;" >
+                  <input type="number" min="0" max="23" id="viernes-hora2" name="viernes-hora2" placeholder="Hora"  disabled required value="{{datos.horario.Viernes.hora1_turno2}}">
+                  <input type="number" min="0" max="59" id="viernes-min2" name="viernes-min2" placeholder="Minutos"  disabled required value="{{datos.horario.Viernes.min1_turno2}}">
+                  <span style="float:left; margin-left: 1%; font-size: 20px;">-</span>
+                  <input type="number" min="0" max="23" id="viernes-hora2-2" name="viernes-hora2-2" placeholder="Hora"  disabled required value="{{datos.horario.Viernes.hora2_turno2}}">
+                  <input type="number" min="0" max="59" id="viernes-min2-2" name="viernes-min2-2" placeholder="Minutos"  disabled required value="{{datos.horario.Viernes.min2_turno2}}">
+              </div>
+
+             </div>
+
+          
+            <div class="horario-row">
+              <label>Sabado:</label>
+              <input type="checkbox" id="sabadocheck1" name="sabadocheck1" onchange="HabilitarTurno1('sabado')" style="width:1%; margin-left: 2%;" checked>Turno 1
+              <div class="turno1">
+                  <input type="number" min="0" max="23" id="sabado-hora1" name="sabado-hora1" placeholder="Hora"  required value="{{datos.horario.Sabado.hora1_turno1}}">
+                  <input type="number" min="0" max="59" id="sabado-min1" name="sabado-min1" placeholder="Minutos"  required value="{{datos.horario.Sabado.min1_turno1}}">
+                  <span style="float:left; margin-left: 1%; font-size: 20px;">-</span>
+                  <input type="number" min="0" max="23" id="sabado-hora1-2" name="sabado-hora1-2" placeholder="Hora"  required value="{{datos.horario.Sabado.hora2_turno1}}">
+                  <input type="number" min="0" max="59" id="sabado-min1-2" name="sabado-min1-2" placeholder="Minutos"  required value="{{datos.horario.Sabado.min2_turno1}}">
+              </div>
+              
+              <input type="checkbox" id="sabadocheck2" name="sabadocheck2" onchange="HabilitarTurno2('sabado')" style="width:1%; margin-left: 2%;" checked>Turno 2
+              <div class="turno2" style="margin-left: 2%;" >
+                  <input type="number" min="0" max="23" id="sabado-hora2" name="sabado-hora2" placeholder="Hora"  disabled required value="{{datos.horario.Sabado.hora1_turno2}}">
+                  <input type="number" min="0" max="59" id="sabado-min2" name="sabado-min2" placeholder="Minutos"  disabled required value="{{datos.horario.Sabado.min1_turno2}}">
+                  <span style="float:left; margin-left: 1%; font-size: 20px;">-</span>
+                  <input type="number" min="0" max="23" id="sabado-hora2-2" name="sabado-hora2-2" placeholder="Hora"  disabled required value="{{datos.horario.Sabado.hora2_turno2}}">
+                  <input type="number" min="0" max="59" id="sabado-min2-2" name="sabado-min2-2" placeholder="Minutos"  disabled required value="{{datos.horario.Sabado.min2_turno2}}">
+              </div>
+
+            </div>
+
+          
+            <div class="horario-row">
+              <label>Domingo:</label>
+              <input type="checkbox" id="domingocheck1" name="domingocheck1" onchange="HabilitarTurno1('domingo')" style="width:1%; margin-left: 2%;" checked>Turno 1
+              <div class="turno1">
+                  <input type="number" min="0" max="23" id="domingo-hora1" name="domingo-hora1" placeholder="Hora"  required value="{{datos.horario.Domingo.hora1_turno1}}">
+                  <input type="number" min="0" max="59" id="domingo-min1" name="domingo-min1" placeholder="Minutos"  required value="{{datos.horario.Domingo.min1_turno1}}">
+                  <span style="float:left; margin-left: 1%; font-size: 20px;">-</span>
+                  <input type="number" min="0" max="23" id="domingo-hora1-2" name="domingo-hora1-2" placeholder="Hora"  required value="{{datos.horario.Domingo.hora2_turno1}}">
+                  <input type="number" min="0" max="59" id="domingo-min1-2" name="domingo-min1-2" placeholder="Minutos"  required value="{{datos.horario.Domingo.min2_turno1}}">
+              </div>
+              
+              <input type="checkbox" id="domingocheck2" name="domingocheck2" onchange="HabilitarTurno2('domingo')" style="width:1%; margin-left: 2%;" checked>Turno 2
+              <div class="turno2" style="margin-left: 2%;" >
+                  <input type="number" min="0" max="23" id="domingo-hora2" name="domingo-hora2" placeholder="Hora"  disabled required value="{{datos.horario.Domingo.hora1_turno2}}">
+                  <input type="number" min="0" max="59" id="domingo-min2" name="domingo-min2" placeholder="Minutos"  disabled required value="{{datos.horario.Domingo.min1_turno2}}">
+                  <span style="float:left; margin-left: 1%; font-size: 20px;">-</span>
+                  <input type="number" min="0" max="23" id="domingo-hora2-2" name="domingo-hora2-2" placeholder="Hora"  disabled required value="{{datos.horario.Domingo.hora2_turno2}}">
+                  <input type="number" min="0" max="59" id="domingo-min2-2" name="domingo-min2-2" placeholder="Minutos"  disabled required value="{{datos.horario.Domingo.min2_turno2}}">
+              </div>
+
+            </div>
+
+            <button type="button" onclick="actualizarHorario()">Guardar Horario</button>
+            <button id="enviar_formulario"  ></button>
+      </form>
+    </div>
+  </div>
+</body>
+  <script>
+
+      var boton = document.getElementById("enviar_formulario");
+
+      // Se oculta el boton para que el usuario no pueda interactuar con el 
+      boton.style.display = "none";
+
+      HabilitarTurno2("lunes");
+      HabilitarTurno2("martes");
+      HabilitarTurno2("miercoles");
+      HabilitarTurno2("jueves");
+      HabilitarTurno2("viernes");
+      HabilitarTurno2("sabado");
+      HabilitarTurno2("domingo");
+
+      //Funciones para habilitar los campos del primer turno
+      function HabilitarTurno1(dia) {
+          var checkbox = document.getElementById(dia + "check1");
+
+          //Se deshabilitan o habilitan los inputs segun toque
+          if (checkbox.checked) {
+              
+              var turno1= document.getElementById(dia + '-hora1')
+              turno1.disabled=false;
+              
+              turno1= document.getElementById(dia + '-min1')
+              turno1.disabled=false;
+              
+              turno1= document.getElementById(dia + '-hora1-2')
+              turno1.disabled=false;
+              
+              turno1= document.getElementById(dia + '-min1-2')
+              turno1.disabled=false;
+              checkbox2 = document.getElementById(dia+"check2");
+              checkbox2.disabled=false;
+
+
+          } else {
+              var turno1= document.getElementById(dia + '-hora1')
+              turno1.disabled=true;
+              
+              turno1= document.getElementById(dia + '-min1')
+              turno1.disabled=true;
+              
+              turno1= document.getElementById(dia + '-hora1-2')
+              turno1.disabled=true;
+              
+              turno1= document.getElementById(dia + '-min1-2')
+              turno1.disabled=true;
+
+              checkbox2 = document.getElementById(dia+"check2");
+              checkbox2.checked=false;
+              checkbox2.disabled=true;
+              HabilitarTurno2(dia)
+          }
+      }
+
+      //Funciones para habilitar los campos del segundo turno
+      function HabilitarTurno2(dia) {
+          var checkbox = document.getElementById(dia + "check2");
+
+          //Se deshabilitan o habilitan los inputs segun toque
+          if (checkbox.checked) {
+              
+              var turno2= document.getElementById(dia + '-hora2')
+              turno2.disabled=false;
+              
+              turno2= document.getElementById(dia + '-min2')
+              turno2.disabled=false;
+              
+              turno2= document.getElementById(dia + '-hora2-2')
+              turno2.disabled=false;
+              
+              turno2= document.getElementById(dia + '-min2-2')
+              turno2.disabled=false;
+
+          } else {
+              var turno2= document.getElementById(dia + '-hora2')
+              turno2.disabled=true;
+              
+              turno2= document.getElementById(dia + '-min2')
+              turno2.disabled=true;
+              
+              turno2= document.getElementById(dia + '-hora2-2')
+              turno2.disabled=true;
+              
+              turno2= document.getElementById(dia + '-min2-2')
+              turno2.disabled=true;
+          }
+      }
+
+      //Funcion para validar el formulario antes de hacer submit
+      function actualizarHorario() {
+        var formulario = document.getElementById("Formulario_horario");
+
+        //Variable para validar si existe un error en la validacion del horario
+        var error = 0; 
+        //Validacion de que la segunda hora no sea menor que la primera
+        
+        //Validacion del turno 1 del lunes
+        var checkbox = document.getElementById("lunescheck1");
+        if (checkbox.checked){
+          if (parseInt(formulario.elements["lunes-hora1-2"].value) < parseInt(formulario.elements["lunes-hora1"].value)){
+            alert("Error en el turno 1 del dia Lunes, La segunda hora no puede ser menor que la primera");
+            error++;
+          }else if (parseInt(formulario.elements["lunes-hora1-2"].value) == parseInt(formulario.elements["lunes-hora1"].value)){
+            if (parseInt(formulario.elements["lunes-min1-2"].value) <(parseInt(formulario.elements["lunes-min1"].value)+30)){
+              alert("Error en el turno 1 del dia Lunes, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }else{
+            aux1= parseInt(formulario.elements["lunes-hora1"].value) * 60 + parseInt(formulario.elements["lunes-min1"].value);
+            aux2= parseInt(formulario.elements["lunes-hora1-2"].value) * 60 + parseInt(formulario.elements["lunes-min1-2"].value);
+            if (aux2< (aux1+30)){
+              alert("Error en el turno 1 del dia Lunes, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }
+        }
+
+        //Validacion del turno 2 del lunes
+        var checkbox = document.getElementById("lunescheck2");
+        if (checkbox.checked){
+          //se valida la trasicion de un turno al otro
+          var aux1= parseInt(formulario.elements["lunes-hora1-2"].value) * 60 + parseInt(formulario.elements["lunes-min1-2"].value);
+          var aux2= parseInt(formulario.elements["lunes-hora2"].value) * 60 + parseInt(formulario.elements["lunes-min2"].value);
+          if (aux2<(aux1+30)){
+            alert("Error en la transicion del turno 1 al turno 2 del dia Lunes, Debe existir un periodo de al menos 30 minutos entre estos");
+            error++;
+          }
+          if (parseInt(formulario.elements["lunes-hora2-2"].value) < parseInt(formulario.elements["lunes-hora2"].value)){
+            alert("Error en el turno 2 del dia Lunes, La segunda hora no puede ser menor que la primera");
+            error++;
+          }else if (parseInt(formulario.elements["lunes-hora2-2"].value) == parseInt(formulario.elements["lunes-hora2"].value)){
+            if (parseInt(formulario.elements["lunes-min2-2"].value) <(parseInt(formulario.elements["lunes-min2"].value)+30)){
+              alert("Error en el turno 2 del dia Lunes, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }else{
+            aux1= parseInt(formulario.elements["lunes-hora2"].value) * 60 + parseInt(formulario.elements["lunes-min2"].value);
+            aux2= parseInt(formulario.elements["lunes-hora2-2"].value) * 60 + parseInt(formulario.elements["lunes-min2-2"].value);
+            if (aux2< (aux1+30)){
+              alert("Error en el turno 2 del dia Lunes, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }
+        }
+
+        //Validacion del turno 1 del martes
+        var checkbox = document.getElementById("martescheck1");
+        if (checkbox.checked){
+          if (parseInt(formulario.elements["martes-hora1-2"].value) < parseInt(formulario.elements["martes-hora1"].value)){
+            alert("Error en el turno 1 del dia Martes, La segunda hora no puede ser menor que la primera");
+            error++;
+          }else if (parseInt(formulario.elements["martes-hora1-2"].value) == parseInt(formulario.elements["martes-hora1"].value)){
+            if (parseInt(formulario.elements["martes-min1-2"].value) <(parseInt(formulario.elements["martes-min1"].value)+30)){
+              alert("Error en el turno 1 del dia Martes, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }else{
+            aux1= parseInt(formulario.elements["martes-hora1"].value) * 60 + parseInt(formulario.elements["martes-min1"].value);
+            aux2= parseInt(formulario.elements["martes-hora1-2"].value) * 60 + parseInt(formulario.elements["martes-min1-2"].value);
+            if (aux2< (aux1+30)){
+              alert("Error en el turno 1 del dia Martes, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }
+        }
+
+        //Validacion del turno 2 del martes
+        var checkbox = document.getElementById("martescheck2");
+        if (checkbox.checked){
+          //se valida la trasicion de un turno al otro
+          var aux1= parseInt(formulario.elements["martes-hora1-2"].value) * 60 + parseInt(formulario.elements["martes-min1-2"].value);
+          var aux2= parseInt(formulario.elements["martes-hora2"].value) * 60 + parseInt(formulario.elements["martes-min2"].value);
+          if (aux2<(aux1+30)){
+            alert("Error en la transicion del turno 1 al turno 2 del dia Martes, Debe existir un periodo de al menos 30 minutos entre estos");
+            error++;
+          }
+          if (parseInt(formulario.elements["martes-hora2-2"].value) < parseInt(formulario.elements["martes-hora2"].value)){
+            alert("Error en el turno 2 del dia Martes, La segunda hora no puede ser menor que la primera");
+            error++;
+          }else if (parseInt(formulario.elements["martes-hora2-2"].value) == parseInt(formulario.elements["martes-hora2"].value)){
+            if (parseInt(formulario.elements["martes-min2-2"].value) <(parseInt(formulario.elements["martes-min2"].value)+30)){
+              alert("Error en el turno 2 del dia Martes, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }else{
+            aux1= parseInt(formulario.elements["martes-hora2"].value) * 60 + parseInt(formulario.elements["martes-min2"].value);
+            aux2= parseInt(formulario.elements["martes-hora2-2"].value) * 60 + parseInt(formulario.elements["martes-min2-2"].value);
+            if (aux2< (aux1+30)){
+              alert("Error en el turno 2 del dia Martes, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }
+        }
+
+        //Validacion del turno 1 del miercoles
+        var checkbox = document.getElementById("miercolescheck1");
+        if (checkbox.checked){
+          if (parseInt(formulario.elements["miercoles-hora1-2"].value) < parseInt(formulario.elements["miercoles-hora1"].value)){
+            alert("Error en el turno 1 del dia Miercoles, La segunda hora no puede ser menor que la primera");
+            error++;
+          }else if (parseInt(formulario.elements["miercoles-hora1-2"].value) == parseInt(formulario.elements["miercoles-hora1"].value)){
+            if (parseInt(formulario.elements["miercoles-min1-2"].value) <(parseInt(formulario.elements["miercoles-min1"].value)+30)){
+              alert("Error en el turno 1 del dia Miercoles, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }else{
+            aux1= parseInt(formulario.elements["miercoles-hora1"].value) * 60 + parseInt(formulario.elements["miercoles-min1"].value);
+            aux2= parseInt(formulario.elements["miercoles-hora1-2"].value) * 60 + parseInt(formulario.elements["miercoles-min1-2"].value);
+            if (aux2< (aux1+30)){
+              alert("Error en el turno 1 del dia Miercoles, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }
+        }
+
+        //Validacion del turno 2 del miercoles
+        var checkbox = document.getElementById("miercolescheck2");
+        if (checkbox.checked){
+          //se valida la trasicion de un turno al otro
+          var aux1= parseInt(formulario.elements["miercoles-hora1-2"].value) * 60 + parseInt(formulario.elements["miercoles-min1-2"].value);
+          var aux2= parseInt(formulario.elements["miercoles-hora2"].value) * 60 + parseInt(formulario.elements["miercoles-min2"].value);
+          if (aux2<(aux1+30)){
+            alert("Error en la transicion del turno 1 al turno 2 del dia Miercoles, Debe existir un periodo de al menos 30 minutos entre estos");
+            error++;
+          }
+          if (parseInt(formulario.elements["miercoles-hora2-2"].value) < parseInt(formulario.elements["miercoles-hora2"].value)){
+            alert("Error en el turno 2 del dia Miercoles, La segunda hora no puede ser menor que la primera");
+            error++;
+          }else if (parseInt(formulario.elements["miercoles-hora2-2"].value) == parseInt(formulario.elements["miercoles-hora2"].value)){
+            if (parseInt(formulario.elements["miercoles-min2-2"].value) <(parseInt(formulario.elements["miercoles-min2"].value)+30)){
+              alert("Error en el turno 2 del dia Miercoles, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }else{
+            aux1= parseInt(formulario.elements["miercoles-hora2"].value) * 60 + parseInt(formulario.elements["miercoles-min2"].value);
+            aux2= parseInt(formulario.elements["miercoles-hora2-2"].value) * 60 + parseInt(formulario.elements["miercoles-min2-2"].value);
+            if (aux2< (aux1+30)){
+              alert("Error en el turno 2 del dia Miercoles, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }
+        }
+
+        //Validacion del turno 1 del jueves
+        var checkbox = document.getElementById("juevescheck1");
+        if (checkbox.checked){
+          if (parseInt(formulario.elements["jueves-hora1-2"].value) < parseInt(formulario.elements["jueves-hora1"].value)){
+            alert("Error en el turno 1 del dia Jueves, La segunda hora no puede ser menor que la primera");
+            error++;
+          }else if (parseInt(formulario.elements["jueves-hora1-2"].value) == parseInt(formulario.elements["jueves-hora1"].value)){
+            if (parseInt(formulario.elements["jueves-min1-2"].value) <(parseInt(formulario.elements["jueves-min1"].value)+30)){
+              alert("Error en el turno 1 del dia Jueves, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }else{
+            aux1= parseInt(formulario.elements["jueves-hora1"].value) * 60 + parseInt(formulario.elements["jueves-min1"].value);
+            aux2= parseInt(formulario.elements["jueves-hora1-2"].value) * 60 + parseInt(formulario.elements["jueves-min1-2"].value);
+            if (aux2< (aux1+30)){
+              alert("Error en el turno 1 del dia Jueves, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }
+        }
+
+        //Validacion del turno 2 del jueves
+        var checkbox = document.getElementById("juevescheck2");
+        if (checkbox.checked){
+          //se valida la trasicion de un turno al otro
+          var aux1= parseInt(formulario.elements["jueves-hora1-2"].value) * 60 + parseInt(formulario.elements["jueves-min1-2"].value);
+          var aux2= parseInt(formulario.elements["jueves-hora2"].value) * 60 + parseInt(formulario.elements["jueves-min2"].value);
+          if (aux2<(aux1+30)){
+            alert("Error en la transicion del turno 1 al turno 2 del dia Jueves, Debe existir un periodo de al menos 30 minutos entre estos");
+            error++;
+          }
+          if (parseInt(formulario.elements["jueves-hora2-2"].value) < parseInt(formulario.elements["jueves-hora2"].value)){
+            alert("Error en el turno 2 del dia Jueves, La segunda hora no puede ser menor que la primera");
+            error++;
+          }else if (parseInt(formulario.elements["jueves-hora2-2"].value) == parseInt(formulario.elements["jueves-hora2"].value)){
+            if (parseInt(formulario.elements["jueves-min2-2"].value) <(parseInt(formulario.elements["jueves-min2"].value)+30)){
+              alert("Error en el turno 2 del dia Jueves, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }else{
+            aux1= parseInt(formulario.elements["jueves-hora2"].value) * 60 + parseInt(formulario.elements["jueves-min2"].value);
+            aux2= parseInt(formulario.elements["jueves-hora2-2"].value) * 60 + parseInt(formulario.elements["jueves-min2-2"].value);
+            if (aux2< (aux1+30)){
+              alert("Error en el turno 2 del dia Jueves, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }
+        }
+
+        //Validacion del turno 1 del viernes
+        var checkbox = document.getElementById("viernescheck1");
+        if (checkbox.checked){
+          if (parseInt(formulario.elements["viernes-hora1-2"].value) < parseInt(formulario.elements["viernes-hora1"].value)){
+            alert("Error en el turno 1 del dia Viernes, La segunda hora no puede ser menor que la primera");
+            error++;
+          }else if (parseInt(formulario.elements["viernes-hora1-2"].value) == parseInt(formulario.elements["viernes-hora1"].value)){
+            if (parseInt(formulario.elements["viernes-min1-2"].value) <(parseInt(formulario.elements["viernes-min1"].value)+30)){
+              alert("Error en el turno 1 del dia Viernes, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }else{
+            aux1= parseInt(formulario.elements["viernes-hora1"].value) * 60 + parseInt(formulario.elements["viernes-min1"].value);
+            aux2= parseInt(formulario.elements["viernes-hora1-2"].value) * 60 + parseInt(formulario.elements["viernes-min1-2"].value);
+            if (aux2< (aux1+30)){
+              alert("Error en el turno 1 del dia Viernes, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }
+        }
+
+        //Validacion del turno 2 del viernes
+        var checkbox = document.getElementById("viernescheck2");
+        if (checkbox.checked){
+          //se valida la trasicion de un turno al otro
+          var aux1= parseInt(formulario.elements["viernes-hora1-2"].value) * 60 + parseInt(formulario.elements["viernes-min1-2"].value);
+          var aux2= parseInt(formulario.elements["viernes-hora2"].value) * 60 + parseInt(formulario.elements["viernes-min2"].value);
+          if (aux2<(aux1+30)){
+            alert("Error en la transicion del turno 1 al turno 2 del dia Viernes, Debe existir un periodo de al menos 30 minutos entre estos");
+            error++;
+          }
+          if (parseInt(formulario.elements["viernes-hora2-2"].value) < parseInt(formulario.elements["viernes-hora2"].value)){
+            alert("Error en el turno 2 del dia Viernes, La segunda hora no puede ser menor que la primera");
+            error++;
+          }else if (parseInt(formulario.elements["viernes-hora2-2"].value) == parseInt(formulario.elements["viernes-hora2"].value)){
+            if (parseInt(formulario.elements["viernes-min2-2"].value) <(parseInt(formulario.elements["viernes-min2"].value)+30)){
+              alert("Error en el turno 2 del dia Viernes, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }else{
+            aux1= parseInt(formulario.elements["viernes-hora2"].value) * 60 + parseInt(formulario.elements["viernes-min2"].value);
+            aux2= parseInt(formulario.elements["viernes-hora2-2"].value) * 60 + parseInt(formulario.elements["viernes-min2-2"].value);
+            if (aux2< (aux1+30)){
+              alert("Error en el turno 2 del dia Viernes, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }
+        }
+
+        //Validacion del turno 1 del sabado
+        var checkbox = document.getElementById("sabadocheck1");
+        if (checkbox.checked){
+          if (parseInt(formulario.elements["sabado-hora1-2"].value) < parseInt(formulario.elements["sabado-hora1"].value)){
+            alert("Error en el turno 1 del dia Sabado, La segunda hora no puede ser menor que la primera");
+            error++;
+          }else if (parseInt(formulario.elements["sabado-hora1-2"].value) == parseInt(formulario.elements["sabado-hora1"].value)){
+            if (parseInt(formulario.elements["sabado-min1-2"].value) <(parseInt(formulario.elements["sabado-min1"].value)+30)){
+              alert("Error en el turno 1 del dia Sabado, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }else{
+            aux1= parseInt(formulario.elements["sabado-hora1"].value) * 60 + parseInt(formulario.elements["sabado-min1"].value);
+            aux2= parseInt(formulario.elements["sabado-hora1-2"].value) * 60 + parseInt(formulario.elements["sabado-min1-2"].value);
+            if (aux2< (aux1+30)){
+              alert("Error en el turno 1 del dia Sabado, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }
+        }
+
+        //Validacion del turno 2 del sabado
+        var checkbox = document.getElementById("sabadocheck2");
+        if (checkbox.checked){
+          //se valida la trasicion de un turno al otro
+          var aux1= parseInt(formulario.elements["sabado-hora1-2"].value) * 60 + parseInt(formulario.elements["sabado-min1-2"].value);
+          var aux2= parseInt(formulario.elements["sabado-hora2"].value) * 60 + parseInt(formulario.elements["sabado-min2"].value);
+          if (aux2<(aux1+30)){
+            alert("Error en la transicion del turno 1 al turno 2 del dia Sabado, Debe existir un periodo de al menos 30 minutos entre estos");
+            error++;
+          }
+          if (parseInt(formulario.elements["sabado-hora2-2"].value) < parseInt(formulario.elements["sabado-hora2"].value)){
+            alert("Error en el turno 2 del dia Sabado, La segunda hora no puede ser menor que la primera");
+            error++;
+          }else if (parseInt(formulario.elements["sabado-hora2-2"].value) == parseInt(formulario.elements["sabado-hora2"].value)){
+            if (parseInt(formulario.elements["sabado-min2-2"].value) <(parseInt(formulario.elements["sabado-min2"].value)+30)){
+              alert("Error en el turno 2 del dia Sabado, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }else{
+            aux1= parseInt(formulario.elements["sabado-hora2"].value) * 60 + parseInt(formulario.elements["sabado-min2"].value);
+            aux2= parseInt(formulario.elements["sabado-hora2-2"].value) * 60 + parseInt(formulario.elements["sabado-min2-2"].value);
+            if (aux2< (aux1+30)){
+              alert("Error en el turno 2 del dia Sabado, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }
+        }
+
+
+        //Validacion del turno 1 del domingo
+        var checkbox = document.getElementById("domingocheck1");
+        if (checkbox.checked){
+          if (parseInt(formulario.elements["domingo-hora1-2"].value) < parseInt(formulario.elements["domingo-hora1"].value)){
+            alert("Error en el turno 1 del dia Domingo, La segunda hora no puede ser menor que la primera");
+            error++;
+          }else if (parseInt(formulario.elements["domingo-hora1-2"].value) == parseInt(formulario.elements["domingo-hora1"].value)){
+            if (parseInt(formulario.elements["domingo-min1-2"].value) <(parseInt(formulario.elements["domingo-min1"].value)+30)){
+              alert("Error en el turno 1 del dia Domingo, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }else{
+            aux1= parseInt(formulario.elements["domingo-hora1"].value) * 60 + parseInt(formulario.elements["domingo-min1"].value);
+            aux2= parseInt(formulario.elements["domingo-hora1-2"].value) * 60 + parseInt(formulario.elements["domingo-min1-2"].value);
+            if (aux2< (aux1+30)){
+              alert("Error en el turno 1 del dia Domingo, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }
+        }
+
+        //Validacion del turno 2 del domingo
+        var checkbox = document.getElementById("domingocheck2");
+        if (checkbox.checked){
+          //se valida la trasicion de un turno al otro
+          var aux1= parseInt(formulario.elements["domingo-hora1-2"].value) * 60 + parseInt(formulario.elements["domingo-min1-2"].value);
+          var aux2= parseInt(formulario.elements["domingo-hora2"].value) * 60 + parseInt(formulario.elements["domingo-min2"].value);
+          if (aux2<(aux1+30)){
+            alert("Error en la transicion del turno 1 al turno 2 del dia Domingo, Debe existir un periodo de al menos 30 minutos entre estos");
+            error++;
+          }
+          if (parseInt(formulario.elements["domingo-hora2-2"].value) < parseInt(formulario.elements["domingo-hora2"].value)){
+            alert("Error en el turno 2 del dia Domingo, La segunda hora no puede ser menor que la primera");
+            error++;
+          }else if (parseInt(formulario.elements["domingo-hora2-2"].value) == parseInt(formulario.elements["domingo-hora2"].value)){
+            if (parseInt(formulario.elements["domingo-min2-2"].value) <(parseInt(formulario.elements["domingo-min2"].value)+30)){
+              alert("Error en el turno 2 del dia Domingo, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }else{
+            aux1= parseInt(formulario.elements["domingo-hora2"].value) * 60 + parseInt(formulario.elements["domingo-min2"].value);
+            aux2= parseInt(formulario.elements["domingo-hora2-2"].value) * 60 + parseInt(formulario.elements["domingo-min2-2"].value);
+            console.log(aux1 + " " + aux2);
+            if (aux2< (aux1+30)){
+              alert("Error en el turno 2 del dia Domingo, Debe existir un periodo de al menos 30 minutos de diferencia entre la primera y la segunda hora");
+              error++;
+            }
+          }
+        }
+        //alert(formulario.elements["lunes-hora1"].value);
+        
+        //Boton oculto para enviar el formulario, se hace de este modo porque si hacemos submit con el objeto formulario no hace las validaciones de requires y de valores minimos y maximos, se presiona cuando no hubo ningun error;
+        if (error==0){
+          boton.click();
+        }
+
+            
+      }
+
+  </script>
+
+
+
+{% endblock %}

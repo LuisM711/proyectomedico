@@ -1,0 +1,30 @@
+{% extends 'layouts/nav_inicio.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+<div class="login-page">
+	<div class="form">
+
+		{% if datos %}
+			<div class="alert alert-danger" role="alert">
+				{{datos.message}}
+			</div>
+		{% endif %}
+
+		<strong><h1>Inicio de sesion</h1></strong>
+		<img  style = "width: 250px; height: 250px; margin-bottom: 10%;" src="{% static 'images/logo.png' %}">
+
+		<form class="login-form" method="post" action="{% url 'login' %}">
+			
+			{% csrf_token %}
+			<input type="text" name='username' placeholder="Usuario"/>
+			<input type="password" name='contra' placeholder="Contraseña"/>
+			<p style="text-align: right;" class="message"><a href="{% url 'password_reset' %}">Olvidaste tu contraseña?</a></p>
+			<br></br>
+			<button>Entrar</button>
+		</form>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,461 @@
+{% extends 'layouts/nav_especialista.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/consulta_medica.css' %}">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<div class="login-page" >
+    {% if paciente %}
+    <div class="ficha-identificacion">
+        
+        <center><div class="imagen" style="width: 50%;">
+            {% if paciente.id_usuario.foto %}
+                    <img style = "width: 100%; height: 150px; margin-top: 10px; margin-bottom: 10px;;"src="{{ paciente.id_usuario.foto.url }}" alt="Foto del usuario">
+            {% else %}
+                    <img style = "width: 100%; height: 150px; margin-top: 10px; margin-bottom: 10px;;" src="{% static 'images/imagen_usuario_defecto.jpg' %}" alt="Foto del usuario">
+            {% endif %}
+        </div></center>
+        <h4>Ficha de identificación</h4>
+        <div class="info-paciente">
+            <p>Nombre: {{paciente.id_usuario.id_usuario.first_name}} {{paciente.id_usuario.id_usuario.last_name}}</p>
+            <p>Edad: {{edad}} años</p>
+            {% if paciente.genero == 'M' %}
+                <p>Sexo: Masculino</p>
+            {% else %}
+                <p>Sexo: Femenino</p>
+            {% endif %}
+
+            {% if paciente.estado_civil == '1' %}
+                <p>Estado civil: Casado</p>
+            {% else %}
+                <p>Estado civil: Soltero</p>
+            {% endif %}
+
+             {% if paciente.estilo_vida == 'A' %}
+                <p>Estilo de vida: Activo</p>
+            {% elif paciente.estilo_vida == 'S' %}
+                <p>Estilo de vida: Sedentario</p>
+            {% else %}
+                <p>Estilo de vida: Vegano</p>
+            {% endif %}
+
+            <p>Peso: {{exploracion_fisica.peso}} kg</p>
+            <p>Talla: {{exploracion_fisica.talla}} m</p>
+            <p>IMC: {{exploracion_fisica.imc}}</p>
+            
+            
+        </div> 
+        <center><button>Descargar Documento</button></center>
+        
+    </div>
+	<div class="historial-clinico">
+
+        <div class="pestañitas">
+            <button id="general" onclick="mostrarContenido('GENERAL')">General</button>
+            {% if exploracion_fisica %}
+                <button id="pa" onclick="mostrarContenido('PA')">PA</button>
+            {% endif %}
+            <button id="dx-tx" onclick="mostrarContenido('DX-TX')">DX/TX</button>
+        </div>
+        <div class="contenido" id="GENERAL">
+            <h2>Historial clinico</h2>
+            <div class="antecedentes-patologicos">
+                <h3>Antecedentes personales no patologicos</h3>
+                <h4>Toxicomania</h4>
+                {% for item in AP_toxi %}
+                    <p>{{item.nombre}}: Si  Cantidad: {{item.cantidad}}  Frecuencia: {{item.frecuencia}}  Tiempo: {{item.tiempo}} años</p>
+                {% endfor %}
+                <h4>Antecendentes quirurjicos</h4>
+                {% for item in AP_qui %}
+                    <p>Tipo: {{item.tipo}} Tiempo: {{item.tiempo}} años</p>
+                {% endfor %}
+                <h4>Antecedentes transfuncionales</h4>
+                {% for item in AP_tran %}
+                    <p>Tipo: {{item.tipo}} Tiempo: {{item.tiempo}} años</p>
+                {% endfor %}
+                <h4>Alergias</h4>
+                {% for item in AP_al %}
+                    <p>{{item.nombre}}</p>
+                {% endfor %}
+                <h4>Vacunación</h4>
+                {% for item in AP_vac %}
+                    <p>Nombre: {{item.nombre}}  Dosis: {{item.dosis}}  Año: {{item.año}}</p>
+                {% endfor %}
+            </div>
+            <div class="antecedentes-no-patologicos">
+                <h3>Antecedentes personales patologicos</h3>
+                {% for item in AP %}
+                    <p>{{item.patologia}}</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="contenido" id="PA" style="display: none;" >
+
+            <div class="padecimientos-motivo">
+                <h2>Padecimiento o motivo de la consulta</h2>
+                <textarea rows="15" cols="50" disabled>{{cita.motivo}}</textarea>
+                <div class="botones-PA">
+                    <button id="anterior" onclick="mostrarContenido('graficas')">Ver graficas</button>
+                </div>
+            </div>
+            <div class="exploracion-fisica">
+                <h4>Exploración fisica</h4>
+                <div class="inputs">
+                    <label>Peso: </label>
+                    <label>{{exploracion_fisica.peso}} kg</label>
+                    <label>Talla: </label>
+                    <label>{{exploracion_fisica.talla}}  m</label>
+                    <label>IMC: </label>
+                    <label style="width: 20%;">{{exploracion_fisica.imc}} kg/m<sup>2</sup></label>
+                    <input type="text" name="imc" id="imcinput" value={{exploracion_fisica.imc}} style="display: none;">
+                    {% if exploracion_fisica.imc %}
+                        {% if exploracion_fisica.imc  < 18.50 %}
+                            <label>IMC: {{exploracion_fisica.imc}} Bajo peso</label><br>
+                        {% elif 18.50 <= exploracion_fisica.imc  and exploracion_fisica.imc  <= 24.99 %}
+                            <label>IMC: {{exploracion_fisica.imc}} Normal</label><br>
+                        {% elif 25.00 <= exploracion_fisica.imc  and exploracion_fisica.imc  <= 29.99 %}
+                            <label>IMC: {{exploracion_fisica.imc}} Sobrepeso</label><br>
+                        {% elif exploracion_fisica.imc  >= 30.00 %}
+                            <label>IMC: {{exploracion_fisica.imc}} Obesidad</label><br>
+                        {% endif %}
+                    {% endif %}
+                    <label>Creatinina: </label><input type="text" name="creatinina" id="creatininaInput" value="{{exploracion_fisica.creatinina}}" disabled> 
+                    <label style="width: 15%;">mg/dL</label>
+                    <div class="aviso-creatinina">
+                        <input type="text" id="edadInput3" value={{edad}} style="display: none;">
+                        <input type="text" id="sexoinput" value={{paciente.genero}} style="display: none;">
+                        <input type="text" id="pesoinput" value={{paciente.peso}} style="display: none;">
+                        <label style="display: none; background-color: green; font-weight: 700; width: 98%; text-align: center;" id="cretinormal">Normal</label>
+                        <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="cretianormal1">Niveles bajos</label>
+                        <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="cretianormal2">Niveles altos</label>
+                    </div>
+                    <label>Filtración Glomerular:</label> <label name="fgmc" id="fgmc"></label>
+                    <input type="text" name="filtracion_glomerular" id="fgmInput" style="display: none;" value="{{exploracion_fisica.filtracion_glomerular}}">
+
+                    <div class="aviso-glomedular">
+                        <label style="display: none; background-color: gray; font-weight: 700; width: 98%; text-align: center;" id="fge">Calculando...</label>
+                    </div>
+
+                    <label>Glucosa: </label><input type="text" name="glucosa" id="glucosaInput" value="{{exploracion_fisica.glucosa}}" disabled><label style="width: 10%;">mg/dL</label>
+                    <div class="aviso-glucosa">
+                        <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="diabetes">Diabetes</label>
+                        <label style="display: none; background-color: orange; font-weight: 700; width: 98%; text-align: center;" id="prediabetes">Prediabetes</label>
+                        <label style="display: none; background-color: green; font-weight: 700; width: 98%; text-align: center;" id="gnormal">Niveles normales</label>
+                        <label style="display: none; background-color: brown; font-weight: 700; width: 98%; text-align: center;" id="ginvalida">Ingrese un valor</label>
+                    </div>
+                    
+                    <label>TA Sistolica: </label><input type="text" name="tasis" id="tasisInput" disabled value="{{exploracion_fisica.TA_sistolica}} "><label style="width: 15%;">mm Hg</label>
+                    <label>TA Diastolica: </label><input type="text" name="tadis" id="tadiaInput" disabled value="{{exploracion_fisica.TA_diastolica}} "><label style="width: 15%;">mm Hg</label>
+                    <div class="presion-arterial">
+                        <label style="display: none; background-color: green; font-weight: 700; width: 98%; text-align: center;" id="pnormal">Presión normal</label>
+                        <label style="display: none; background-color: yellow; font-weight: 700; width: 98%; text-align: center;" id="pelevada">Presión elevada</label>
+                        <label style="display: none; background-color: orange; font-weight: 700; width: 98%; text-align: center;" id="paltan1">Hipertensión nivel 1</label>
+                        <label style="display: none; background-color: orangered; font-weight: 700; width: 98%; text-align: center;"  id="paltan2">Hipertensión nivel 2</label>
+                        <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="pcrisis">Crisis de hipertensión</label>
+                        <label style="display: none; background-color: brown; font-weight: 700; width: 98%; text-align: center;" id="pinvalida">Ingrese ambos valores</label>
+                    </div>
+                    <label>Frecuencia cardica: </label><input type="text" name="frec" id="fcardInput" disabled value="{{exploracion_fisica.frecuencia_cardiaca}} "><label style="width: 10%;">ppm</label>
+                    <div class="aviso-frecuenciaCardiaca">
+                        <input type="text" id="edadInput" value={{edad}} style="display: none;">
+                        <label style="display: none; background-color: green; font-weight: 700; width: 98%; text-align: center;" id="fcnormal">Normal</label>
+                        <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="fcanormal">Anormal</label>
+                    </div>
+                    <label>Frecuencia respiratoria: </label><input type="text" name="frer" id="frespInput" disabled value="{{exploracion_fisica.frecuencia_respiratoria}} "><label style="width: 10%;">r/m</label>
+                    <div class="aviso-frecuenciaRespiratoria">
+                        <input type="text" id="edadInput2" value={{edad}} style="display: none;">
+                        <label style="display: none; background-color: green; font-weight: 700; width: 98%; text-align: center;" id="frnormal">Normal</label>
+                        <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="franormal1">Bradipnea</label>
+                        <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="franormal2">Taquipnea</label>
+                    </div>
+                    <label>Temperatura: </label><input type="text" name="temp" id="tempInput" value="{{exploracion_fisica.temperatura}}" disabled ><label style="width: 10%;">&deg;C</label>
+                    <div class="aviso-temperatura">
+                        <input type="text" id="edadInput2" value={{edad}} style="display: none;">
+                        <label style="display: none; background-color: green; font-weight: 700; width: 98%; text-align: center;" id="tnormal">Normal</label>
+                        <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="tanormal1">Hipotermia</label>
+                        <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="tanormal2">Fiebre</label>
+                    </div>
+
+                    <div class="descripcion">
+                       <label>Descripción de la exploración</label> <center><textarea name="desc" rows="6" cols="50" disabled>{{exploracion_fisica.descripcion}} </textarea></center>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        <div class="contenido" id="graficas" style="display: none;">
+            <div class="input">
+                <label>Selecciona la grafica:</label>
+                <select name="tipo" id="tipo">
+                    <option value=1>Peso</option>
+                    <option value=2>Talla</option>
+                    <option value=3>IMC</option>
+                    <option value=4>Glucosa</option>
+                    <option value=5>Creatinina</option>
+                    <option value=6>Filtración Glomerular</option>
+                    <option value=7>TA Sistolica</option>
+                    <option value=8>TA Diastolica</option>
+                    <option value=9>Frecuencia cardica</option>
+                    <option value=10>Frecuencia respiratoria</option>
+                    <option value=11>Temperatura</option>
+                </select>
+            </div>
+            <div class="mostrar-grafico">
+                <button id="anterior" onclick="mostrarGrafico()" style="border-radius: 32px; height: 32px;font-size: 14px;outline: 0;border: 0;">Ver gráfica</button>
+                <div id="grafico-container">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="contenido" id="DX-TX" style="display: none;">
+            <div class="diagnostico">
+                <h2>Diagnostico</h2>
+                <textarea rows="15" cols="50" name="diagnostico" disabled>{{diagnostico.descripcion}}</textarea>
+                <div class="botones-PA">
+                    <!--<button id="anterior">Ver anteriores</button>-->
+
+                </div>
+            </div>
+            <div class="tratamiento">
+                <h2>Tratamiento</h2>
+                <div class="inputs">
+                    <div class="farmacologico">
+                        <label>Farmacologico</label> <center><textarea rows="6" cols="50" name="tratamiento_far" disabled>{{tratamiento_farmacologico.descripcion}}</textarea></center>
+                     </div>
+                    <div class="nofarmacologico">
+                       <label>No farmacologico</label> <center><textarea rows="6" cols="50" name="tratamiento_nfar" disabled>{{tratamiento_no_farmacologico.descripcion}}</textarea></center>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+	</div>
+    {% endif %}
+	
+</div>
+
+
+<script>
+    
+    verificarGlucosa();
+    verificarFreCardiaca();
+    verificarFreResp();
+    verificarPresion();
+    verificarcreatinina();
+    verificartemperatura();
+    function mostrarContenido(id) {
+        document.querySelectorAll('.contenido').forEach(function (contenido) {
+            contenido.style.display = 'none';
+        });
+        document.getElementById(id).style.display = 'block';
+    }
+    function mostrarGrafico() {
+        var tipo = parseInt(document.getElementById('tipo').value, 10);
+        var url = "{% url 'grafica' id=paciente.id tipo=0 %}".replace(0, tipo);
+        console.log(url);
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById('grafico-container').innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", url, true);
+        xhttp.send();
+    }
+    
+    function verificarGlucosa() {
+        var inputGlucosa = document.getElementById('glucosaInput');
+        var valorGlucosa = inputGlucosa.value;
+        var valorNumerico = parseFloat(valorGlucosa);
+        document.getElementById('gnormal').style.display = 'none';
+        document.getElementById('prediabetes').style.display = 'none';
+        document.getElementById('diabetes').style.display = 'none';
+        document.getElementById('ginvalida').style.display = 'none';
+        if (valorNumerico <= 99) {
+            document.getElementById('gnormal').style.display = 'block';
+        } else if (valorNumerico >= 100 && valorNumerico <= 125) {
+            document.getElementById('prediabetes').style.display = 'block';
+        } else if (valorNumerico >= 126) {
+            document.getElementById('diabetes').style.display = 'block';
+        } else {
+            document.getElementById('ginvalida').style.display = 'block';
+        }
+    }
+
+
+    function verificarPresion() {
+        var inputSist = document.getElementById('tasisInput');
+        var inputDias = document.getElementById('tadiaInput');
+        var valorSist = parseInt(inputSist.value, 10);
+        var valorDias = parseInt(inputDias.value, 10);
+        document.getElementById('pnormal').style.display = 'none';
+        document.getElementById('pelevada').style.display = 'none';
+        document.getElementById('paltan1').style.display = 'none';
+        document.getElementById('paltan2').style.display = 'none';
+        document.getElementById('pcrisis').style.display = 'none';
+        document.getElementById('pinvalida').style.display = 'none';
+        if (valorSist < 120 && valorDias <80){
+            document.getElementById('pnormal').style.display = 'block'; 
+        } else if((valorSist >= 120 && valorSist <= 129) && valorDias < 80 ){
+            document.getElementById('pelevada').style.display = 'block';
+        }else if((valorSist >= 130 && valorSist <= 139) || (valorDias >= 80 && valorDias <= 89 )){
+            document.getElementById('paltan1').style.display = 'block';
+        }else if (valorSist > 180 || valorDias > 120){
+            document.getElementById('pcrisis').style.display = 'block';
+        }else if(valorSist >= 140 || valorDias >= 90){
+            document.getElementById('paltan2').style.display = 'block';
+        }else{
+            document.getElementById('pinvalida').style.display = 'block';
+        }
+    }
+
+
+    function verificarFreCardiaca(){
+        var inputFCardiaca = document.getElementById('fcardInput');
+        var inputedad = document.getElementById('edadInput');
+        var valorfFcardiaca = parseInt(inputFCardiaca.value, 10);
+        var valoredad = parseInt(inputedad.value, 10);
+        document.getElementById('fcnormal').style.display = 'none';
+        document.getElementById('fcanormal').style.display = 'none';
+        if (valoredad >= 10 && (valorfFcardiaca>=60 && valorfFcardiaca<=100)){
+            document.getElementById('fcnormal').style.display = 'block';
+        }else if (valoredad >= 10 && !(valorfFcardiaca>=60 && valorfFcardiaca<=100)){
+            document.getElementById('fcanormal').style.display = 'block';
+        }else if ((valoredad >= 7 && valoredad <= 9 ) && (valorfFcardiaca>=70 && valorfFcardiaca<=110)){
+            document.getElementById('fcnormal').style.display = 'block';
+        }else if ((valoredad >= 7 && valoredad <= 9 ) && !(valorfFcardiaca>=70 && valorfFcardiaca<=110)){
+            document.getElementById('fcanormal').style.display = 'block';
+        }else if ((valoredad >= 5 && valoredad <= 6 ) && (valorfFcardiaca>=75 && valorfFcardiaca<=115)){
+            document.getElementById('fcnormal').style.display = 'block';
+        }else if ((valoredad >= 5 && valoredad <= 6 ) && !(valorfFcardiaca>=75 && valorfFcardiaca<=115)){
+            document.getElementById('fcanormal').style.display = 'block';
+        }else if ((valoredad >= 3 && valoredad <= 4 ) && (valorfFcardiaca>=80 && valorfFcardiaca<=120)){
+            document.getElementById('fcnormal').style.display = 'block';
+        }else if ((valoredad >= 3 && valoredad <= 4 ) && !(valorfFcardiaca>=80 && valorfFcardiaca<=120)){
+            document.getElementById('fcanormal').style.display = 'block';
+        }else if ((valoredad >= 1 && valoredad <= 2 ) && (valorfFcardiaca>=80 && valorfFcardiaca<=130)){
+            document.getElementById('fcnormal').style.display = 'block';
+        }else if ((valoredad >= 1 && valoredad <= 2 ) && !(valorfFcardiaca>=80 && valorfFcardiaca<=130)){
+            document.getElementById('fcanormal').style.display = 'block';
+        }
+    }
+
+
+
+    function verificarFreResp(){
+        var inputFRespiratoria = document.getElementById('frespInput');
+        var inputedad2 = document.getElementById('edadInput2');
+        var valorfFresp = parseInt(inputFRespiratoria.value, 10);
+        var valoredad = parseInt(inputedad2.value, 10);
+        document.getElementById('frnormal').style.display = 'none';
+        document.getElementById('franormal1').style.display = 'none';
+        document.getElementById('franormal2').style.display = 'none';
+
+        if ((valoredad>=1 && valoredad<=3) && (valorfFresp>=24 && valorfFresp<=40)){
+            document.getElementById('frnormal').style.display = 'block';
+        }else if ((valoredad>=1 && valoredad<=3) && !(valorfFresp>=24 && valorfFresp<=40)){
+            //document.getElementById('franormal').style.display = 'block';
+        }else if ((valoredad>=3 && valoredad<=6) && (valorfFresp>=22 && valorfFresp<=34)){
+            document.getElementById('frnormal').style.display = 'block';
+        }else if ((valoredad>=3 && valoredad<=6) && !(valorfFresp>=22 && valorfFresp<=34)){
+            //document.getElementById('franormal').style.display = 'block';
+        }else if ((valoredad>=6 && valoredad<=12) && (valorfFresp>=18 && valorfFresp<=30)){
+            document.getElementById('frnormal').style.display = 'block';
+        }else if ((valoredad>=6 && valoredad<=12) && !(valorfFresp>=18 && valorfFresp<=30)){
+            //document.getElementById('franormal').style.display = 'block';
+        }else if ((valoredad>=12 && valoredad<=18) && (valorfFresp>=12 && valorfFresp<=16)){
+            document.getElementById('frnormal').style.display = 'block';
+        }else if ((valoredad>=12 && valoredad<=18) && !(valorfFresp>=12 && valorfFresp<=16)){
+            //document.getElementById('franormal').style.display = 'block';
+        }else if(valoredad>18 && (valorfFresp >=12 && valorfFresp <=20)){
+            document.getElementById('frnormal').style.display = 'block';
+        }else if(valoredad>18 && valorfFresp <12){
+            document.getElementById('franormal1').style.display = 'block';
+        }else if(valoredad>18 && valorfFresp >20){
+            document.getElementById('franormal2').style.display = 'block';
+        }
+    }
+
+
+
+    function verificartemperatura(){
+        var inputTemperatura = document.getElementById('tempInput');
+        var valortemp = parseFloat(inputTemperatura.value);
+        document.getElementById('tnormal').style.display = 'none';
+        document.getElementById('tanormal1').style.display = 'none';
+        document.getElementById('tanormal2').style.display = 'none';
+        if (valortemp>=36.5 && valortemp<=37){
+            document.getElementById('tnormal').style.display = 'block';
+        }else if (valortemp<36.5){
+            document.getElementById('tanormal1').style.display = 'block';
+        }else if (valortemp>37.0){
+            document.getElementById('tanormal2').style.display = 'block';
+        }
+    }
+
+
+
+    
+    function verificarcreatinina(){
+        var inputCreatinina = document.getElementById('creatininaInput');
+        var inputsexo = document.getElementById('sexoinput');
+        var inputpeso = document.getElementById('pesoinput');
+        var inputedad3 = document.getElementById('edadInput3');
+        var valorcreti = parseFloat(inputCreatinina.value);
+        var valorpeso = parseFloat(inputpeso.value);
+        var valoredad = parseInt(inputedad3.value, 10);
+        document.getElementById('cretinormal').style.display = 'none';
+        document.getElementById('cretianormal1').style.display = 'none';
+        document.getElementById('cretianormal2').style.display = 'none';
+        if (inputsexo = 'M'){
+            if (valorcreti >= 0.74 && valorcreti <= 1.35){
+                document.getElementById('cretinormal').style.display = 'block';
+            }else if (valorcreti< 0.74){
+                document.getElementById('cretianormal1').style.display = 'block';
+            }else if (valorcreti > 1.35){
+                document.getElementById('cretianormal2').style.display = 'block';
+            }
+
+            var fgm= (((140-valoredad) * valorpeso) / (72*valorcreti));
+            fgm = fgm.toFixed(2);
+            document.getElementById('fgmc').textContent = fgm +' ml/min'
+            document.getElementById('fgmInput').value = fgm
+            
+            document.getElementById('fge').style.display = 'block';
+            console.log(fgm);
+            if (fgm<15){
+                document.getElementById('fge').style.backgroundColor = 'red';
+                document.getElementById('fge').textContent = 'Insuficiencia renal'
+            }else if (fgm>=15 && fgm<=60){
+                document.getElementById('fge').style.backgroundColor = 'orange';
+                document.getElementById('fge').textContent = 'Enfermedad renal'
+            }else if (fgm>60 && fgm<=90){
+                document.getElementById('fge').style.backgroundColor = 'yellow';
+                document.getElementById('fge').textContent = 'Enfermedad renal temprana'
+            }else if (fgm>90 && fgm<=120){
+                document.getElementById('fge').style.backgroundColor = 'green';
+                document.getElementById('fge').textContent = 'Normal'
+            }
+
+        }else if (inputsexo = 'F'){
+            if (valorcreti >= 0.59 && valorcreti <= 1.04){
+                document.getElementById('cretinormal').style.display = 'block';
+            }else if (valorcreti< 0.59){
+                document.getElementById('cretianormal1').style.display = 'block';
+            }else if (valorcreti > 1.04){
+                document.getElementById('cretianormal2').style.display = 'block';
+            }
+            var fgm= (((140-valoredad) * valorpeso) / (72*valorcreti))* 0.85;
+            document.getElementById('fgmc').textContent = fgm +' ml/min'
+        }
+    }
+</script>
+
+
+{% endblock %}

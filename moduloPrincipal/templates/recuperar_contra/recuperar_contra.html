@@ -1,0 +1,36 @@
+{% extends 'layouts/nav_inicio.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+<div class="login-page">
+	<div class="form">
+		{% if datos %}
+			<div class="alert alert-danger" role="alert">
+				{{datos.message}}
+			</div>
+		{% endif %}
+
+		<h1>Recuperar contraseña</h1>
+
+
+		<img  style = "width: 250px; height: 250px; margin-bottom: 10%;" src="{% static 'images/logo.png' %}">
+		<br></br>
+		<h3>Ingrese el correo electrónico con
+			el que se registró para 
+			recuperar su contraseña. </h3>
+		<form class="login-form" method="post">
+			{% csrf_token %}
+			{{form.email}}
+			<button>Enviar</button>
+		
+		</form>
+	</div>
+</div>
+
+<script>
+	document.getElementById('id_email').placeholder="Correo";
+
+
+</script>
+{% endblock %}
+

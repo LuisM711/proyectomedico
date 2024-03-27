@@ -1,0 +1,239 @@
+
+{% extends 'layouts/nav_especialista.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/lista_citas.css' %}">
+
+<div class="form">
+    <h1>Lista de citas</h1>
+
+    <input type="date" class="fecha" id="fechaActual"> <br> <br>
+
+    <div class="radio-buttons">
+        <center>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group" id="Botones">
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="btnradio1">Solicitudes</label>
+              
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                <label class="btn btn-outline-success" for="btnradio2">Confirmadas</label>
+            </div>
+        </center>
+    </div>
+
+    <div class="citas" id="citas-pendientes">
+        {% if citas %}
+
+    <table class="tabla">
+        <tr class="titulo">
+            <th>Pacientes</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Motivo</th>
+            <th></th>
+            <th></th>
+        </tr>
+
+        {% for cita in citas %}
+            {% if cita.estatus == 'P' %}
+        <tr>
+            <td class="especialista">{{cita.id_paciente.id_usuario.id_usuario.first_name}}</td>
+            <td id="fechacita" class="fechacita">{{cita.fecha}}</td>
+            <td>{{cita.hora}}</td>
+            <td>{{cita.motivo}}</td>
+            <td><button class="aceptar" data-request-id="{{ cita.id }}" id="aceptar">A</button></td>
+            <td><button class="cancelar" data-request-id="{{ cita.id }}" id="cancelar">X</button></td>
+        </tr>
+
+        {% endif %}
+
+            {% endfor %}
+        </table>
+        {% else %}
+            <h1>No se encuentra ninguna cita</h1>
+        {% endif %}
+        </div>
+
+        <div class="citas" id="citas-confirmadas" style="display: none;">
+            {% if citas %}
+    
+            <table class="tabla">
+                <tr class="titulo">
+                    <th>Pacientes</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Motivo</th>
+                    <th>Estatus</th>
+                    <th></th>
+                </tr>
+        
+                {% for cita in citas %}
+                    {% if cita.estatus == 'C' or cita.estatus == "A" %}
+                <tr class="info-cita">
+                    <td class="especialista">{{cita.id_paciente.id_usuario.id_usuario.first_name}}</td>
+                    <td id="fechacita" class="fechacita">{{cita.fecha}}</td>
+                    <td>{{cita.hora}}</td>
+                    <td>{{cita.motivo}}</td>
+                    {% if cita.estatus == 'C' %}
+                        <td>Pendiente</td>
+                        <td><a href="/consulta_medica/{{cita.id}}"><button class="aceptar" >Llenar</button></a></td>
+                    {% else %}
+                        <td>Atendida</td>
+                        <td><a href="/visualizar_consulta/{{cita.id}}"><button >ver</button></a></td>
+
+                    {% endif %}
+
+                </tr>
+        
+                {% endif %}
+        
+                    {% endfor %}
+                </table>
+            {% else %}
+            <h1>No se encuentra ninguna cita</h1>
+            {% endif %}
+        </div>
+
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+
+    /*window.onload = function(){
+    var fecha = new Date(); //Fecha actual
+    var mes = fecha.getMonth()+1; //obteniendo mes
+    var dia = fecha.getDate(); //obteniendo dia
+    var ano = fecha.getFullYear(); //obteniendo año
+    if(dia<10)
+        dia='0'+dia; //agrega cero si el menor de 10
+    if(mes<10)
+        mes='0'+mes //agrega cero si el menor de 10
+    document.getElementById('fechaActual').value=ano+"-"+mes+"-"+dia;
+    }*/
+
+    $(document).ready(function () {
+        // Manejar el cambio de la fecha
+        $('#fechaActual').on('change', function () {
+            const citas = document.getElementsByClassName("info-cita");
+            var fechaSeleccionada = $(this).val();
+
+            console.log(fechaSeleccionada)
+
+            if (fechaSeleccionada == ''){
+                for (const cita of citas){
+                    cita.style.display = "";
+                }
+
+            } else {
+                for (const cita of citas){
+                    const fechaCita = cita.querySelector(".fechacita").textContent.toLowerCase();4
+                    console.log(fechaCita)
+                    console.log(fechaSeleccionada);
+                    if (fechaCita == fechaSeleccionada) {
+                        cita.style.display = "";
+                    } else {
+                        cita.style.display = "none";
+                    }
+                }
+            }
+            
+        });
+    
+    });
+
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const citasPendientes = document.getElementById("citas-pendientes");
+        const citasConfirmadas = document.getElementById("citas-confirmadas");
+        const btnSolicitudes = document.getElementById("btnradio1");
+        const btnConfirmadas = document.getElementById("btnradio2");
+        const aceptarBotones = document.querySelectorAll("#aceptar");
+        const cancelarBotones = document.querySelectorAll("#cancelar");
+        
+        let busqueda = false;
+
+        function MostrarCitas() {
+            const listaCitas = btnSolicitudes.checked ? citasPendientes : citasConfirmadas;
+            const citas = listaCitas.getElementsByClassName("info-cita");
+
+            for (const cita of citas) {
+                cita.style.display = "flex";
+            }
+
+            busqueda = false;
+            buscarInput.value = "";
+            mostrarBoton.style.display = "none";
+        }
+
+
+        btnSolicitudes.addEventListener("change", function () {
+            citasPendientes.style.display = "block";
+            citasConfirmadas.style.display = "none";
+            console.log("Funciona");
+
+        });
+
+        btnConfirmadas.addEventListener("change", function () {
+            citasPendientes.style.display = "none";
+            citasConfirmadas.style.display = "block";
+            console.log("Funciona");
+
+        });
+
+        aceptarBotones.forEach(function (boton) {
+            boton.addEventListener("click", function () {
+                const solicitudId = boton.getAttribute("data-request-id");
+                actualizaEstatus(solicitudId, "C");
+            });
+        });
+
+        cancelarBotones.forEach(function (boton) {
+            boton.addEventListener("click", function () {
+                const solicitudId = boton.getAttribute("data-request-id");
+                actualizaEstatus(solicitudId, "B");
+            });
+        });
+
+        function actualizaEstatus(solicitudId, nuevoEstatus) {
+            const data = {
+                id: solicitudId,
+                estatus: nuevoEstatus,
+            };
+            console.log(data)
+
+            const url = `/listarcitas/paciente/${solicitudId}`;
+
+            fetch(url, {
+                method: "PUT",
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        console.error("Error al cambiar el estatus de la cita");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error de red al cambiar el estatus de la cita", error);
+                });
+        }
+
+
+
+    });
+</script>
+
+
+
+
+{% endblock %}

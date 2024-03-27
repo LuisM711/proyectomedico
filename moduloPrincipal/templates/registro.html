@@ -1,0 +1,214 @@
+{% extends 'layouts/nav_inicio.html' %}
+{% load static %}
+{% block content %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/registro.css' %}">
+
+<div class="login-page">
+
+	<center>
+		<div class="btn-group" role="group" aria-label="Basic radio toggle button group" id="Botones">
+			<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="Paciente" onchange="mostrar(this.value)" checked>
+			<label class="btn btn-outline-primary" for="btnradio1">Paciente</label>
+		  
+			<input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="Especialista" onchange="mostrar(this.value)">
+			<label class="btn btn-outline-success" for="btnradio2">Especialista</label>
+		</div>
+		</center>
+
+		
+	<div class="form">
+        <h1>Registrarse</h1>
+		{% if datos.error %}
+			<div class="alert alert-danger" role="alert">
+				{{datos.error}}
+			</div>
+		{% endif %}
+
+		{% if datos.exito %}
+			<div class="alert alert-success" role="alert">
+				{{datos.exito}}
+			</div>
+		{% endif %}
+		<form class="login-form" id="Form_Paciente" method="post" action="{% url 'registrarse_paciente' %}">
+			<h2>Formulario de Paciente</h2>
+			{% csrf_token %}
+
+			<input type="text" name='nombre_p' placeholder="Nombre(s)" required/>
+			<input type="text" name='apellido_p' placeholder="Apellido(s)" required/>
+			<input type="text" name='usuario_p' id='usuario_p' placeholder="Nombre de usuario" onchange="validar_usuario_p()"  required/>
+
+			<!-- Mensaje de error -->
+			<div hidden class="alert alert-danger" role="alert" id="error_user_longitud_p">
+				El nombre de usuario debe tener minimo 4 caracteres
+			</div>
+
+			<input type="email" name='correo_p' placeholder="Correo electronico" required/>
+			<input type="password" name='contra_p' placeholder="Contraseña" id="contra_p" onchange="validar_contras_p()" required/>
+			<input type="password" name='confirmar_contra_p' placeholder="Confirmar Contraseña" id="confirmar_contra_p" onchange="validar_contras_p()" required/>
+			
+			<!-- Mensaje de error -->
+			<div hidden class="alert alert-danger" role="alert" id="error_contras_p">
+				Las contraseñas no coinciden
+			</div>
+
+			<!-- Mensaje de error -->
+			<div hidden class="alert alert-danger" role="alert" id="error_contra_longitud_p">
+				Las contraseña debe tener minimo 8 caracteres
+			</div>
+
+
+			<input type="date" name='fecha_nacim_p' placeholder="Fecha de nacimiento" required max="{{datos.Fecha_Maxima}}"/>
+
+			
+			<br></br>
+			<button id="entrar_p">Entrar</button>
+		</form>
+
+		<form class="login-form" id="Form_Especialista" method="post" action="{% url 'registrarse_especialista' %}">
+			
+			<h2>Formulario de Especialista</h2>
+			{% csrf_token %}
+			<input type="text" name='nombre_e' placeholder="Nombre(s)" required/>
+			<input type="text" name='apellido_e' placeholder="Apellido(s)" required/>
+			<input type="text" name='usuario_e' id="usuario_e" placeholder="Nombre de usuario" onchange="validar_usuario_e()"  required/>
+			<!-- Mensaje de error -->
+			<div hidden class="alert alert-danger" role="alert" id="error_user_longitud_e">
+				El nombre de usuario debe tener minimo 4 caracteres
+			</div>
+			<input type="email" name='correo_e' placeholder="Correo electronico" required/>
+			<input type="password" name='contra_e' placeholder="Contraseña" id="contra_e" onchange="validar_contras_e()" required/>
+			<input type="password" name='confirmar_contra_e' placeholder="Confirmar Contraseña" id="confirmar_contra_e" onchange="validar_contras_e()" required/>
+
+			<!-- Mensaje de error -->
+			<div hidden class="alert alert-danger" role="alert" id="error_contras_e">
+				Las contraseñas no coinciden
+			</div>
+
+			<!-- Mensaje de error -->
+			<div hidden class="alert alert-danger" role="alert" id="error_contra_longitud_e">
+				Las contraseña debe tener minimo 8 caracteres
+			</div>
+			
+			<input type="date" name='fecha_nacim_e' placeholder="Fecha de nacimiento" required max="{{datos.Fecha_Maxima}}"/>
+			<select name="especialidad">
+				<option value="" disabled selected>Elige una especialidad</option>
+				{% for item in datos.Especialidades %}
+					<option value={{item.id}} selected>{{item.nombre}}</option>
+				{% endfor %}
+			</select>
+			<input type="text" name='cedula' placeholder="Cedula" id="cedula" onchange="validar_cedula()" required/>
+			<!-- Mensaje de error -->
+			<div hidden class="alert alert-danger" role="alert" id="error_cedula">
+				La cedula debe tener una longitud mayor a 7
+			</div>
+			<input type="text" name='adicional' placeholder="Informacion Adicional"/>
+			<br></br>
+			<button id="entrar_e">Entrar</button>
+
+		</form>
+
+	</div>
+</div>
+
+<script>
+	document.getElementById("Form_Especialista").style.display = "none";
+
+
+	function mostrar(dato) {
+		if (dato == "Paciente") {
+			document.getElementById("Form_Paciente").style.display = "block";
+			document.getElementById("Form_Especialista").style.display = "none";
+		}else{
+			document.getElementById("Form_Especialista").style.display = "block";
+			document.getElementById("Form_Paciente").style.display = "none";
+		}
+	}
+
+	function validar_usuario_p(){
+		var usuario = document.getElementById('usuario_p').value;
+		var boton = document.getElementById('entrar_p');
+		if (usuario.length<4){
+			document.getElementById('error_user_longitud_p').hidden=false;
+			boton.disabled=true;
+		}else{
+			document.getElementById('error_user_longitud_p').hidden=true;
+			boton.disabled=false;
+		}
+	}
+
+	function validar_usuario_e(){
+		var usuario = document.getElementById('usuario_e').value;
+		var boton = document.getElementById('entrar_e');
+		if (usuario.length<4){
+			document.getElementById('error_user_longitud_e').hidden=false;
+			boton.disabled=true;
+		}else{
+			document.getElementById('error_user_longitud_e').hidden=true;
+			boton.disabled=false;
+		}
+	}
+
+	function validar_contras_e(){
+		
+		contra = document.getElementById('contra_e').value;
+		confirmar_contra = document.getElementById('confirmar_contra_e').value;
+		if(contra!=confirmar_contra){
+		 	document.getElementById('error_contras_e').hidden=false;
+			var boton = document.getElementById('entrar_e');
+			boton.disabled=true;
+		}else{
+			document.getElementById('error_contras_e').hidden=true;
+			var boton = document.getElementById('entrar_e');
+
+			if (contra.length<8){
+				document.getElementById('error_contra_longitud_e').hidden=false;
+				boton.disabled=true;
+			}else{
+				document.getElementById('error_contra_longitud_e').hidden=true;
+				boton.disabled=false;
+			}
+		}
+	}
+
+
+	function validar_contras_p(){
+		
+		contra = document.getElementById('contra_p').value;
+		confirmar_contra = document.getElementById('confirmar_contra_p').value;
+		if(contra!=confirmar_contra){
+		 	document.getElementById('error_contras_p').hidden=false;
+			var boton = document.getElementById('entrar_p');
+			boton.disabled=true;
+		}else{
+			document.getElementById('error_contras_p').hidden=true;
+			var boton = document.getElementById('entrar_p');
+
+			if (contra.length<8){
+				document.getElementById('error_contra_longitud_p').hidden=false;
+				boton.disabled=true;
+			}else{
+				document.getElementById('error_contra_longitud_p').hidden=true;
+				boton.disabled=false;
+			}
+		}
+	}
+
+	function validar_cedula(){
+		
+		cedula = document.getElementById('cedula').value;
+		if (cedula.length<7){
+			document.getElementById('error_cedula').hidden=false;
+			var boton = document.getElementById('entrar_e');
+			boton.disabled=true;
+		}else{
+			document.getElementById('error_cedula').hidden=true;
+			var boton = document.getElementById('entrar_e');
+			boton.disabled=false;
+		}
+	}
+
+</script>
+
+{% endblock %}

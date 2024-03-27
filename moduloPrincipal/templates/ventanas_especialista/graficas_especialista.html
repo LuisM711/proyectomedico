@@ -1,0 +1,52 @@
+{% extends 'layouts/nav_especialista.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/graficas_especialista.css' %}">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+<div class="login-page" >
+    
+    <div class="contenido" id="graficas">
+        <div class="input">
+            <label>Selecciona la grafica:</label>
+            <select name="tipo" id="tipo">
+                <option value=1>Genero</option>
+                <option value=2>Diabetes</option>
+                <option value=3>Insuficiencia renal</option>
+                <option value=4>Presión arterial</option>
+
+            </select> 
+        </div>
+        <div class="mostrar-grafico" style="margin-top: 10px;">
+            <button id="anterior" onclick="mostrarGrafico()" style="border-radius: 32px; height: 32px;font-size: 14px;outline: 0;border: 0;">Ver gráfica</button>
+            <div id="grafico-container"></div>
+        </div>
+    </div>
+
+    
+	
+</form>
+<script>
+    function mostrarGrafico() {
+        var tipo = parseInt(document.getElementById('tipo').value, 10);
+        //CAMBIAR PARA PONER EL ID DEL ESPECIALISTA
+
+        var url = "{% url 'grafica_exp' id=esp.id tipo=0 %}".replace(0, tipo);
+        console.log(url);
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById('grafico-container').innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", url, true);
+        xhttp.send();
+    }
+
+</script>
+
+
+{% endblock %}

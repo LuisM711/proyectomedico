@@ -1,0 +1,24 @@
+.login-page {
+    width: 1000px;
+    padding: 5px 0 0;
+    margin: auto;
+  }
+p{
+    margin-bottom: 5px;
+}
+
+.contenido{
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    width: 100%;
+}
+.contenido label{
+    text-align: center;
+}
+.mostrar-grafico button{
+    background: #00A89C;
+}
+.mostrar-grafico button:hover{
+    background: #348a73;
+}

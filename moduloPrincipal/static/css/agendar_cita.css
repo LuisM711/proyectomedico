@@ -1,0 +1,129 @@
+
+
+.login-page {
+    width: 1000px;
+    padding: 8% 0 0;
+    margin: auto;
+    
+  }
+  
+  .agendarcita{
+    font-family: "Roboto", sans-serif;
+    background: #00A89C;
+    color: #FFFFFF;
+    font-size: 14px;
+    width: 40%;
+  }
+  .agendarcita:hover,.agendarcita:active,.agendarcita:focus {
+    background: #348a73;
+  }
+  
+  .horario {
+    background: #FFFFFF;
+    width: 60%;
+    margin: 0 auto 100px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    z-index: 10;
+  }
+
+
+  .form {
+    position: absolute;
+    bottom: 150px;
+    left: 20%;
+    background: #FFFFFF;
+    width: 60%;
+    margin: 0 auto 100px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    z-index: 10;
+  }
+  .form[data-on='on']{
+  transform: scale(1);
+}
+
+.form[data-on='off']{
+  transform: scale(0);
+}
+  .form input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+
+  select{
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+
+
+  .form .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+  }
+  .form .message a {
+    color: #00A89C;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .form .register-form {
+    display: none;
+  }
+
+
+  .cerrar {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #910909;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+    float:left;
+    width: 40%;
+  }
+  .cerrar:hover,.cerrar:active,.cerrar:focus {
+    background: #690909;
+  }
+
+  .agendar {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #00A89C;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+    float:right;
+    width: 40%;
+  }
+  .agendar:hover,.agendar:active,.agendar:focus {
+    background: #348a73;
+  }

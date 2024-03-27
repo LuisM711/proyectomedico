@@ -1,0 +1,26 @@
+{% extends 'layouts/nav_inicio.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+<div class="login-page">
+	<div class="form">
+		{% if datos.message %}
+			<div class="alert alert-danger" role="alert">
+				{{datos.message}}
+			</div>
+		{% endif %}
+
+		<h1>Recuperar contraseña</h1>
+
+
+		<img  style = "width: 250px; height: 250px; margin-bottom: 10%;" src="{% static 'images/logo.png' %}">
+		<br></br>
+		<h3>Se ha enviado un correo con las instrucciones</h3>
+
+	</div>
+</div>
+
+
+
+{% endblock %}
+
