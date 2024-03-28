@@ -185,7 +185,7 @@ class CambiarUsernameEspecialista(View):
 
             return redirect('/configuracion/especialista/exito/exito')
 
-# Clse para que el especialista pueda visualizar y registrar datos de una consulta medica
+# Clase para que el especialista pueda visualizar y registrar datos de una consulta medica
 class ConsultaMedica(View):
     @method_decorator(login_required, name='dispatch')
     def get(self, request, id):

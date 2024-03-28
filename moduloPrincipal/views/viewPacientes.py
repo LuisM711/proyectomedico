@@ -1,4 +1,5 @@
 from datetime import date, timezone, timedelta, datetime
+from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.decorators import login_required
@@ -7,6 +8,7 @@ from django.contrib.auth.models import User
 import json
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+
 
 from moduloPrincipal.models.__init__ import *
 
