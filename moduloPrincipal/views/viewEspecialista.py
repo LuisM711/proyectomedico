@@ -57,6 +57,17 @@ class Pacientes(View):
 
         else:
             return render(request, 'inicio.html',{"user_type": 'admin'})
+        #Metodo put para actualizar el estado de una solicitud
+    @method_decorator(login_required, name='dispatch')
+    def put(self, request, id):
+        jd = json.loads(request.body)
+        try:
+            solicitud = Solicitudes.objects.get(id=id)
+            solicitud.estatus =jd['estatus']  
+            solicitud.save()
+            return JsonResponse({'success': True})
+        except Solicitudes.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Solicitud no encontrada'})
 # Clase para visualizar la ventana con los especialista que esta afuera de la pagina, antes de iniciar sesion
 
 class Especialistas_Inicio(View):
