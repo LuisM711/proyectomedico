@@ -6,6 +6,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+
+from django.http.response import JsonResponse
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
 from datetime import date, timezone, timedelta, datetime
 from moduloPrincipal.models.__init__ import *
 
@@ -24,6 +28,7 @@ class Login(View):
             if aux_user.is_staff:
                 # Si es admin, unicamente guarda la sesion y redirige a la ventana de inicio
                 login(request, user)
+                request.session['user_type'] = 'admin'
                 return redirect('inicio_admin')
             else:
 
@@ -36,6 +41,7 @@ class Login(View):
                         return render(request, 'login.html', {"datos": datos})
                     else:
                         login(request, user)
+                        request.session['user_type'] = 'E'
                         return redirect('inicio_especialista')
                 else:
                     aux_paciente = Paciente.objects.get(id_usuario_id=aux_usuario.id)
@@ -44,10 +50,16 @@ class Login(View):
                         return render(request, 'login.html', {"datos": datos})
                     else:
                         login(request, user)
+                        request.session['user_type'] = 'P'
                         return redirect('inicio_paciente')
         else:
             datos = {'message': "Correo o contraseña incorrectos"}
             return render(request, 'login.html', {"datos": datos})
+# class UserType(View):
+#     def get(self, request):
+#         user_type = request.session.get('user_type')
+#         #return {'user_type': user_type}
+#         return JsonResponse({'user_type': user_type})
 
 # Clase para borrar la sesion del usuario
 class CerrarSesion(View):

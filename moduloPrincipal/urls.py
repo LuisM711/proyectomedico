@@ -32,7 +32,7 @@ urlpatterns = [
     path('especialistas/', Especialistas_Inicio.as_view(), name='especialistas'),
     path('registrarse/', Registrarse.as_view(), name='registrarse'),
     path('subir/imagen/perfil', SubirImagenPerfil.as_view(), name='subir_imagen_perfil'),
-
+#     path('user_type', UserType.as_view(), name='user_type'),
     # Cambio de contraseña
     path('reset/password_reset', PasswordResetView.as_view(template_name='recuperar_contra/recuperar_contra.html',
                                                            email_template_name="recuperar_contra/plantilla_email.html"),
