@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Proyecto Medico {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+</head>
+<body>
+    <header>
+        <nav class="menu">
+            <label for="" class="breand">
+                <a href="{% url 'inicio_admin' %}">
+                    <img style = "width: 50px; height: 50px; margin-left: 20px; line-height: 60px;" src="{% static 'images/logo.png' %}">
+                </a>
+            </label>
+            <ul>
+                {% if user_type == "E" %}
+                    <li><a href="{% url 'graficas' %}">Graficas</a></li>
+                    <li><a href="{% url 'listarcitasespecialista' %}">Citas</a></li>
+                    <li><a href="{% url 'listarpacientes' %}">Mostrar Pacientes</a></li>
+                {% endif %}
+                {% if user_type == "P" %}
+                    <li><a href="{% url 'listarcitaspaciente' %}">Mis Citas</a></li>
+                    <li><a href="{% url 'listarespecialistas' %}">Mostrar Especialistas</a></li>
+                    <li><a href="{% url 'perfil_clinico' %}">Perfil Clinico</a></li>
+                {% endif %}
+                {% if user_type == 'admin' or user.is_staff %}
+                <li><a href="{% url 'listarespecialistas_admin' %}">Especialistas</a></li>
+                <li><a href="{% url 'especialidades_admin' %}">Especialidades</a></li>
+                <li><a href="{% url 'listarpacientes_admin' %}">Pacientes</a></li>
+                {% endif %}
+                <li>
+                    <a href="#" id="salir" onclick="document.getElementById('cerrarSesion').submit()">Cerrar sesion</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <form method="post" action="{% url 'logout' %}" id="cerrarSesion">{% csrf_token %}</form>
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

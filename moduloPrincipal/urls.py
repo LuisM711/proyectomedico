@@ -48,8 +48,8 @@ urlpatterns = [
          name='password_reset_complete'),
 
     # Urls de Paciente
-    path('inicio/especialista', InicioEspecialista.as_view(), name='inicio_especialista'),
-    path('inicio/paciente', InicioPaciente.as_view(), name='inicio_paciente'),
+    path('inicio', InicioEspecialista.as_view(), name='inicio_especialista'),
+    path('inicio', InicioPaciente.as_view(), name='inicio_paciente'),
     path('registrarse/paciente', Registrarse_paciente.as_view(), name='registrarse_paciente'),
     path('listarcitas/paciente/', ListarCitas_Paciente.as_view(), name='listarcitaspaciente'),
     path('listarcitas/paciente/<int:id>', ListarCitas_Paciente.as_view(), name='listarcitaspaciente'),

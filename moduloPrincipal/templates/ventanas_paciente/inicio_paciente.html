@@ -3,11 +3,26 @@
 {% block content %}
 
 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/inicioPacientes.css' %}">
+    <title>Inicio</title>
+  </head>
   <body>
-    <div style="width: 100%; margin-top: 10%; text-align: center;">
-      <p style="font-size: 80px;">Bienvenido: {{Nombre}}</p>
+    <div class="titulo">
+      <h1 class="texto">Bienvenido: {{Nombre}}</h1>
+    </div>
+    <br>
+    <br>
+    <br>
+    <h1 id="texto">Aqui va su slider carrusel Jefe</h1>
     </div>
     
   </body>
+</html>
+
 
 {% endblock %}

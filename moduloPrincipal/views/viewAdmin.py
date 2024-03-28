@@ -17,7 +17,7 @@ class InicioAdmin(View):
                       name='dispatch')  # Decorador para que solo las cuentas de superusuario puedan accedera esta api
     def get(self, request):
         if (request.user.is_staff == 1):
-            return render(request, 'ventanas_admin/inicio_admin.html')
+            return render(request, 'inicio.html',{"user_type": 'admin'})
         else:
             return redirect('login')
 

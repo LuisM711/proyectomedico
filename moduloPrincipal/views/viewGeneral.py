@@ -63,12 +63,12 @@ class Redirigir(View):
             aux_usuario = Usuario.objects.get(id_usuario_id=request.user.id)
 
             if (aux_usuario.tipo == 'P'):
-                return redirect("inicio_paciente")
+                return render(request, 'inicio.html', {"user_type": 'P'})
 
-            return redirect('inicio_especialista')
+            return render(request, 'inicio.html',{"user_type": 'E'})
 
         else:
-            return redirect('inicio_admin')
+            return render(request,'inicio.html',{"user_type": 'admin'})
 
 # Clase para visualizar la ventana de "acerca de"
 class Acerca(View):

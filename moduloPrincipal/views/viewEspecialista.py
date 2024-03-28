@@ -22,13 +22,12 @@ class InicioEspecialista(View):
             aux_usuario = Usuario.objects.get(id_usuario_id=request.user.id)
 
             if (aux_usuario.tipo == 'P'):
-                return redirect("inicio_paciente")
+                return render(request, 'inicio.html',{"user_type": 'P'})
 
-            return render(request, 'ventanas_especialista/inicio_especialista.html',
-                          {"Nombre": request.user.first_name})
+            return render(request, 'inicio.html',{"user_type": 'E'})
 
         else:
-            return redirect('inicio_admin')
+            return render(request, 'inicio.html',{"user_type": 'admin'})
 
 # Clase para listar los pacientes de un especialista
 class Pacientes(View):
@@ -39,7 +38,7 @@ class Pacientes(View):
         if (request.user.is_staff == 0):
             aux_usuario = Usuario.objects.get(id_usuario_id=request.user.id)
             if (aux_usuario.tipo == 'P'):
-                return redirect("inicio_paciente")
+                return render(request, 'inicio.html',{"user_type": 'P'})
 
             aux_especialista = Especialista.objects.get(id_usuario_id=aux_usuario.id)
             # Se obtienen las solicitudes del especialista
@@ -57,7 +56,7 @@ class Pacientes(View):
             return render(request, 'ventanas_especialista/listar_pacientes.html', {'pacientes': pacientes_con_edad})
 
         else:
-            return redirect('inicio_admin')
+            return render(request, 'inicio.html',{"user_type": 'admin'})
 # Clase para visualizar la ventana con los especialista que esta afuera de la pagina, antes de iniciar sesion
 
 class Especialistas_Inicio(View):
