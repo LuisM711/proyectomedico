@@ -36,6 +36,7 @@ class Pacientes_Admin(View):
             fecha_na = paciente.id_usuario.fecha_nacimiento
             edad = fecha_act.year - fecha_na.year - ((fecha_act.month, fecha_act.day) < (fecha_na.month, fecha_na.day))
             pacientes_con_edad.append({'paciente': paciente, 'edad': edad})
+        data = {'pacientes': pacientes_con_edad, 'user_type': 'admin'}
 
         return render(request, 'ventanas_admin/listar_pacientes.html', {'pacientes': pacientes_con_edad})
 
