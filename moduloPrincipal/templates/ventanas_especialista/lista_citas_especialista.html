@@ -12,21 +12,20 @@
     <input type="date" class="fecha" id="fechaActual"> <br> <br>
 
     <div class="radio-buttons">
-        <center>
+     
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group" id="Botones">
                 <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
                 <label class="btn btn-outline-primary" for="btnradio1">Solicitudes</label>
-              
                 <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
                 <label class="btn btn-outline-success" for="btnradio2">Confirmadas</label>
             </div>
-        </center>
+     
     </div>
 
     <div class="citas" id="citas-pendientes">
         {% if citas %}
 
-    <table class="tabla">
+    <table class="table table-hover">
         <tr class="titulo">
             <th>Pacientes</th>
             <th>Fecha</th>
@@ -50,7 +49,7 @@
         {% endif %}
 
             {% endfor %}
-        </table>
+        </table class="table table-hover">
         {% else %}
             <h1>No se encuentra ninguna cita</h1>
         {% endif %}
@@ -59,7 +58,7 @@
         <div class="citas" id="citas-confirmadas" style="display: none;">
             {% if citas %}
     
-            <table class="tabla">
+            <table class="table table-hover">
                 <tr class="titulo">
                     <th>Pacientes</th>
                     <th>Fecha</th>
@@ -78,7 +77,7 @@
                     <td>{{cita.motivo}}</td>
                     {% if cita.estatus == 'C' %}
                         <td>Pendiente</td>
-                        <td><a href="/consulta_medica/{{cita.id}}"><button class="aceptar" >Llenar</button></a></td>
+                        <td><a href="/consulta_medica/{{cita.id}}"><button class="btn btn-primary" >Llenar</button></a></td>
                     {% else %}
                         <td>Atendida</td>
                         <td><a href="/visualizar_consulta/{{cita.id}}"><button >ver</button></a></td>
