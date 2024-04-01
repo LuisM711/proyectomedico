@@ -148,3 +148,44 @@ class Cambiar_Contra(View):
             return redirect('login')
         else:
             return redirect('cambiar_contra')
+
+class Configuracion(View):
+    @method_decorator(login_required, name='dispatch')
+    def get(self, request, message1="", message2=""):
+        if (request.user.is_staff == 0 and request.user_type == 'P'):
+            if message1 == "exito":
+                datos = {'usuario': request.user.id, 'nombre': request.user.username, 'correo': request.user.email,
+                         'exito': "Datos Actualizados Exitosamente"}
+            elif message1 == "error":
+                datos = {'usuario': request.user.id, 'nombre': request.user.username, 'correo': request.user.email,
+                         'error': "Ese nombre de usuario ya esta ocupado"}
+            else:
+                datos = {'usuario': request.user.id, 'nombre': request.user.username, 'correo': request.user.email}
+            return render(request, 'configuración.html', {"datos": datos})
+        elif (request.user.is_staff == 0 and request.user_type == 'E'):
+            aux_especialista = Especialista.objects.get(id_usuario_id=request.user.id)
+            arreglo_horario = (aux_especialista.horario).split(";")
+            json_horario = {"Lunes": arreglo_horario[0],
+                            "Martes": arreglo_horario[1],
+                            "Miercoles": arreglo_horario[2],
+                            "Jueves": arreglo_horario[3],
+                            "Viernes": arreglo_horario[4],
+                            "Sábado": arreglo_horario[5],
+                            "Domingo": arreglo_horario[6]}
+            if message1 == "error" and message2 == "exito":
+                datos = {'usuario': request.user.id, 'nombre': request.user.username, 'correo': request.user.email,
+                         'info_ad': aux_especialista.info_ad, 'cedula': aux_especialista.cedula,
+                         'especialidad': aux_especialista.id_especialidad.nombre, 'horario': json_horario,
+                         'error': "Ese nombre de usuario ya esta ocupado",
+                        'exito_info': "Informacion adicional actualizada"}
+            elif message1 == "exito" and message2 == "exito":
+                datos = {'usuario': request.user.id, 'nombre': request.user.username, 'correo': request.user.email,
+                             'info_ad': aux_especialista.info_ad, 'cedula': aux_especialista.cedula,
+                             'especialidad': aux_especialista.id_especialidad.nombre, "horario": json_horario,
+                             'exito': "Nombre actualizado exitosamente",
+                             'exito_info': "Informacion adicional actualizada exitosamente"}
+            else:
+                datos = {'usuario': request.user.id, 'nombre': request.user.username, 'correo': request.user.email,
+                             'info_ad': aux_especialista.info_ad, 'cedula': aux_especialista.cedula,
+                             'especialidad': aux_especialista.id_especialidad.nombre, "horario": json_horario}
+            return render(request, 'configuracion.html', {"datos": datos})
