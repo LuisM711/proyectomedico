@@ -8,6 +8,7 @@ from datetime import date, timezone, timedelta, datetime
 from django.contrib.auth.models import User
 from django.http.response import JsonResponse
 import json
+from moduloNutricion import *
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -199,6 +200,13 @@ class CambiarUsernameEspecialista(View):
 class ConsultaMedica(View):
     @method_decorator(login_required, name='dispatch')
     def get(self, request, id):
+        aux_usuario = Usuario.objects.get(id_usuario_id=request.user.id)
+        aux_especialista = Especialista.objects.get(id_usuario_id=aux_usuario.id)
+        especialidad = Especialidades.objects.get(id=aux_especialista.id_especialidad.id)
+        if(especialidad.nombre=="Nutricion"):
+            return render(request, 'moduloNutricion/pruebaNutri.html')
+        else:
+            print(especialidad)
         cita = Cita.objects.get(id=id)
         pre_llenado = 'no'
         # Se valida que sea una cita confirmada

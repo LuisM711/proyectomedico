@@ -21,8 +21,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('moduloPrincipal.urls'))
-
+    path('', include('moduloPrincipal.urls')),
+    #path('', include('moduloNutricion.urls'))
 ]
 
 if settings.DEBUG:

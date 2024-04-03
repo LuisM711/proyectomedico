@@ -81,20 +81,26 @@
                 <li><a href="{% url 'listarcitaspaciente' %}">Mis Citas</a></li>
                 <li><a href="{% url 'listarespecialistas' %}">Mostrar Especialistas</a></li>
                 <li><a href="{% url 'perfil_clinico' %}">Perfil Clinico</a></li>
+                <li>
+                    <a href=""><i class="fa-solid fa-gear"></i></a>
+                </li>
                 {% endif %}
                 {% if request.user_type == "E" %}
                 <li><a href="{% url 'graficas' %}">Graficas</a></li>
                 <li><a href="{% url 'listarcitasespecialista' %}">Citas</a></li>
                 <li><a href="{% url 'listarpacientes' %}">Mostrar Pacientes</a></li>
+                <li>
+                    <a href=""><i class="fa-solid fa-gear"></i></a>
+                </li>
                 {% endif %}
                 {% if request.user_type == "admin" %}
                 <li><a href="{% url 'listarespecialistas_admin' %}">Especialistas</a></li>
                 <li><a href="{% url 'especialidades_admin' %}">Especialidades</a></li>
                 <li><a href="{% url 'listarpacientes_admin' %}">Pacientes</a></li>
-                {% endif %}
                 <li>
-                    <i class="fa-solid fa-gear"></i>
+                    <a href=""><i class="fa-solid fa-gear"></i></a>
                 </li>
+                {% endif %}
                 <li><a href="#" id="salir" onclick="document.getElementById('cerrarSesion').submit()">Cerrar sesion</a>
                 </li>
             </ul>

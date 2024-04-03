@@ -17,8 +17,9 @@ p{
 }
 .contenido{
   border-radius: 15px;
-  border: 2px solid #8A8686;
+  border: 2px solid #d7d6d6;
   min-height: 720px;
+  background-color: white;
 }
 .pestañitas{
   z-index: -1;
@@ -59,7 +60,8 @@ p{
   justify-items: center;
   text-align: center;
   border-radius: 15px;
-  border: 2px solid #8A8686;
+  border: 2px solid #d7d6d6;
+  background-color: white;
 }
 .ficha-identificacion button{
   font-family: "Roboto", sans-serif;
@@ -330,11 +332,9 @@ sup {
   .eliminar_elemento:hover{
     background-color: #690909;
   }
-
-  
-  
-  
-  
+}
+body{
+  background-color: #DBE0EE;
 }
 
 
