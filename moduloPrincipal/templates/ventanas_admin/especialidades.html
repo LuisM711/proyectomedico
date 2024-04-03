@@ -3,13 +3,14 @@
 {% block content %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/especialidades.css' %}">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
 <body>
 
     <div class="container">
         <h1>Registro de Especialidades</h1>
-        
+
         <form id="especialidadForm" method="post" action="{% url 'especialidades_admin' %}">
             {% csrf_token %}
             <label for="nombre">Nombre:</label>
@@ -24,7 +25,7 @@
             <label>¿Registra Diagnostico y Tratamiento?</label>
             <input type="checkbox" id="diag_trat_check" style="width:20%" checked>
             <input type="text" id="diag_trat" name="diag_trat" required hidden>
-            
+
             <label for="">¿Asigna menú alimenticio?</label>
             <input type="checkbox" id="asignacion_menu_check" style="width: 20%" checked>
             <input type="text" id="asignacion_menu" name="asignar_menu" required hidden>
@@ -51,15 +52,17 @@
             </thead>
             <tbody>
                 {% for especialidad in especialidades %}
-                    <tr>
-                        <th>{{especialidad.id}}</th>
-                        <th>{{especialidad.nombre}}</th>
-                        <th>{{especialidad.descripcion}}</th>
-                        <th>{{especialidad.exploracion_fisica}}</th>
-                        <th>{{especialidad.diagnostico_tratamiento}}</th>
-                        <th>{{especialidad.asignacion_menu}}</th>
-                        <th><button onclick="editar_especialidad('{{especialidad.nombre}}','{{especialidad.descripcion}}', '{{especialidad.id}}', '{{especialidad.exploracion_fisica}}' , '{{especialidad.diagnostico_tratamiento}}', '{{especialidad_asignacion_menu}}')">Editar</button></th>
-                    </tr>
+                <tr>
+                    <th>{{especialidad.id}}</th>
+                    <th>{{especialidad.nombre}}</th>
+                    <th>{{especialidad.descripcion}}</th>
+                    <th>{{especialidad.exploracion_fisica}}</th>
+                    <th>{{especialidad.diagnostico_tratamiento}}</th>
+                    <th>{{especialidad.asignacion_menu}}</th>
+                    <th><button
+                            onclick="editar_especialidad('{{especialidad.nombre}}','{{especialidad.descripcion}}', '{{especialidad.id}}', '{{especialidad.exploracion_fisica}}' , '{{especialidad.diagnostico_tratamiento}}', '{{especialidad.asignacion_menu}}')">Editar</button>
+                    </th>
+                </tr>
                 {% endfor %}
 
             </tbody>
@@ -72,14 +75,14 @@
                 {% csrf_token %}
                 <input type="hidden" name="_put" value="PUT">
                 <input type="hidden" name="id" id="id" value="0">
-               
+
                 <p>Ingresa los datos de la especialidad</p>
                 <label>Nombre</label>
-                <input type="text" required name="nombre" id="nombre"/>
+                <input type="text" required name="nombre" id="nombre" />
 
                 <label>Descripcion</label>
-                <input type="text" required name="descripcion" id="descripcion"/>
-                
+                <input type="text" required name="descripcion" id="descripcion" />
+
                 <label>¿Registra Exploracion Fisica?</label>
                 <input type="checkbox" id="exp_fisica_check_put" name="exp_fisica_check_put" style="width:20%" checked>
                 <input type="text" id="exp_fisica_put" name="exp_fisica_put" required hidden>
@@ -87,9 +90,10 @@
                 <label>¿Registra Diagnostico y Tratamiento?</label>
                 <input type="checkbox" id="diag_trat_check_put" name="diag_trat_check_put" style="width:20%" checked>
                 <input type="text" id="diag_trat_put" name="diag_trat_put" required hidden>
-                
+
                 <label for="">¿Asigna menú alimenticio?</label>
-                <input type="checkbox" id="asignacion_menu_check_put" name="asignacion_menu_check_put" style="width: 20%" checked>
+                <input type="checkbox" id="asignacion_menu_check_put" name="asignacion_menu_check_put"
+                    style="width: 20%" checked>
                 <input type="text" id="asignacion_menu_put" name="asignacion_menu_put" required hidden>
                 <br>
                 <br>
@@ -102,9 +106,9 @@
             </form>
             <br>
             <br>
-            
+
             <button onClick="this.parentElement.close()" type="button">Cerrar</button>
-        
+
         </dialog>
     </div>
 
@@ -117,7 +121,7 @@
     var boton_put = document.getElementById("enviar_put");
 
     //funcion para editar una especialidad
-    function editar_especialidad (nombre,descripcion, id, exp_fisica, diag_trat) {
+    function editar_especialidad(nombre, descripcion, id, exp_fisica, diag_trat, asignacion_menu) {
         const alertDialog = document.querySelector("#dialog_editar_especialidad");
         // Obtiene el input dentro del diálogo por su selector
         const nombreEspecialidad = alertDialog.querySelector("#nombre");
@@ -125,77 +129,86 @@
         const idEspecialidad = alertDialog.querySelector("#id");
         const diagTrat = alertDialog.querySelector("#diag_trat_check_put");
         const expFisica = alertDialog.querySelector("#exp_fisica_check_put");
+        const asignacionMenu = alertDialog.querySelector("#asignacion_menu_check_put");
         // Cambia el valor del input
         nombreEspecialidad.value = nombre;
         descripcionEspecialidad.value = descripcion
-        idEspecialidad.value=id;
+        idEspecialidad.value = id;
         //cambia los checkbox
 
-        if (diag_trat=="si"){
-            diagTrat.checked=true;
-        }else{
-            diagTrat.checked=false;
+        if (diag_trat == "si") {
+            diagTrat.checked = true;
+        } else {
+            diagTrat.checked = false;
         }
 
-        if (exp_fisica=="si"){
-            expFisica.checked=true;
-        }else{
-            expFisica.checked=false;
+        if (exp_fisica == "si") {
+            expFisica.checked = true;
+        } else {
+            expFisica.checked = false;
         }
-        this.id=id
+
+        if (asignacion_menu == "si") {
+            asignacionMenu.checked = true;
+        }
+        else {
+            asignacionMenu.checked = false;
+        }
+
+        this.id = id
         alertDialog.showModal();
     };
 
-    function Validar_formulario(){
+    function Validar_formulario() {
         var aux1 = document.getElementById("exp_fisica_check");
-        if (aux1.checked){
-            document.getElementById("exp_fisica").value="si";
+        if (aux1.checked) {
+            document.getElementById("exp_fisica").value = "si";
 
         }
-        else{
-            document.getElementById("exp_fisica").value="no";
+        else {
+            document.getElementById("exp_fisica").value = "no";
         }
 
         var aux2 = document.getElementById("diag_trat_check");
-        if (aux2.checked){
-            document.getElementById("diag_trat").value="si";
+        if (aux2.checked) {
+            document.getElementById("diag_trat").value = "si";
         }
-        else{
-            document.getElementById("diag_trat").value="no";
+        else {
+            document.getElementById("diag_trat").value = "no";
         }
 
         var aux3 = document.getElementById("asignacion_menu_check");
-        if(aux3.checked){
-            document.getElementById("asignacion_menu").value="si";
+        if (aux3.checked) {
+            document.getElementById("asignacion_menu").value = "si";
         }
-        else{
-            document.getElementById("asignacion_menu").value="no";
+        else {
+            document.getElementById("asignacion_menu").value = "no";
         }
         boton.click();
     }
 
-    function Validar_formulario_put(){
+    function Validar_formulario_put() {
         var aux1 = document.getElementById("exp_fisica_check_put");
-        if (aux1.checked){
-            document.getElementById("exp_fisica_put").value="si";
+        if (aux1.checked) {
+            document.getElementById("exp_fisica_put").value = "si";
 
-        }else{
-            document.getElementById("exp_fisica_put").value="no";
+        } else {
+            document.getElementById("exp_fisica_put").value = "no";
         }
 
         var aux2 = document.getElementById("diag_trat_check_put");
-        if (aux2.checked){
-            document.getElementById("diag_trat_put").value="si";
+        if (aux2.checked) {
+            document.getElementById("diag_trat_put").value = "si";
 
-        }else{
-            document.getElementById("diag_trat_put").value="no";
+        } else {
+            document.getElementById("diag_trat_put").value = "no";
         }
         var aux3 = document.getElementById("asignacion_menu_check_put");
-        if(aux3.checked){
-            document.getElementById("asignacion_menu_put").value="si";
+        if (aux3.checked) {
+            document.getElementById("asignacion_menu_put").value = "si";
         }
-        else{
-            document.getElementById("asignacion_menu_put").value="no";
+        else {
+            document.getElementById("asignacion_menu_put").value = "no";
         }
         boton_put.click();
     }
