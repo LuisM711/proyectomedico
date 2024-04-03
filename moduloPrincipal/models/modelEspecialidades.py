@@ -9,6 +9,6 @@ class Especialidades(models.Model):
     # Los siguientes 2 campos son para validar si el especialista tiene acceso a registrar exploracion_fisica y tratamiento
     exploracion_fisica = models.CharField(max_length=2, default="si")
     diagnostico_tratamiento = models.CharField(max_length=2, default="si")
-
+    asignacion_menu = models.CharField(max_length=2, default="no")
     class Meta:
         app_label = 'moduloPrincipal'

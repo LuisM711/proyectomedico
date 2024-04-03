@@ -130,10 +130,12 @@ class Listar_especialidades_admin(View):
 
     @method_decorator(login_required, name="dispatch")
     def put(self, request):
+        print(request.POST)
         aux_especialidad = Especialidades.objects.get(id=request.POST.get("id"))
         aux_especialidad.nombre = request.POST.get("nombre")
         aux_especialidad.descripcion = request.POST.get("descripcion")
         aux_especialidad.diagnostico_tratamiento = request.POST.get("diag_trat_put")
         aux_especialidad.exploracion_fisica = request.POST.get("exp_fisica_put")
+        aux_especialidad.asignacion_menu = request.POST.get('asignacion_menu_put')
         aux_especialidad.save()
         return redirect('especialidades_admin')

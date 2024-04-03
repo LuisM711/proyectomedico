@@ -17,13 +17,17 @@
             <label for="descripcion">Descripción:</label>
             <input type="text" id="descripcion" name="descripcion" required>
 
-            <label>Registra Exploracion Fisica?</label>
+            <label>¿Registra Exploracion Fisica?</label>
             <input type="checkbox" id="exp_fisica_check" style="width:20%" checked>
             <input type="text" id="exp_fisica" name="exp_fisica" required hidden>
 
-            <label>Registra Diagnostico y Tratamiento?</label>
+            <label>¿Registra Diagnostico y Tratamiento?</label>
             <input type="checkbox" id="diag_trat_check" style="width:20%" checked>
             <input type="text" id="diag_trat" name="diag_trat" required hidden>
+            
+            <label for="">¿Asigna menú alimenticio?</label>
+            <input type="checkbox" id="asignacion_menu_check" style="width: 20%" checked>
+            <input type="text" id="asignacion_menu" name="asignar_menu" required hidden>
             <br>
             <br>
             <button class='registrar' type="button" onclick="Validar_formulario()">Registrar</button>
@@ -38,8 +42,9 @@
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Descripción</th>
-                    <th>Registra Exploracion Fisica?</th>
-                    <th>Registra Diagnostico y Tratamiento?</th>
+                    <th>Registra Exploración Física?</th>
+                    <th>Registra Diagnóstico y Tratamiento?</th>
+                    <th>¿Asigna Menú Alimenticio?</th>
                     <th></th>
 
                 </tr>
@@ -52,7 +57,8 @@
                         <th>{{especialidad.descripcion}}</th>
                         <th>{{especialidad.exploracion_fisica}}</th>
                         <th>{{especialidad.diagnostico_tratamiento}}</th>
-                        <th><button onclick="editar_especialidad('{{especialidad.nombre}}','{{especialidad.descripcion}}', '{{especialidad.id}}', '{{especialidad.exploracion_fisica}}' , '{{especialidad.diagnostico_tratamiento}}')">Editar</button></th>
+                        <th>{{especialidad.asignacion_menu}}</th>
+                        <th><button onclick="editar_especialidad('{{especialidad.nombre}}','{{especialidad.descripcion}}', '{{especialidad.id}}', '{{especialidad.exploracion_fisica}}' , '{{especialidad.diagnostico_tratamiento}}', '{{especialidad_asignacion_menu}}')">Editar</button></th>
                     </tr>
                 {% endfor %}
 
@@ -74,13 +80,17 @@
                 <label>Descripcion</label>
                 <input type="text" required name="descripcion" id="descripcion"/>
                 
-                <label>Registra Exploracion Fisica?</label>
+                <label>¿Registra Exploracion Fisica?</label>
                 <input type="checkbox" id="exp_fisica_check_put" name="exp_fisica_check_put" style="width:20%" checked>
                 <input type="text" id="exp_fisica_put" name="exp_fisica_put" required hidden>
 
-                <label>Registra Diagnostico y Tratamiento?</label>
+                <label>¿Registra Diagnostico y Tratamiento?</label>
                 <input type="checkbox" id="diag_trat_check_put" name="diag_trat_check_put" style="width:20%" checked>
                 <input type="text" id="diag_trat_put" name="diag_trat_put" required hidden>
+                
+                <label for="">¿Asigna menú alimenticio?</label>
+                <input type="checkbox" id="asignacion_menu_check_put" name="asignacion_menu_check_put" style="width: 20%" checked>
+                <input type="text" id="asignacion_menu_put" name="asignacion_menu_put" required hidden>
                 <br>
                 <br>
                 <button class='registrar' type="button" onclick="Validar_formulario_put()">Editar</button>
@@ -141,15 +151,25 @@
         if (aux1.checked){
             document.getElementById("exp_fisica").value="si";
 
-        }else{
+        }
+        else{
             document.getElementById("exp_fisica").value="no";
         }
 
         var aux2 = document.getElementById("diag_trat_check");
         if (aux2.checked){
             document.getElementById("diag_trat").value="si";
-        }else{
+        }
+        else{
             document.getElementById("diag_trat").value="no";
+        }
+
+        var aux3 = document.getElementById("asignacion_menu_check");
+        if(aux3.checked){
+            document.getElementById("asignacion_menu").value="si";
+        }
+        else{
+            document.getElementById("asignacion_menu").value="no";
         }
         boton.click();
     }
@@ -170,7 +190,13 @@
         }else{
             document.getElementById("diag_trat_put").value="no";
         }
-
+        var aux3 = document.getElementById("asignacion_menu_check_put");
+        if(aux3.checked){
+            document.getElementById("asignacion_menu_put").value="si";
+        }
+        else{
+            document.getElementById("asignacion_menu_put").value="no";
+        }
         boton_put.click();
     }
 
