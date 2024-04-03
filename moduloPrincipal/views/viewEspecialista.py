@@ -8,7 +8,7 @@ from datetime import date, timezone, timedelta, datetime
 from django.contrib.auth.models import User
 from django.http.response import JsonResponse
 import json
-from moduloNutricion import *
+from moduloNutricion.urls import nutriologo
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -204,7 +204,7 @@ class ConsultaMedica(View):
         aux_especialista = Especialista.objects.get(id_usuario_id=aux_usuario.id)
         especialidad = Especialidades.objects.get(id=aux_especialista.id_especialidad.id)
         if(especialidad.nombre=="Nutricion"):
-            return render(request, 'moduloNutricion/pruebaNutri.html')
+            return redirect('nutriologo')
         else:
             print(especialidad)
         cita = Cita.objects.get(id=id)
