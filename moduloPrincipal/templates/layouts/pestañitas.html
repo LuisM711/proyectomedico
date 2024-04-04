@@ -1,0 +1,15 @@
+<div class="pestañitas">
+    <button type="button" id="general" onclick="mostrarContenido('GENERAL')">General</button>
+    <button type="button" id="pa" onclick="mostrarContenido('PA')">PA</button>
+    {% if cita.id_especialista.id_especialidad.diagnostico_tratamiento == "si" %}
+        <button type="button" id="dx-tx" onclick="mostrarContenido('DX-TX')">DX/TX</button>
+    {% endif %}
+</div>
+<script>
+    function mostrarContenido(id) {
+        document.querySelectorAll('.contenido').forEach(function (contenido) {
+            contenido.style.display = 'none';
+        });
+        document.getElementById(id).style.display = 'block';
+    }
+</script>

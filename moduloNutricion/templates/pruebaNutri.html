@@ -1,4 +1,15 @@
 {% extends 'layouts/nav.html' %}
+{% load static %}
 {% block content %}
-    {% include 'ventanas_Admin/listar_especialistas.html' %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/consulta_medica.css' %}">
+    {% include 'layouts/fichaIdentificacion.html' %}
+    <form class="historial-clinico" method="post">
+        {% csrf_token %}
+        {% include 'layouts/pestañitas.html' %}
+        {% include 'layouts/historialClinico.html' %}
+        {% include 'layouts/exploracionFisica2.html' %}
+        {% include 'layouts/graficas.html' %}
+        {% include 'layouts/diagnostico.html'%}
+    </form>
+    
 {% endblock %}

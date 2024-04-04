@@ -1,0 +1,115 @@
+<div class="contenido" id="PA" style="display: none;" >
+
+    <div class="padecimientos-motivo">
+        <h3>Entro al prellenado=si del nutri</h3>
+        <h2>Padecimiento o motivo de la consulta</h2>
+        <textarea rows="15" cols="50" disabled>{{cita.motivo}}</textarea>
+        <div class="botones-PA">
+            {% if pre_llenado == "no"  %}
+                <button id="anterior" onclick="mostrarContenido('graficas')">Ver graficas</button>
+            {% endif %}
+            <button id="aceptar" onclick="mostrarContenido('DX-TX')">Aceptar</button>
+        </div>
+    </div>
+    <div class="exploracion-fisica">
+        <h4>Exploración fisica</h4>
+        <div class="inputs">
+            <label>Peso: </label>
+            <label>{{paciente.peso}} kg</label>
+            <label>Talla: </label>
+            <label>{{paciente.talla}} m</label>
+            <label>IMC: </label>
+            <label style="width: 20%;">{{ imc }}kg/m<sup>2</sup></label>
+            <input type="text" name="imc" id="imcinput" value={{imc}} style="display: none;">
+            {% if imc %}
+                {% if imc < 18.50 %}
+                    <label style="background-color: yellow; font-weight: 700;">IMC: {{ imc }} Bajo peso</label><br>
+                {% elif 18.50 <= imc and imc <= 24.99 %}
+                    <label style="background-color: green; font-weight: 700;">IMC: {{ imc }} Normal</label><br>
+                {% elif 25.00 <= imc and imc <= 29.99 %}
+                    <label style="background-color: yellow; font-weight: 700;">IMC: {{ imc }} Sobrepeso</label><br>
+                {% elif imc >= 30.00 %}
+                    {% if imc <= 34.9 %}
+                        <label style="background-color: red; font-weight: 700;">IMC: {{ imc }} Obesidad I</label><br>
+                    {% elif imc >= 35 and imc <= 39.9 %}
+                        <label style="background-color: red; font-weight: 700;">IMC: {{ imc }} Obesidad II</label><br>
+                    {% elif imc >= 40 %}
+                        <label style="background-color: red; font-weight: 700;">IMC: {{ imc }} Obesidad III</label><br>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+            <label>Creatinina: </label><input type="text" name="creatinina" id="creatininaInput" required>
+            <label style="width: 15%;">mg/dL</label>
+            <div class="aviso-creatinina">
+                <input type="text" id="edadInput3" value={{edad}} style="display: none;">
+                <input type="text" id="sexoinput" value={{paciente.genero}} style="display: none;">
+                <input type="text" id="pesoinput" value={{paciente.peso}} style="display: none;">
+                <label style="display: none; background-color: green; font-weight: 700; width: 98%; text-align: center;" id="cretinormal">Normal</label>
+                <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="cretianormal1">Niveles bajos</label>
+                <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="cretianormal2">Niveles altos</label>
+            </div>
+            <label>Filtración Glomerular:</label> <label name="fgmc" id="fgmc"></label>
+            <input type="text" name="filtracion_glomerular" id="fgmInput" style="display: none;">
+
+            <div class="aviso-glomedular">
+                <label style="display: none; background-color: gray; font-weight: 700; width: 98%; text-align: center;" id="fge">Calculando...</label>
+            </div>
+
+            <label>Glucosa: </label><input type="text" name="glucosa" id="glucosaInput" required><label style="width: 10%;">mg/dL</label>
+            <div class="aviso-glucosa">
+                <label style="display: none; background-color: rgb(255, 0, 0); font-weight: 700; width: 98%; text-align: center;" id="diabetes2">Diabetes tipo 2</label>
+                <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="diabetes1">Diabetes tipo 1</label>
+                <label style="display: none; background-color: orange; font-weight: 700; width: 98%; text-align: center;" id="prediabetes">Prediabetes</label>
+                <label style="display: none; background-color: green; font-weight: 700; width: 98%; text-align: center;" id="gnormal">Niveles normales</label>
+                <label style="display: none; background-color: brown; font-weight: 700; width: 98%; text-align: center;" id="ginvalida">Ingrese un valor</label>
+            </div>
+            
+            <label>TA Sistolica: </label><input type="text" name="tasis" id="tasisInput" required><label style="width: 15%;">mm Hg</label>
+            <label>TA Diastolica: </label><input type="text" name="tadis" id="tadiaInput" required><label style="width: 15%;">mm Hg</label>
+            <div class="presion-arterial">
+                <label style="display: none; background-color: green; font-weight: 700; width: 98%; text-align: center;" id="poptima">Presión optima</label>
+                <label style="display: none; background-color: green; font-weight: 700; width: 98%; text-align: center;" id="pnormal">Presión normal</label>
+                <label style="display: none; background-color: yellow; font-weight: 700; width: 98%; text-align: center;" id="pelevada">Presión elevada</label>
+                <label style="display: none; background-color: orange; font-weight: 700; width: 98%; text-align: center;" id="paltan1">Hipertensión grado 1</label>
+                <label style="display: none; background-color: orangered; font-weight: 700; width: 98%; text-align: center;"  id="paltan2">Hipertensión grado 2</label>
+                <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="paltan3">Hipertension grado 3</label>
+                <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="psisais">Hipertension sistolica aislada</label>
+                <label style="display: none; background-color: brown; font-weight: 700; width: 98%; text-align: center;" id="pinvalida">Ingrese valores validos</label>
+            </div>
+            <label>Frecuencia cardiaca: </label><input type="text" name="frec" id="fcardInput" required><label style="width: 10%;">ppm</label>
+            <div class="aviso-frecuenciaCardiaca">
+                <input type="text" id="edadInput" value={{edad}} style="display: none;">
+                <label style="display: none; background-color: green; font-weight: 700; width: 98%; text-align: center;" id="fcnormal">Normal</label>
+                <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="fcanormal">Anormal</label>
+            </div>
+            <label>Frecuencia respiratoria: </label><input type="text" name="frer" id="frespInput" required><label style="width: 10%;">r/m</label>
+            <div class="aviso-frecuenciaRespiratoria">
+                <input type="text" id="edadInput2" value={{edad}} style="display: none;">
+                <label style="display: none; background-color: green; font-weight: 700; width: 98%; text-align: center;" id="frnormal">Normal</label>
+                <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="franormal1">Bradipnea</label>
+                <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="franormal2">Taquipnea</label>
+            </div>
+            <label>Temperatura: </label><input type="text" name="temp" id="tempInput" required><label style="width: 10%;">&deg;C</label>
+            <div class="aviso-temperatura">
+                <input type="text" id="edadInput2" value={{edad}} style="display: none;">
+                <label style="display: none; background-color: green; font-weight: 700; width: 98%; text-align: center;" id="tnormal">Normal</label>
+                <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="thipo">Hipotermia</label>
+                <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="tfiebre">Fiebre</label>
+                <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="tfiebricula">Fiebricula</label>
+                <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="thipertermia">Hipertermia o Hiperpirexia</label>
+
+            </div>
+            <div class="descripcion">
+            <label>Descripción de la exploración</label> <center><textarea name="desc" rows="6" cols="50"></textarea></center>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function mostrarContenido(id) {
+        document.querySelectorAll('.contenido').forEach(function (contenido) {
+            contenido.style.display = 'none';
+        });
+        document.getElementById(id).style.display = 'block';
+    }
+</script>

@@ -1,0 +1,32 @@
+<div class="contenido" id="GENERAL">
+    <h2>Historial clinico</h2>
+    <div class="antecedentes-patologicos">
+        <h3>Antecedentes personales no patologicos</h3>
+        <h4>Toxicomania</h4>
+        {% for item in AP_toxi %}
+            <p>{{item.nombre}}: Si  Cantidad: {{item.cantidad}}  Frecuencia: {{item.frecuencia}}  Tiempo: {{item.tiempo}} años</p>
+        {% endfor %}
+        <h4>Antecendentes quirurjicos</h4>
+        {% for item in AP_qui %}
+            <p>Tipo: {{item.tipo}} Tiempo: {{item.tiempo}} años</p>
+        {% endfor %}
+        <h4>Antecedentes transfuncionales</h4>
+        {% for item in AP_tran %}
+            <p>Tipo: {{item.tipo}} Tiempo: {{item.tiempo}} años</p>
+        {% endfor %}
+        <h4>Alergias</h4>
+        {% for item in AP_al %}
+            <p>{{item.nombre}}</p>
+        {% endfor %}
+        <h4>Vacunación</h4>
+        {% for item in AP_vac %}
+            <p>Nombre: {{item.nombre}}  Dosis: {{item.dosis}}  Año: {{item.año}}</p>
+        {% endfor %}
+    </div>
+    <div class="antecedentes-no-patologicos">
+        <h3>Antecedentes personales patologicos</h3>
+        {% for item in AP %}
+            <p>{{item.patologia}}</p>
+        {% endfor %}
+    </div>
+</div>

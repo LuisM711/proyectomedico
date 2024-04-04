@@ -1,6 +1,6 @@
 .login-page {
   width: 100%;
-  display: inline;
+  display: block;
 }
 p{
   margin-bottom: 5px;
@@ -19,6 +19,7 @@ p{
   border-radius: 15px;
   border: 2px solid #8A8686;
   min-height: 720px;
+  display: flex;
 }
 .pestañitas{
   z-index: -1;

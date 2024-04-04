@@ -100,6 +100,7 @@
                 <div class="contenido" id="PA" style="display: none;" >
 
                     <div class="padecimientos-motivo">
+                        <h3>entro a exp_fisica</h3>
                         <h2>Padecimiento o motivo de la consulta</h2>
                         <textarea rows="15" cols="50" disabled>{{cita.motivo}}</textarea>
 
@@ -206,6 +207,7 @@
             <div class="contenido" id="PA" style="display: none;" >
 
                 <div class="padecimientos-motivo">
+                    <h3>entro a pre_llenado = Si</h3>
                     <h2>Padecimiento o motivo de la consulta</h2>
                     <textarea rows="15" cols="50" disabled>{{cita.motivo}}</textarea>
                     <div class="botones-PA">
@@ -306,12 +308,9 @@
                         <div class="descripcion">
                         <label>Descripción de la exploración</label> <center><textarea name="desc" rows="6" cols="50"></textarea></center>
                         </div>
-                        
                     </div>
-                    
                 </div>
             </div>
-            
             <div class="contenido" id="graficas" style="display: none;">
                 <div class="input">
                     <label>Selecciona la grafica:</label>
@@ -365,14 +364,12 @@
             </div>
         </div>
         {% endif %}
-	</div>
+</div>
     {% endif %}
     <!-- input para validar si se esta haciendo un prellenado, en esos casos, no se actualiza el estatus de la cita, pero si se llena la exploracion_fisica -->
 	<input type="text" id="pre_llenado" name="pre_llenado" value="{{pre_llenado}}">
 
 </form>
-
-
 <script>
     document.getElementById("pre_llenado").style.display="none";
 

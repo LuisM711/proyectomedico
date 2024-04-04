@@ -1,0 +1,40 @@
+{% load static %}
+
+<div class="ficha-identificacion">   
+    <center><div class="imagen" style="width: 50%;">
+        {% if paciente.id_usuario.foto %}
+                <img style = "width: 100%; height: 150px; margin-top: 10px; margin-bottom: 10px;;"src="{{ paciente.id_usuario.foto.url }}" alt="Foto del usuario">
+        {% else %}
+                <img style = "width: 100%; height: 150px; margin-top: 10px; margin-bottom: 10px;;" src="{% static '/images/imagen_usuario_defecto.jpg' %}" alt="Foto del usuario">
+        {% endif %}
+    </div></center>
+    <h4>Ficha de identificación</h4>
+    <div class="info-paciente">
+        <p>Nombre: {{paciente.id_usuario.id_usuario.first_name}} {{paciente.id_usuario.id_usuario.last_name}}</p>
+        <p>Edad: {{edad}} años</p>
+        {% if paciente.genero == 'M' %}
+            <p>Sexo: Masculino</p>
+        {% else %}
+            <p>Sexo: Femenino</p>
+        {% endif %}
+
+        {% if paciente.estado_civil == '1' %}
+        <p>Estado civil: Casado</p>
+        {% else %}
+            <p>Estado civil: Soltero</p>
+        {% endif %}
+
+         {% if paciente.estilo_vida == 'A' %}
+            <p>Estilo de vida: Activo</p>
+        {% elif paciente.estilo_vida == 'S' %}
+            <p>Estilo de vida: Sedentario</p>
+        {% else %}
+            <p>Estilo de vida: Vegano</p>
+        {% endif %}
+        
+        <p>Peso: {{paciente.peso}} kg</p>
+        <p>Talla: {{paciente.talla}} m</p>
+        <p>IMC: {{imc}}</p>
+    </div> 
+    <center><button>Descargar Documento</button></center>
+</div>
