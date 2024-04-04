@@ -119,22 +119,35 @@ class Listar_especialidades_admin(View):
         if "_put" in request.POST:
             return self.put(request)
 
-        diag_trat = request.POST.get('diag_trat')
-        exp_fisica = request.POST.get('exp_fisica')
+        print(request.POST)
+
+        diag_trat = "si" if request.POST.get('diag_trat') == "on" else "no"
+        exp_fisica = "si" if request.POST.get('exp_fisica') == "on" else "no"
+        asignacion_menu = "si" if request.POST.get('asignar_menu') == "on" else "no"
         nombre = request.POST.get('nombre')
         descripcion = request.POST.get('descripcion')
-        especialidad = Especialidades.objects.create(nombre=nombre, descripcion=descripcion,
-                                                     exploracion_fisica=exp_fisica, diagnostico_tratamiento=diag_trat)
+        especialidad_data = {
+            'nombre': nombre,
+            'descripcion': descripcion,
+            'exploracion_fisica': exp_fisica,
+            'diagnostico_tratamiento': diag_trat,
+            'asignacion_menu': asignacion_menu
+        }
+
+        especialidad = Especialidades.objects.create(**especialidad_data)
+
+        #especialidad = Especialidades.objects.create(nombre=nombre, descripcion=descripcion, exploracion_fisica=exp_fisica, diagnostico_tratamiento=diag_trat, asignacion_menu= asignacion_menu)
         especialidad.save()
         return redirect('especialidades_admin')
 
     @method_decorator(login_required, name="dispatch")
     def put(self, request):
+        #print(request.POST)
         aux_especialidad = Especialidades.objects.get(id=request.POST.get("id"))
         aux_especialidad.nombre = request.POST.get("nombre")
         aux_especialidad.descripcion = request.POST.get("descripcion")
-        aux_especialidad.diagnostico_tratamiento = request.POST.get("diag_trat_put")
-        aux_especialidad.exploracion_fisica = request.POST.get("exp_fisica_put")
-        aux_especialidad.asignacion_menu = request.POST.get('asignacion_menu_put')
+        aux_especialidad.diagnostico_tratamiento = "si" if request.POST.get("diag_trat_put") == "on" else "no"
+        aux_especialidad.exploracion_fisica = "si" if request.POST.get("exp_fisica_put") == "on" else "no"
+        aux_especialidad.asignacion_menu = "si" if request.POST.get('asignacion_menu_put') == "on" else "no"
         aux_especialidad.save()
         return redirect('especialidades_admin')
