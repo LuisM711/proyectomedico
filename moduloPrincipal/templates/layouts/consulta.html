@@ -1,0 +1,21 @@
+{% extends 'layouts/nav.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/consulta_medica.css' %}">
+    {% include 'layouts/fichaIdentificacion.html' %}
+    <form class="historial-clinico" method="post">
+        {% csrf_token %}
+        {% include 'layouts/pestañitas.html' %}
+        {% include 'layouts/historialClinico.html' %}
+        {% if exploracion_fisica == "si" %}
+            {% include 'layouts/exploracionFisica2.html' %}
+            {% include 'layouts/graficas.html' %}
+        {% endif %}
+        {% if diagnostico_tratamiento == "si" %}
+            {% include 'layouts/diagnostico.html'%}
+        {% endif %}
+        {% if asignacion_menu == "si" %}
+            {% include 'layouts/pruebaNutri.html' %}
+        {% endif %}
+    </form>
+{% endblock %}

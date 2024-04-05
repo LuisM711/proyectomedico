@@ -203,10 +203,9 @@ class ConsultaMedica(View):
         aux_usuario = Usuario.objects.get(id_usuario_id=request.user.id)
         aux_especialista = Especialista.objects.get(id_usuario_id=aux_usuario.id)
         especialidad = Especialidades.objects.get(id=aux_especialista.id_especialidad.id)
-        if(especialidad.nombre=="Nutricion"):
-            return redirect('nutriologo')
-        else:
-            print(especialidad)
+        campos_excluir = ['_state','id', 'nombre', 'descripcion']
+        especialidadJson = {key: value for key, value in vars(especialidad).items() if key not in campos_excluir and value == 'si'}
+        #print(especialidadJson)
         cita = Cita.objects.get(id=id)
         pre_llenado = 'no'
         # Se valida que sea una cita confirmada
@@ -215,6 +214,7 @@ class ConsultaMedica(View):
         # Se valida que el la cita pertenezca al especialista
         aux_usuario = Usuario.objects.get(id_usuario_id=request.user.id)
         aux_especialista = Especialista.objects.get(id_usuario_id=aux_usuario.id)
+        #JEFE REVISE ESTE IF, NOSOTROS NO LE ENCONTRAMOS SENTIDO Y EN NUESTRAS PRUEBAS NI SIQUIERA ENTRA A ESTE BLOQUE DE CODIGO
         if aux_especialista.id != cita.id_especialista.id:
             # se valida que el especialista no sea enfermero, en ese caso si puede acceder, de lo contrario no
             if not (
@@ -223,13 +223,14 @@ class ConsultaMedica(View):
             else:
                 pre_llenado = 'si'
         # Se obtienen los datos del usuario para mostrarlos en la interfaz
+        print("Es el mismo")
         paciente = Paciente.objects.get(id=cita.id_paciente.id)
         fecha_act = date.today()
         fecha_na = paciente.id_usuario.fecha_nacimiento
         edad = fecha_act.year - fecha_na.year - ((fecha_act.month, fecha_act.day) < (fecha_na.month, fecha_na.day))
         peso = paciente.peso
         talla = paciente.talla
-        if peso != 0:
+        if talla != 0:
             imc = peso / (talla ** 2)
             imc = round(imc, 2)
         else:
@@ -249,19 +250,24 @@ class ConsultaMedica(View):
         AP_vac = Vacunacion.objects.filter(id_paciente=paciente.id)
         AP = Ant_Patologicos.objects.filter(id_paciente=paciente.id)
 
+        #JEFE TAMPOCO AQUI TIENE SENTIDO ESTO, NUNCA SE ENTRA AL IF, SIEMPRE ES AL ELSE, CREO QUE POR FUNCIONES QUE ELLOS PENSABAN IMPLEMENTAR
+        #EN EL FUTURO
         # Se valida si la cita ya se prelleno
         aux_exp_fisica = Exploracion_fisica.objects.filter(id_cita_id=cita.id)
 
         if aux_exp_fisica.exists():
-            return render(request, 'ventanas_especialista/consulta_medica.html',
+            print("hay prelleno")
+            return render(request, 'layouts/consulta.html',
                           {'paciente': paciente, 'edad': edad, 'imc': imc, 'fgm': fgm, 'AP_toxi': AP_toxi,
                            'AP_qui': AP_qui, 'AP_tran': AP_tran, 'AP_vac': AP_vac, 'AP': AP, 'AP_al': AP_al,
                            'ID_cita': id, "cita": cita, "pre_llenado": pre_llenado, "exp_fisica": aux_exp_fisica})
+        #JEFE, ESTE ES EL CODIGO REALMENTE FUNCIONAL DE LA VISTA
         else:
-            return render(request, 'ventanas_especialista/consulta_medica.html',
+            print("no hay prelleno")
+            return render(request, 'layouts/consulta.html',
                           {'paciente': paciente, 'edad': edad, 'imc': imc, 'fgm': fgm, 'AP_toxi': AP_toxi,
                            'AP_qui': AP_qui, 'AP_tran': AP_tran, 'AP_vac': AP_vac, 'AP': AP, 'AP_al': AP_al,
-                           'ID_cita': id, "cita": cita, "pre_llenado": pre_llenado})
+                           'ID_cita': id, "cita": cita, "pre_llenado": pre_llenado, 'especialidadJson': especialidadJson})
 
     # Funcion POST para realizar el registro de la consulta
     @method_decorator(login_required, name='dispatch')

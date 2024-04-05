@@ -1,8 +1,14 @@
 <div class="pestañitas">
     <button type="button" id="general" onclick="mostrarContenido('GENERAL')">General</button>
-    <button type="button" id="pa" onclick="mostrarContenido('PA')">PA</button>
-    {% if cita.id_especialista.id_especialidad.diagnostico_tratamiento == "si" %}
+    
+    {% if exploracion_fisica == "si" %}
+        <button type="button" id="pa" onclick="mostrarContenido('PA')">PA</button>
+    {% endif %}
+    {% if diagnostico_tratamiento == "si" %}
         <button type="button" id="dx-tx" onclick="mostrarContenido('DX-TX')">DX/TX</button>
+    {% endif %}
+    {% if asignacion_menu == "si" %}
+        <button type="button" id="dx-tx" onclick="mostrarContenido('asignarMenu')">Asignacion Menu</button>
     {% endif %}
 </div>
 <script>
