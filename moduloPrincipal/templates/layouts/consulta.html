@@ -7,15 +7,15 @@
         {% csrf_token %}
         {% include 'layouts/pestañitas.html' %}
         {% include 'layouts/historialClinico.html' %}
-        {% if exploracion_fisica == "si" %}
+        {% if especialidadJson.exploracion_fisica == "si" %}
             {% include 'layouts/exploracionFisica2.html' %}
             {% include 'layouts/graficas.html' %}
         {% endif %}
-        {% if diagnostico_tratamiento == "si" %}
+        {% if especialidadJson.diagnostico_tratamiento == "si" %}
             {% include 'layouts/diagnostico.html'%}
         {% endif %}
-        {% if asignacion_menu == "si" %}
-            {% include 'layouts/pruebaNutri.html' %}
+        {% if especialidadJson.asignacion_menu == "si" %}
+            {% include 'pruebaNutri.html' %}
         {% endif %}
     </form>
 {% endblock %}
