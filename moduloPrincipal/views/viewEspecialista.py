@@ -257,10 +257,10 @@ class ConsultaMedica(View):
 
         if aux_exp_fisica.exists():
             print("hay prelleno")
-            return render(request, 'layouts/consulta.html',
-                          {'paciente': paciente, 'edad': edad, 'imc': imc, 'fgm': fgm, 'AP_toxi': AP_toxi,
-                           'AP_qui': AP_qui, 'AP_tran': AP_tran, 'AP_vac': AP_vac, 'AP': AP, 'AP_al': AP_al,
-                           'ID_cita': id, "cita": cita, "pre_llenado": pre_llenado, "exp_fisica": aux_exp_fisica})
+         #   return render(request, 'layouts/consulta.html',
+          #                {'paciente': paciente, 'edad': edad, 'imc': imc, 'fgm': fgm, 'AP_toxi': AP_toxi,
+           #                'AP_qui': AP_qui, 'AP_tran': AP_tran, 'AP_vac': AP_vac, 'AP': AP, 'AP_al': AP_al,
+            #               'ID_cita': id, "cita": cita, "pre_llenado": pre_llenado, "exp_fisica": aux_exp_fisica})
         #JEFE, ESTE ES EL CODIGO REALMENTE FUNCIONAL DE LA VISTA
         else:
             print("no hay prelleno")
@@ -323,9 +323,9 @@ class ConsultaMedica(View):
             tra2.save()
 
         # solo se se cambia el estatus de la cita cuando no se esta pre llenando por una enfermera
-        if request.POST.get('pre_llenado') == "no":
-            cita.estatus = 'A'
-            cita.save()
+        #if request.POST.get('pre_llenado') == "no":
+        cita.estatus = 'A'
+        cita.save()
 
         # REDIRIGE AL LISTADO DE CITAS
         return redirect('listarcitasespecialista')
@@ -350,30 +350,32 @@ class VisualizarConsulta(View):
         fecha_act = date.today()
         fecha_na = paciente.id_usuario.fecha_nacimiento
         edad = fecha_act.year - fecha_na.year - ((fecha_act.month, fecha_act.day) < (fecha_na.month, fecha_na.day))
-        diagnostico = Diagnostico.objects.get(id_cita_id=id)
-        tratamiento_farmacologico = Tratamiento.objects.get(id_cita_id=id, tipo=0)
-        tratamiento_no_farmacologico = Tratamiento.objects.get(id_cita_id=id, tipo=1)
-        AP_toxi = Toxicomania.objects.filter(id_paciente=paciente.id)
-        AP_qui = Ant_quirurjicos.objects.filter(id_paciente=paciente.id)
-        AP_tran = Ant_transfusionales.objects.filter(id_paciente=paciente.id)
-        AP_al = Alergias.objects.filter(id_paciente=paciente.id)
-        AP_vac = Vacunacion.objects.filter(id_paciente=paciente.id)
-        AP = Ant_Patologicos.objects.filter(id_paciente=paciente.id)
+        #diagnostico = Diagnostico.objects.get(id_cita_id=id)
+        #tratamiento_farmacologico = Tratamiento.objects.get(id_cita_id=id, tipo=0)
+        #tratamiento_no_farmacologico = Tratamiento.objects.get(id_cita_id=id, tipo=1)
+        #AP_toxi = Toxicomania.objects.filter(id_paciente=paciente.id)
+        #AP_qui = Ant_quirurjicos.objects.filter(id_paciente=paciente.id)
+        #AP_tran = Ant_transfusionales.objects.filter(id_paciente=paciente.id)
+        #AP_al = Alergias.objects.filter(id_paciente=paciente.id)
+        #AP_vac = Vacunacion.objects.filter(id_paciente=paciente.id)
+        #AP = Ant_Patologicos.objects.filter(id_paciente=paciente.id)
+
+        datosPaciente={'paciente': paciente,
+                       #'fecha_act': date.today(),
+                       #'fecha_na': paciente.id_usuario.fecha_nacimiento,
+                       'edad': edad,
+                       'diagnostico': Diagnostico.objects.get(id_cita_id=id),
+                       'tratamiento_farmacologico': Tratamiento.objects.get(id_cita_id=id, tipo=0),
+                       'tratamiento_no_farmacologico': Tratamiento.objects.get(id_cita_id=id, tipo=1),
+                       'AP_toxi': Toxicomania.objects.filter(id_paciente=paciente.id),
+                       'AP_qui': Ant_quirurjicos.objects.filter(id_paciente=paciente.id),
+                       'AP_tran': Ant_transfusionales.objects.filter(id_paciente=paciente.id),
+                       'AP_al': Alergias.objects.filter(id_paciente=paciente.id),
+                       'AP': Ant_Patologicos.objects.filter(id_paciente=paciente.id)}
 
         # SI el especialista no registra exploracion fisica, ese datos no se busca ni envia
         if (aux_especialista.id_especialidad.exploracion_fisica == "no"):
-            return render(request, "ventanas_especialista/visualizar_consulta.html", {'paciente': paciente,
-                                                                                      'edad': edad,
-                                                                                      'AP_toxi': AP_toxi,
-                                                                                      'AP_qui': AP_qui,
-                                                                                      'AP_tran': AP_tran,
-                                                                                      'AP_vac': AP_vac,
-                                                                                      'AP': AP, 'AP_al': AP_al,
-                                                                                      'ID_cita': id,
-                                                                                      "cita": cita,
-                                                                                      "diagnostico": diagnostico,
-                                                                                      "tratamiento_farmacologico": tratamiento_farmacologico,
-                                                                                      "tratamiento_no_farmacologico": tratamiento_no_farmacologico})
+            return render(request, "ventanas_especialista/visualizar_consulta.html", {'datosPacientes': datosPaciente})
         else:
             try:
                 exploracion_fisica = Exploracion_fisica.objects.get(id_cita_id=id)

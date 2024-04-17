@@ -22,3 +22,9 @@ p{
 .mostrar-grafico button:hover{
     background: #348a73;
 }
+body{
+    background-color: #dbe9ee;
+}
+.mostrar-grafico{
+    background-color: white;
+}
