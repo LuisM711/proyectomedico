@@ -205,7 +205,7 @@ class ConsultaMedica(View):
         especialidad = Especialidades.objects.get(id=aux_especialista.id_especialidad.id)
         campos_excluir = ['_state','id', 'nombre', 'descripcion']
         especialidadJson = {key: value for key, value in vars(especialidad).items() if key not in campos_excluir and value == 'si'}
-        #print(especialidadJson)
+        print(especialidadJson)
         cita = Cita.objects.get(id=id)
         pre_llenado = 'no'
         # Se valida que sea una cita confirmada
@@ -350,23 +350,19 @@ class VisualizarConsulta(View):
         fecha_act = date.today()
         fecha_na = paciente.id_usuario.fecha_nacimiento
         edad = fecha_act.year - fecha_na.year - ((fecha_act.month, fecha_act.day) < (fecha_na.month, fecha_na.day))
-        #diagnostico = Diagnostico.objects.get(id_cita_id=id)
-        #tratamiento_farmacologico = Tratamiento.objects.get(id_cita_id=id, tipo=0)
-        #tratamiento_no_farmacologico = Tratamiento.objects.get(id_cita_id=id, tipo=1)
-        #AP_toxi = Toxicomania.objects.filter(id_paciente=paciente.id)
-        #AP_qui = Ant_quirurjicos.objects.filter(id_paciente=paciente.id)
-        #AP_tran = Ant_transfusionales.objects.filter(id_paciente=paciente.id)
-        #AP_al = Alergias.objects.filter(id_paciente=paciente.id)
-        #AP_vac = Vacunacion.objects.filter(id_paciente=paciente.id)
-        #AP = Ant_Patologicos.objects.filter(id_paciente=paciente.id)
+        
+        #Obtenemos las especialidades en SI del especialista de dicha cita
+        aux_explo= Exploracion_fisica.objects.get(id_cita_id=cita.id)
+        aux_diagno=Diagnostico.objects.get(id_cita_id=cita.id)
+        data={'exploracionfisica': aux_explo, 'diagnostico': aux_diagno}
 
         datosPaciente={'paciente': paciente,
-                       #'fecha_act': date.today(),
-                       #'fecha_na': paciente.id_usuario.fecha_nacimiento,
                        'edad': edad,
                        'diagnostico': Diagnostico.objects.get(id_cita_id=id),
                        'tratamiento_farmacologico': Tratamiento.objects.get(id_cita_id=id, tipo=0),
                        'tratamiento_no_farmacologico': Tratamiento.objects.get(id_cita_id=id, tipo=1),
+                       'cita': cita,
+                       'ID_cita': cita.id,
                        'AP_toxi': Toxicomania.objects.filter(id_paciente=paciente.id),
                        'AP_qui': Ant_quirurjicos.objects.filter(id_paciente=paciente.id),
                        'AP_tran': Ant_transfusionales.objects.filter(id_paciente=paciente.id),
@@ -374,28 +370,28 @@ class VisualizarConsulta(View):
                        'AP': Ant_Patologicos.objects.filter(id_paciente=paciente.id)}
 
         # SI el especialista no registra exploracion fisica, ese datos no se busca ni envia
-        if (aux_especialista.id_especialidad.exploracion_fisica == "no"):
-            return render(request, "ventanas_especialista/visualizar_consulta.html", {'datosPacientes': datosPaciente})
-        else:
-            try:
-                exploracion_fisica = Exploracion_fisica.objects.get(id_cita_id=id)
-            except Exploracion_fisica.DoesNotExist:
-                print("No se encontro la exploracion fisica")
-                exploracion_fisica = None
-            return render(request, "ventanas_especialista/visualizar_consulta.html", {'paciente': paciente,
-                                                                                      'edad': edad,
-                                                                                      'AP_toxi': AP_toxi,
-                                                                                      'AP_qui': AP_qui,
-                                                                                      'AP_tran': AP_tran,
-                                                                                      'AP_vac': AP_vac,
-                                                                                      'AP': AP, 'AP_al': AP_al,
-                                                                                      'ID_cita': id,
-                                                                                      "cita": cita,
-                                                                                      "exploracion_fisica": exploracion_fisica,
-                                                                                      "diagnostico": diagnostico,
-                                                                                      "tratamiento_farmacologico": tratamiento_farmacologico,
-                                                                                      "tratamiento_no_farmacologico": tratamiento_no_farmacologico})
-
+        #if (aux_especialista.id_especialidad.exploracion_fisica == "no"):
+        return render(request, "ventanas_especialista/visualizar_consulta.html", {'datosPaciente': datosPaciente,
+                                                                                        'data': data})
+        #else:
+            #try:
+             #   exploracion_fisica = Exploracion_fisica.objects.get(id_cita_id=id)
+            #except Exploracion_fisica.DoesNotExist:
+                #print("No se encontro la exploracion fisica")
+                #exploracion_fisica = None
+            #return render(request, "ventanas_especialista/visualizar_consulta.html", {'paciente': paciente,
+            #                                                                          'edad': edad,
+             #                                                                         'AP_toxi': AP_toxi,
+              #                                                                        'AP_qui': AP_qui,
+               #                                                                       'AP_tran': AP_tran,
+                #                                                                      'AP_vac': AP_vac,
+                 #                                                                     'AP': AP, 'AP_al': AP_al,
+                  #                                                                    'ID_cita': id,
+                   #                                                                   "cita": cita,
+                    #                                                                  "exploracion_fisica": exploracion_fisica,
+                     #                                                                 "diagnostico": diagnostico,
+                      #                                                                "tratamiento_farmacologico": tratamiento_farmacologico,
+                       #                                                               "tratamiento_no_farmacologico": tratamiento_no_farmacologico}
 # Clase para visualizar las citas agendadas del especialista
 class ListarCitas_Especialista(View):
 
