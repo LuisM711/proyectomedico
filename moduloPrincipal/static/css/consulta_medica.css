@@ -28,7 +28,8 @@ p{
 }
 .pestañitas button{
   z-index: -1;
-  width: 10%;
+  width: 15%;
+  height: 25px;
   border: none;
   border-radius: 10px 20px 0px 0px;
   margin-left: -10px;
@@ -54,7 +55,7 @@ p{
 .ficha-identificacion {
   float: inline-start;
   width: 25%;
-  margin-top: 20px;
+  margin-top: 45px;
   margin-left: 20px;
   min-height: 350px;
   justify-items: center;
