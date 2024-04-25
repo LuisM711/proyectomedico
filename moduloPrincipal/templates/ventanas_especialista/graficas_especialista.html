@@ -7,11 +7,12 @@
 
 
 <div class="login-page" >
-    
     <div class="contenido" id="graficas">
+        <h1>Gráficas y Estadísticas</h1>
+        <br>
         <div class="input">
             <label>Selecciona la grafica:</label>
-            <select name="tipo" id="tipo">
+            <select name="tipo" id="tipo" onchange="mostrarGrafico()">
                 <option value=1>Genero</option>
                 <option value=2>Diabetes</option>
                 <option value=3>Insuficiencia renal</option>
@@ -20,7 +21,6 @@
             </select> 
         </div>
         <div class="mostrar-grafico" style="margin-top: 10px;">
-            <button id="anterior" onclick="mostrarGrafico()" style="border-radius: 32px; height: 32px;font-size: 14px;outline: 0;border: 0;">Ver gráfica</button>
             <div id="grafico-container"></div>
         </div>
     </div>
@@ -45,7 +45,10 @@
         xhttp.open("GET", url, true);
         xhttp.send();
     }
+    window.onload = function(){
 
+        mostrarGrafico();
+    }
 </script>
 
 
