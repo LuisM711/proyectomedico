@@ -8,7 +8,9 @@
             {% if pre_llenado == "no"  %}
                 <button id="anterior" onclick="mostrarContenido('graficas')">Ver graficas</button>
             {% endif %}
-            <button id="aceptar" onclick="mostrarContenido('DX-TX')">Aceptar</button>
+            <!-- <button id="aceptar" onclick="mostrarContenido('DX-TX')">Aceptar</button> -->
+            <button id="aceptar" onclick="siguiente()">Aceptar</button>
+
         </div>
     </div>
     <div class="exploracion-fisica">
@@ -109,30 +111,30 @@
     // document.getElementById("pre_llenado").style.display="none";
 
     
-    function mostrarContenido(id) {
-        let div = document.getElementById('inputs');
-        let inputs = div.getElementsByTagName('input');
+    // function mostrarContenido(id) {
+    //     // let div = document.getElementById('inputs');
+    //     // let inputs = div.getElementsByTagName('input');
 
-        let hayInputsVacios = false;
+    //     // let hayInputsVacios = false;
 
-        for (let i = 0; i < inputs.length; i++) {
-            if (inputs[i].type === 'text' && inputs[i].value.trim() === '') {
-                hayInputsVacios = true;
-                break; // Detener el bucle si se encuentra un input vacío
-            }
-        }
+    //     // for (let i = 0; i < inputs.length; i++) {
+    //     //     if (inputs[i].type === 'text' && inputs[i].value.trim() === '') {
+    //     //         hayInputsVacios = true;
+    //     //         break; // Detener el bucle si se encuentra un input vacío
+    //     //     }
+    //     // }
 
-        if (hayInputsVacios) {
-            alert('El div contiene inputs de texto vacíos.');
-        } else {
-            alert('El div no contiene inputs de texto vacíos.');
-        }
+    //     // if (hayInputsVacios) {
+    //     //     alert('El div contiene inputs de texto vacíos.');
+    //     // } else {
+    //     //     alert('El div no contiene inputs de texto vacíos.');
+    //     // }
 
-        document.querySelectorAll('.contenido').forEach(function (contenido) {
-            contenido.style.display = 'none';
-        });
-        document.getElementById(id).style.display = 'block';
-    }
+    //     document.querySelectorAll('.contenido').forEach(function (contenido) {
+    //         contenido.style.display = 'none';
+    //     });
+    //     document.getElementById(id).style.display = 'block';
+    // }
     function mostrarGrafico() {
         var tipo = parseInt(document.getElementById('tipo').value, 10);
         var url = "{% url 'grafica' id=paciente.id tipo=0 %}".replace(0, tipo);
