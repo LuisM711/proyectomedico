@@ -2,6 +2,7 @@
     width: 1000px;
     padding: 5px 0 0;
     margin: auto;
+    margin-top: 2%;
   }
 p{
     margin-bottom: 5px;
@@ -12,6 +13,7 @@ p{
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
     width: 100%;
+    background-color: white;
 }
 .contenido label{
     text-align: center;
@@ -21,4 +23,13 @@ p{
 }
 .mostrar-grafico button:hover{
     background: #348a73;
+}
+body{
+    background-color: #DBE0EE !important;
+}
+.mostrar-grafico{
+    background-color: white;
+}
+.input{
+    background-color: white;
 }

@@ -41,3 +41,6 @@ header {
   .separador{
     margin-left: 300px;
   }
+  body{
+    background-color: #DBE0EE !important;
+}

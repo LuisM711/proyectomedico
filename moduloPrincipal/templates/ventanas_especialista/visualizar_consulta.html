@@ -6,43 +6,43 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <div class="login-page" >
-    {% if paciente %}
+    {% if datosPaciente.paciente %}
     <div class="ficha-identificacion">
         
         <center><div class="imagen" style="width: 50%;">
-            {% if paciente.id_usuario.foto %}
-                    <img style = "width: 100%; height: 150px; margin-top: 10px; margin-bottom: 10px;;"src="{{ paciente.id_usuario.foto.url }}" alt="Foto del usuario">
+            {% if datosPaciente.paciente.id_usuario.foto %}
+                    <img style = "width: 100%; height: 150px; margin-top: 10px; margin-bottom: 10px;;"src="{{ datosPaciente.paciente.id_usuario.foto.url }}" alt="Foto del usuario">
             {% else %}
                     <img style = "width: 100%; height: 150px; margin-top: 10px; margin-bottom: 10px;;" src="{% static 'images/imagen_usuario_defecto.jpg' %}" alt="Foto del usuario">
             {% endif %}
         </div></center>
         <h4>Ficha de identificación</h4>
         <div class="info-paciente">
-            <p>Nombre: {{paciente.id_usuario.id_usuario.first_name}} {{paciente.id_usuario.id_usuario.last_name}}</p>
-            <p>Edad: {{edad}} años</p>
-            {% if paciente.genero == 'M' %}
+            <p>Nombre: {{datosPaciente.paciente.id_usuario.id_usuario.first_name}} {{datosPaciente.paciente.id_usuario.id_usuario.last_name}}</p>
+            <p>Edad: {{datosPaciente.edad}} años</p>
+            {% if datosPaciente.paciente.genero == 'M' %}
                 <p>Sexo: Masculino</p>
             {% else %}
                 <p>Sexo: Femenino</p>
             {% endif %}
 
-            {% if paciente.estado_civil == '1' %}
+            {% if datosPaciente.paciente.estado_civil == '1' %}
                 <p>Estado civil: Casado</p>
             {% else %}
                 <p>Estado civil: Soltero</p>
             {% endif %}
 
-             {% if paciente.estilo_vida == 'A' %}
+             {% if datosPaciente.paciente.estilo_vida == 'A' %}
                 <p>Estilo de vida: Activo</p>
-            {% elif paciente.estilo_vida == 'S' %}
+            {% elif datosPaciente.paciente.estilo_vida == 'S' %}
                 <p>Estilo de vida: Sedentario</p>
             {% else %}
                 <p>Estilo de vida: Vegano</p>
             {% endif %}
 
-            <p>Peso: {{exploracion_fisica.peso}} kg</p>
-            <p>Talla: {{exploracion_fisica.talla}} m</p>
-            <p>IMC: {{exploracion_fisica.imc}}</p>
+            <p>Peso: {{data.exploracionfisica.peso}} kg</p>
+            <p>Talla: {{data.exploracionfisica.talla}} m</p>
+            <p>IMC: {{data.exploracionfisica.imc}}</p>
             
             
         </div> 
@@ -53,39 +53,40 @@
 
         <div class="pestañitas">
             <button id="general" onclick="mostrarContenido('GENERAL')">General</button>
-            {% if exploracion_fisica %}
+            {% if data.exploracionfisica %}
                 <button id="pa" onclick="mostrarContenido('PA')">PA</button>
             {% endif %}
             <button id="dx-tx" onclick="mostrarContenido('DX-TX')">DX/TX</button>
+            
         </div>
         <div class="contenido" id="GENERAL">
             <h2>Historial clinico</h2>
             <div class="antecedentes-patologicos">
                 <h3>Antecedentes personales no patologicos</h3>
                 <h4>Toxicomania</h4>
-                {% for item in AP_toxi %}
+                {% for item in datosPaciente.AP_toxi %}
                     <p>{{item.nombre}}: Si  Cantidad: {{item.cantidad}}  Frecuencia: {{item.frecuencia}}  Tiempo: {{item.tiempo}} años</p>
                 {% endfor %}
                 <h4>Antecendentes quirurjicos</h4>
-                {% for item in AP_qui %}
+                {% for item in datosPaciente.AP_qui %}
                     <p>Tipo: {{item.tipo}} Tiempo: {{item.tiempo}} años</p>
                 {% endfor %}
                 <h4>Antecedentes transfuncionales</h4>
-                {% for item in AP_tran %}
+                {% for item in datosPaciente.AP_tran %}
                     <p>Tipo: {{item.tipo}} Tiempo: {{item.tiempo}} años</p>
                 {% endfor %}
                 <h4>Alergias</h4>
-                {% for item in AP_al %}
+                {% for item in datosPaciente.AP_al %}
                     <p>{{item.nombre}}</p>
                 {% endfor %}
                 <h4>Vacunación</h4>
-                {% for item in AP_vac %}
+                {% for item in datosPaciente.AP_vac %}
                     <p>Nombre: {{item.nombre}}  Dosis: {{item.dosis}}  Año: {{item.año}}</p>
                 {% endfor %}
             </div>
             <div class="antecedentes-no-patologicos">
                 <h3>Antecedentes personales patologicos</h3>
-                {% for item in AP %}
+                {% for item in datosPaciente.AP %}
                     <p>{{item.patologia}}</p>
                 {% endfor %}
             </div>
@@ -95,7 +96,7 @@
 
             <div class="padecimientos-motivo">
                 <h2>Padecimiento o motivo de la consulta</h2>
-                <textarea rows="15" cols="50" disabled>{{cita.motivo}}</textarea>
+                <textarea rows="15" cols="50" disabled>{{datosPaciente.cita.motivo}}</textarea>
                 <div class="botones-PA">
                     <button id="anterior" onclick="mostrarContenido('graficas')">Ver graficas</button>
                 </div>
@@ -104,41 +105,41 @@
                 <h4>Exploración fisica</h4>
                 <div class="inputs">
                     <label>Peso: </label>
-                    <label>{{exploracion_fisica.peso}} kg</label>
+                    <label>{{data.exploracionfisica.peso}} kg</label>
                     <label>Talla: </label>
-                    <label>{{exploracion_fisica.talla}}  m</label>
+                    <label>{{data.exploracionfisica.talla}}  m</label>
                     <label>IMC: </label>
-                    <label style="width: 20%;">{{exploracion_fisica.imc}} kg/m<sup>2</sup></label>
-                    <input type="text" name="imc" id="imcinput" value={{exploracion_fisica.imc}} style="display: none;">
-                    {% if exploracion_fisica.imc %}
-                        {% if exploracion_fisica.imc  < 18.50 %}
-                            <label>IMC: {{exploracion_fisica.imc}} Bajo peso</label><br>
-                        {% elif 18.50 <= exploracion_fisica.imc  and exploracion_fisica.imc  <= 24.99 %}
-                            <label>IMC: {{exploracion_fisica.imc}} Normal</label><br>
-                        {% elif 25.00 <= exploracion_fisica.imc  and exploracion_fisica.imc  <= 29.99 %}
-                            <label>IMC: {{exploracion_fisica.imc}} Sobrepeso</label><br>
-                        {% elif exploracion_fisica.imc  >= 30.00 %}
-                            <label>IMC: {{exploracion_fisica.imc}} Obesidad</label><br>
+                    <label style="width: 20%;">{{data.exploracionfisica.imc}} kg/m<sup>2</sup></label>
+                    <input type="text" name="imc" id="imcinput" value={{exploracionfisica.imc}} style="display: none;">
+                    {% if data.exploracionfisica.imc %}
+                        {% if data.exploracionfisica.imc  < 18.50 %}
+                            <label>IMC: {{data.exploracionfisica.imc}} Bajo peso</label><br>
+                        {% elif 18.50 <= data.exploracionfisica.imc  and data.exploracionfisica.imc  <= 24.99 %}
+                            <label>IMC: {{data.exploracionfisica.imc}} Normal</label><br>
+                        {% elif 25.00 <= data.exploracionfisica.imc  and data.exploracionfisica.imc  <= 29.99 %}
+                            <label>IMC: {{data.exploracionfisica.imc}} Sobrepeso</label><br>
+                        {% elif data.exploracionfisica.imc  >= 30.00 %}
+                            <label>IMC: {{data.exploracionfisica.imc}} Obesidad</label><br>
                         {% endif %}
                     {% endif %}
-                    <label>Creatinina: </label><input type="text" name="creatinina" id="creatininaInput" value="{{exploracion_fisica.creatinina}}" disabled> 
+                    <label>Creatinina: </label><input type="text" name="creatinina" id="creatininaInput" value="{{data.exploracionfisica.creatinina}}" disabled> 
                     <label style="width: 15%;">mg/dL</label>
                     <div class="aviso-creatinina">
-                        <input type="text" id="edadInput3" value={{edad}} style="display: none;">
-                        <input type="text" id="sexoinput" value={{paciente.genero}} style="display: none;">
-                        <input type="text" id="pesoinput" value={{paciente.peso}} style="display: none;">
+                        <input type="text" id="edadInput3" value={{datosPaciente.edad}} style="display: none;">
+                        <input type="text" id="sexoinput" value={{datosPaciente.paciente.genero}} style="display: none;">
+                        <input type="text" id="pesoinput" value={{datosPaciente.paciente.peso}} style="display: none;">
                         <label style="display: none; background-color: green; font-weight: 700; width: 98%; text-align: center;" id="cretinormal">Normal</label>
                         <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="cretianormal1">Niveles bajos</label>
                         <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="cretianormal2">Niveles altos</label>
                     </div>
                     <label>Filtración Glomerular:</label> <label name="fgmc" id="fgmc"></label>
-                    <input type="text" name="filtracion_glomerular" id="fgmInput" style="display: none;" value="{{exploracion_fisica.filtracion_glomerular}}">
+                    <input type="text" name="filtracion_glomerular" id="fgmInput" style="display: none;" value="{{data.exploracionfisica.filtracion_glomerular}}">
 
                     <div class="aviso-glomedular">
                         <label style="display: none; background-color: gray; font-weight: 700; width: 98%; text-align: center;" id="fge">Calculando...</label>
                     </div>
 
-                    <label>Glucosa: </label><input type="text" name="glucosa" id="glucosaInput" value="{{exploracion_fisica.glucosa}}" disabled><label style="width: 10%;">mg/dL</label>
+                    <label>Glucosa: </label><input type="text" name="glucosa" id="glucosaInput" value="{{data.exploracionfisica.glucosa}}" disabled><label style="width: 10%;">mg/dL</label>
                     <div class="aviso-glucosa">
                         <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="diabetes">Diabetes</label>
                         <label style="display: none; background-color: orange; font-weight: 700; width: 98%; text-align: center;" id="prediabetes">Prediabetes</label>
@@ -146,8 +147,8 @@
                         <label style="display: none; background-color: brown; font-weight: 700; width: 98%; text-align: center;" id="ginvalida">Ingrese un valor</label>
                     </div>
                     
-                    <label>TA Sistolica: </label><input type="text" name="tasis" id="tasisInput" disabled value="{{exploracion_fisica.TA_sistolica}} "><label style="width: 15%;">mm Hg</label>
-                    <label>TA Diastolica: </label><input type="text" name="tadis" id="tadiaInput" disabled value="{{exploracion_fisica.TA_diastolica}} "><label style="width: 15%;">mm Hg</label>
+                    <label>TA Sistolica: </label><input type="text" name="tasis" id="tasisInput" disabled value="{{data.exploracionfisica.TA_sistolica}} "><label style="width: 15%;">mm Hg</label>
+                    <label>TA Diastolica: </label><input type="text" name="tadis" id="tadiaInput" disabled value="{{data.exploracionfisica.TA_diastolica}} "><label style="width: 15%;">mm Hg</label>
                     <div class="presion-arterial">
                         <label style="display: none; background-color: green; font-weight: 700; width: 98%; text-align: center;" id="pnormal">Presión normal</label>
                         <label style="display: none; background-color: yellow; font-weight: 700; width: 98%; text-align: center;" id="pelevada">Presión elevada</label>
@@ -156,29 +157,29 @@
                         <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="pcrisis">Crisis de hipertensión</label>
                         <label style="display: none; background-color: brown; font-weight: 700; width: 98%; text-align: center;" id="pinvalida">Ingrese ambos valores</label>
                     </div>
-                    <label>Frecuencia cardica: </label><input type="text" name="frec" id="fcardInput" disabled value="{{exploracion_fisica.frecuencia_cardiaca}} "><label style="width: 10%;">ppm</label>
+                    <label>Frecuencia cardica: </label><input type="text" name="frec" id="fcardInput" disabled value="{{data.exploracionfisica.frecuencia_cardiaca}} "><label style="width: 10%;">ppm</label>
                     <div class="aviso-frecuenciaCardiaca">
-                        <input type="text" id="edadInput" value={{edad}} style="display: none;">
+                        <input type="text" id="edadInput" value={{datosPaciente.edad}} style="display: none;">
                         <label style="display: none; background-color: green; font-weight: 700; width: 98%; text-align: center;" id="fcnormal">Normal</label>
                         <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="fcanormal">Anormal</label>
                     </div>
-                    <label>Frecuencia respiratoria: </label><input type="text" name="frer" id="frespInput" disabled value="{{exploracion_fisica.frecuencia_respiratoria}} "><label style="width: 10%;">r/m</label>
+                    <label>Frecuencia respiratoria: </label><input type="text" name="frer" id="frespInput" disabled value="{{data.exploracionfisica.frecuencia_respiratoria}} "><label style="width: 10%;">r/m</label>
                     <div class="aviso-frecuenciaRespiratoria">
-                        <input type="text" id="edadInput2" value={{edad}} style="display: none;">
+                        <input type="text" id="edadInput2" value={{datosPaciente.edad}} style="display: none;">
                         <label style="display: none; background-color: green; font-weight: 700; width: 98%; text-align: center;" id="frnormal">Normal</label>
                         <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="franormal1">Bradipnea</label>
                         <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="franormal2">Taquipnea</label>
                     </div>
-                    <label>Temperatura: </label><input type="text" name="temp" id="tempInput" value="{{exploracion_fisica.temperatura}}" disabled ><label style="width: 10%;">&deg;C</label>
+                    <label>Temperatura: </label><input type="text" name="temp" id="tempInput" value="{{data.exploracionfisica.temperatura}}" disabled ><label style="width: 10%;">&deg;C</label>
                     <div class="aviso-temperatura">
-                        <input type="text" id="edadInput2" value={{edad}} style="display: none;">
+                        <input type="text" id="edadInput2" value={{datosPaciente.edad}} style="display: none;">
                         <label style="display: none; background-color: green; font-weight: 700; width: 98%; text-align: center;" id="tnormal">Normal</label>
                         <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="tanormal1">Hipotermia</label>
                         <label style="display: none; background-color: red; font-weight: 700; width: 98%; text-align: center;" id="tanormal2">Fiebre</label>
                     </div>
 
                     <div class="descripcion">
-                       <label>Descripción de la exploración</label> <center><textarea name="desc" rows="6" cols="50" disabled>{{exploracion_fisica.descripcion}} </textarea></center>
+                       <label>Descripción de la exploración</label> <center><textarea name="desc" rows="6" cols="50" disabled>{{data.exploracionfisica.descripcion}} </textarea></center>
                     </div>
                     
                 </div>
@@ -214,7 +215,7 @@
         <div class="contenido" id="DX-TX" style="display: none;">
             <div class="diagnostico">
                 <h2>Diagnostico</h2>
-                <textarea rows="15" cols="50" name="diagnostico" disabled>{{diagnostico.descripcion}}</textarea>
+                <textarea rows="15" cols="50" name="diagnostico" disabled>{{data.diagnostico.descripcion}}</textarea>
                 <div class="botones-PA">
                     <!--<button id="anterior">Ver anteriores</button>-->
 
@@ -224,10 +225,10 @@
                 <h2>Tratamiento</h2>
                 <div class="inputs">
                     <div class="farmacologico">
-                        <label>Farmacologico</label> <center><textarea rows="6" cols="50" name="tratamiento_far" disabled>{{tratamiento_farmacologico.descripcion}}</textarea></center>
+                        <label>Farmacologico</label> <center><textarea rows="6" cols="50" name="tratamiento_far" disabled>{{datosPaciente.tratamiento_farmacologico.descripcion}}</textarea></center>
                      </div>
                     <div class="nofarmacologico">
-                       <label>No farmacologico</label> <center><textarea rows="6" cols="50" name="tratamiento_nfar" disabled>{{tratamiento_no_farmacologico.descripcion}}</textarea></center>
+                       <label>No farmacologico</label> <center><textarea rows="6" cols="50" name="tratamiento_nfar" disabled>{{datosPaciente.tratamiento_no_farmacologico.descripcion}}</textarea></center>
                     </div>
                     
                 </div>
@@ -256,7 +257,7 @@
     }
     function mostrarGrafico() {
         var tipo = parseInt(document.getElementById('tipo').value, 10);
-        var url = "{% url 'grafica' id=paciente.id tipo=0 %}".replace(0, tipo);
+        var url = "{% url 'grafica' id=datosPaciente.paciente.id tipo=0 %}".replace(0, tipo);
         console.log(url);
 
         var xhttp = new XMLHttpRequest();

@@ -8,12 +8,14 @@
             {% if pre_llenado == "no"  %}
                 <button id="anterior" onclick="mostrarContenido('graficas')">Ver graficas</button>
             {% endif %}
-            <button id="aceptar" onclick="mostrarContenido('DX-TX')">Aceptar</button>
+            <!-- <button id="aceptar" onclick="mostrarContenido('DX-TX')">Aceptar</button> -->
+            <button id="aceptar" onclick="siguiente()">Aceptar</button>
+
         </div>
     </div>
     <div class="exploracion-fisica">
         <h4>Exploración fisica</h4>
-        <div class="inputs">
+        <div class="inputs" id="inputs">
             <label>Peso: </label>
             <label>{{paciente.peso}} kg</label>
             <label>Talla: </label>
@@ -106,10 +108,253 @@
     </div>
 </div>
 <script>
-    function mostrarContenido(id) {
-        document.querySelectorAll('.contenido').forEach(function (contenido) {
-            contenido.style.display = 'none';
-        });
-        document.getElementById(id).style.display = 'block';
+    // document.getElementById("pre_llenado").style.display="none";
+
+    
+    // function mostrarContenido(id) {
+    //     // let div = document.getElementById('inputs');
+    //     // let inputs = div.getElementsByTagName('input');
+
+    //     // let hayInputsVacios = false;
+
+    //     // for (let i = 0; i < inputs.length; i++) {
+    //     //     if (inputs[i].type === 'text' && inputs[i].value.trim() === '') {
+    //     //         hayInputsVacios = true;
+    //     //         break; // Detener el bucle si se encuentra un input vacío
+    //     //     }
+    //     // }
+
+    //     // if (hayInputsVacios) {
+    //     //     alert('El div contiene inputs de texto vacíos.');
+    //     // } else {
+    //     //     alert('El div no contiene inputs de texto vacíos.');
+    //     // }
+
+    //     document.querySelectorAll('.contenido').forEach(function (contenido) {
+    //         contenido.style.display = 'none';
+    //     });
+    //     document.getElementById(id).style.display = 'block';
+    // }
+    function mostrarGrafico() {
+        var tipo = parseInt(document.getElementById('tipo').value, 10);
+        var url = "{% url 'grafica' id=paciente.id tipo=0 %}".replace(0, tipo);
+        console.log(url);
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById('grafico-container').innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", url, true);
+        xhttp.send();
+    }
+    var inputGlucosa = document.getElementById('glucosaInput');
+    inputGlucosa.addEventListener('input', verificarGlucosa);
+    function verificarGlucosa() {
+        var valorGlucosa = inputGlucosa.value;
+        var valorNumerico = parseFloat(valorGlucosa);
+        document.getElementById('gnormal').style.display = 'none';
+        document.getElementById('prediabetes').style.display = 'none';
+        document.getElementById('diabetes1').style.display = 'none';
+        document.getElementById('diabetes2').style.display = 'none';
+        document.getElementById('ginvalida').style.display = 'none';
+        if (valorNumerico <= 99) {
+            document.getElementById('gnormal').style.display = 'block';
+        } else if (valorNumerico >= 100 && valorNumerico <= 125) {
+            document.getElementById('prediabetes').style.display = 'block';
+        } else if (valorNumerico >= 126 && valorNumerico <=199 ) {
+            document.getElementById('diabetes1').style.display = 'block';
+        }  else if (valorNumerico >= 200) {
+            document.getElementById('diabetes2').style.display = 'block';
+        }else {
+            document.getElementById('ginvalida').style.display = 'block';
+        }
+    }
+
+    var inputSist = document.getElementById('tasisInput');
+    var inputDias = document.getElementById('tadiaInput');
+    inputSist.addEventListener('input', verificarPresion);
+    inputDias.addEventListener('input', verificarPresion);
+    function verificarPresion() {
+        var valorSist = parseInt(inputSist.value, 10);
+        var valorDias = parseInt(inputDias.value, 10);
+        document.getElementById('poptima').style.display = 'none';
+        document.getElementById('pnormal').style.display = 'none';
+        document.getElementById('pelevada').style.display = 'none';
+        document.getElementById('paltan1').style.display = 'none';
+        document.getElementById('paltan2').style.display = 'none';
+        document.getElementById('paltan3').style.display = 'none';
+        document.getElementById('psisais').style.display = 'none';
+        document.getElementById('pinvalida').style.display = 'none';
+        if (valorSist <= 120 && valorDias <=80){
+            document.getElementById('poptima').style.display = 'block'; 
+        }else if (valorSist <= 129 && (valorDias >=81 && valorDias <=84)){
+            document.getElementById('pnormal').style.display = 'block'; 
+        } else if(valorSist <=139 && (valorDias >=85 && valorDias <=89)){
+            document.getElementById('pelevada').style.display = 'block';
+        }else if(valorSist <= 159 && (valorDias >=90 && valorDias <=99)){
+            document.getElementById('paltan1').style.display = 'block';
+        }else if(valorSist <= 179 && (valorDias >=100 && valorDias <=109)){
+            document.getElementById('paltan2').style.display = 'block';
+        }else if(valorSist >= 180 && valorDias >= 110){
+            document.getElementById('paltan3').style.display = 'block';
+        }else if(valorSist >= 140 && valorDias <= 90){
+            document.getElementById('psisais').style.display = 'block';
+        }else{
+            document.getElementById('pinvalida').style.display = 'block';
+        }
+    }
+
+    var inputFCardiaca = document.getElementById('fcardInput');
+    inputFCardiaca.addEventListener('input', verificarFreCardiaca);
+    var inputedad = document.getElementById('edadInput');
+    inputedad.addEventListener('input', verificarFreCardiaca);
+    function verificarFreCardiaca(){
+        var valorfFcardiaca = parseInt(inputFCardiaca.value, 10);
+        var valoredad = parseInt(inputedad.value, 10);
+        document.getElementById('fcnormal').style.display = 'none';
+        document.getElementById('fcanormal').style.display = 'none';
+        if (valoredad >= 10 && (valorfFcardiaca>=60 && valorfFcardiaca<=100)){
+            document.getElementById('fcnormal').style.display = 'block';
+        }else if (valoredad >= 10 && !(valorfFcardiaca>=60 && valorfFcardiaca<=100)){
+            document.getElementById('fcanormal').style.display = 'block';
+        }else if ((valoredad >= 7 && valoredad <= 9 ) && (valorfFcardiaca>=70 && valorfFcardiaca<=110)){
+            document.getElementById('fcnormal').style.display = 'block';
+        }else if ((valoredad >= 7 && valoredad <= 9 ) && !(valorfFcardiaca>=70 && valorfFcardiaca<=110)){
+            document.getElementById('fcanormal').style.display = 'block';
+        }else if ((valoredad >= 5 && valoredad <= 6 ) && (valorfFcardiaca>=75 && valorfFcardiaca<=115)){
+            document.getElementById('fcnormal').style.display = 'block';
+        }else if ((valoredad >= 5 && valoredad <= 6 ) && !(valorfFcardiaca>=75 && valorfFcardiaca<=115)){
+            document.getElementById('fcanormal').style.display = 'block';
+        }else if ((valoredad >= 3 && valoredad <= 4 ) && (valorfFcardiaca>=80 && valorfFcardiaca<=120)){
+            document.getElementById('fcnormal').style.display = 'block';
+        }else if ((valoredad >= 3 && valoredad <= 4 ) && !(valorfFcardiaca>=80 && valorfFcardiaca<=120)){
+            document.getElementById('fcanormal').style.display = 'block';
+        }else if ((valoredad >= 1 && valoredad <= 2 ) && (valorfFcardiaca>=80 && valorfFcardiaca<=130)){
+            document.getElementById('fcnormal').style.display = 'block';
+        }else if ((valoredad >= 1 && valoredad <= 2 ) && !(valorfFcardiaca>=80 && valorfFcardiaca<=130)){
+            document.getElementById('fcanormal').style.display = 'block';
+        }
+    }
+
+    var inputFRespiratoria = document.getElementById('frespInput');
+    inputFRespiratoria.addEventListener('input', verificarFreResp);
+    var inputedad2 = document.getElementById('edadInput2');
+    inputedad2.addEventListener('input', verificarFreResp);
+    function verificarFreResp(){
+        var valorfFresp = parseInt(inputFRespiratoria.value, 10);
+        var valoredad = parseInt(inputedad2.value, 10);
+        document.getElementById('frnormal').style.display = 'none';
+        document.getElementById('franormal1').style.display = 'none';
+        document.getElementById('franormal2').style.display = 'none';
+
+        if ((valoredad>=1 && valoredad<=3) && (valorfFresp>=24 && valorfFresp<=40)){
+            document.getElementById('frnormal').style.display = 'block';
+        }else if ((valoredad>=1 && valoredad<=3) && !(valorfFresp>=24 && valorfFresp<=40)){
+            document.getElementById('franormal1').style.display = 'block';
+        }else if ((valoredad>=3 && valoredad<=6) && (valorfFresp>=22 && valorfFresp<=34)){
+            document.getElementById('frnormal').style.display = 'block';
+        }else if ((valoredad>=3 && valoredad<=6) && !(valorfFresp>=22 && valorfFresp<=34)){
+            document.getElementById('franormal1').style.display = 'block';
+        }else if ((valoredad>=6 && valoredad<=12) && (valorfFresp>=18 && valorfFresp<=30)){
+            document.getElementById('frnormal').style.display = 'block';
+        }else if ((valoredad>=6 && valoredad<=12) && !(valorfFresp>=18 && valorfFresp<=30)){
+            document.getElementById('franormal1').style.display = 'block';
+        }else if ((valoredad>=12 && valoredad<=18) && (valorfFresp>=12 && valorfFresp<=16)){
+            document.getElementById('frnormal').style.display = 'block';
+        }else if ((valoredad>=12 && valoredad<=18) && !(valorfFresp>=12 && valorfFresp<=16)){
+            document.getElementById('franormal1').style.display = 'block';
+        }else if(valoredad>18 && (valorfFresp >=12 && valorfFresp <=20)){
+            document.getElementById('frnormal').style.display = 'block';
+        }else if(valoredad>18 && valorfFresp <12){
+            document.getElementById('franormal1').style.display = 'block';
+        }else if(valoredad>18 && valorfFresp >20){
+            document.getElementById('franormal2').style.display = 'block';
+        }
+    }
+
+    var inputTemperatura = document.getElementById('tempInput');
+    inputTemperatura.addEventListener('input', verificartemperatura);
+    function verificartemperatura(){
+        var valortemp = parseFloat(inputTemperatura.value);
+        document.getElementById('tnormal').style.display = 'none';
+        document.getElementById('thipo').style.display = 'none';
+        document.getElementById('tfiebre').style.display = 'none';
+        document.getElementById('tfiebricula').style.display = 'none';
+        document.getElementById('thipertermia').style.display = 'none';
+
+        
+        if (valortemp>=36.5 && valortemp<=37){
+            document.getElementById('tnormal').style.display = 'block';
+        }else if (valortemp<36.5){
+            document.getElementById('thipo').style.display = 'block';
+        }else if (valortemp>37.0 && valortemp <38){
+            document.getElementById('tfiebricula').style.display = 'block';
+        }else if (valortemp>=38 && valortemp <41){
+            document.getElementById('tfiebre').style.display = 'block';
+        }else if (valortemp>=41){
+            document.getElementById('thipertermia').style.display = 'block';
+        }
+    }
+
+    var inputCreatinina = document.getElementById('creatininaInput');
+    console.log();
+    inputCreatinina.addEventListener('input', verificarcreatinina);
+    var inputsexo = document.getElementById('sexoinput');
+    inputsexo.addEventListener('input', verificarcreatinina);
+    var inputpeso = document.getElementById('pesoinput');
+    inputpeso.addEventListener('input', verificarcreatinina);
+    var inputedad3 = document.getElementById('edadInput3');
+    inputedad3.addEventListener('input', verificarcreatinina);
+    
+    function verificarcreatinina(){
+        var valorcreti = parseFloat(inputCreatinina.value);
+        var valorpeso = parseFloat(inputpeso.value);
+        var valoredad = parseInt(inputedad3.value, 10);
+        document.getElementById('cretinormal').style.display = 'none';
+        document.getElementById('cretianormal1').style.display = 'none';
+        document.getElementById('cretianormal2').style.display = 'none';
+        if (inputsexo = 'M'){
+            if (valorcreti >= 0.74 && valorcreti <= 1.35){
+                document.getElementById('cretinormal').style.display = 'block';
+            }else if (valorcreti< 0.74){
+                document.getElementById('cretianormal1').style.display = 'block';
+            }else if (valorcreti > 1.35){
+                document.getElementById('cretianormal2').style.display = 'block';
+            }
+
+            var fgm= (((140-valoredad) * valorpeso) / (72*valorcreti));
+            fgm = fgm.toFixed(2);
+            document.getElementById('fgmc').textContent = fgm +' ml/min'
+            document.getElementById('fgmInput').value = fgm
+            
+            document.getElementById('fge').style.display = 'block';
+            console.log(fgm);
+            if (fgm<15){
+                document.getElementById('fge').style.backgroundColor = 'red';
+                document.getElementById('fge').textContent = 'Insuficiencia renal'
+            }else if (fgm>=15 && fgm<=60){
+                document.getElementById('fge').style.backgroundColor = 'orange';
+                document.getElementById('fge').textContent = 'Enfermedad renal'
+            }else if (fgm>60 && fgm<=90){
+                document.getElementById('fge').style.backgroundColor = 'yellow';
+                document.getElementById('fge').textContent = 'Enfermedad renal temprana'
+            }else if (fgm>90 && fgm<=120){
+                document.getElementById('fge').style.backgroundColor = 'green';
+                document.getElementById('fge').textContent = 'Normal'
+            }
+
+        }else if (inputsexo = 'F'){
+            if (valorcreti >= 0.59 && valorcreti <= 1.04){
+                document.getElementById('cretinormal').style.display = 'block';
+            }else if (valorcreti< 0.59){
+                document.getElementById('cretianormal1').style.display = 'block';
+            }else if (valorcreti > 1.04){
+                document.getElementById('cretianormal2').style.display = 'block';
+            }
+            var fgm= (((140-valoredad) * valorpeso) / (72*valorcreti))* 0.85;
+            document.getElementById('fgmc').textContent = fgm +' ml/min'
+        }
     }
 </script>

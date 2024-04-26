@@ -1,7 +1,15 @@
 .login-page {
+  background-color: white;
   width: 1000px;
-  padding: 8% 0 0;
+  /*padding: 8% 0 0;*/
   margin: auto;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  margin-top: 7%;
+  border-radius: 3%;
+  text-align: center;
+}
+.login-page h1{
+  margin-top: 5px !important;
 }
 
 
@@ -74,11 +82,11 @@
   text-align: center;
 }
 .container .info h1 {
-  margin: 0 0 15px;
+  /*margin: 0 0 15px;*/
   padding: 0;
   font-size: 36px;
   font-weight: 300;
-  color: #1a1a1a;
+  color: #b50000;
 }
 .container .info span {
   color: #4d4d4d;
@@ -92,25 +100,18 @@
   color: #EF3B3A;
 }
 
-
-
 body {
-  background: #DBE0EE;
+  background: #DBE0EE !important;
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      
 }
-
-
-
 #Botones{
-
   margin-bottom: 30px;
   display: inline-block;
   margin-left: auto;
   margin-right: auto;
   align-items: center;
-  
 }
 
 #Botones label{
@@ -146,13 +147,20 @@ body {
 }
 .info-paciente{
   display: flex;
-  border: 2px solid #4294C6;
+  border: 2px solid #4A6FA4;
   border-radius: 10px;
-  background-color: #4294C6;
+  background-color: #4A6FA4;
   padding: 2px;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+  width: 75%;
 }
+.lista-pacientes{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 .datos{
   display: inline;
   width: 80%;
@@ -228,4 +236,7 @@ body {
   border-radius: 10px;
   width: 30%;
   color: white;
+}
+.login-page h1{
+  padding-top: 0px !important;
 }

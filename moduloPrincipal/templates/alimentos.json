@@ -1,0 +1,26 @@
+{
+    "verduras": {
+        [{"nombre":"fresas","calorias":15}],
+        [{"nombre":"fresas","calorias":15}]
+        [{"nombre":"fresas","calorias":15}]
+    },
+    "verduras": {
+        [{"nombre":"calabaza","calorias":15}]
+    },
+    "cereales": {
+        "frijoles": [{"nombre":"frijoles","calorias":15}],
+        "frijoles": [{"nombre":"frijoles","calorias":15}],
+        "frijoles": [{"nombre":"frijoles","calorias":15}],
+        "frijoles": [{"nombre":"frijoles","calorias":15}],
+        "frijoles": [{"nombre":"frijoles","calorias":15}],
+        "frijoles": [{"nombre":"frijoles","calorias":15}],
+    }
+}
+alimentos.cereales
+{
+    "alimentos":{
+        "acelga": {
+            
+        }
+    }
+}
