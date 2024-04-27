@@ -205,7 +205,7 @@ class ConsultaMedica(View):
         especialidad = Especialidades.objects.get(id=aux_especialista.id_especialidad.id)
         campos_excluir = ['_state','id', 'nombre', 'descripcion']
         especialidadJson = {key: value for key, value in vars(especialidad).items() if key not in campos_excluir and value == 'si'}
-        print(especialidadJson)
+        #print(especialidadJson)
         cita = Cita.objects.get(id=id)
         pre_llenado = 'no'
         # Se valida que sea una cita confirmada
