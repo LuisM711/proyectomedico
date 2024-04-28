@@ -161,7 +161,7 @@ class Configuracion(View):
                          'error': "Ese nombre de usuario ya esta ocupado"}
             else:
                 datos = {'usuario': request.user.id, 'nombre': request.user.username, 'correo': request.user.email}
-            return render(request, 'configuración.html', {"datos": datos})
+            return render(request, 'configuracion.html', {"datos": datos})
         elif (request.user.is_staff == 0 and request.user_type == 'E'):
             aux_especialista = Especialista.objects.get(id_usuario_id=request.user.id)
             arreglo_horario = (aux_especialista.horario).split(";")
@@ -189,3 +189,24 @@ class Configuracion(View):
                              'info_ad': aux_especialista.info_ad, 'cedula': aux_especialista.cedula,
                              'especialidad': aux_especialista.id_especialidad.nombre, "horario": json_horario}
             return render(request, 'configuracion.html', {"datos": datos})
+        elif (request.user.is_staff == 1):
+            return render(request, 'configuracion.html', {"datos": {'usuario': request.user.id, 'nombre': request.user.username, 'correo': request.user.email}})
+        else:
+            return redirect('login')
+        
+# class Configuracion(View):
+#     @method_decorator(login_required(login_url='login'), name='dispatch')
+#     def get(self, request):
+#         # Validacion de tipos de usaurio
+#         aux_usuario = Usuario.objects.get(id_usuario_id=request.user.id)
+#         # aux_usuario = Usuario.objects.get(id_usuario_id=request.user.id)
+#         # # Muestra un mensaje u otro dependiendo de si se hicieron los cambio correctamente
+#         # if message1 == "exito":
+#         #     datos = {'usuario': aux_usuario, 'nombre': request.user.username, 'correo': request.user.email,
+#         #                 'exito': "Nombre actualizado exitosamente"}
+#         # elif message1 == "error":
+#         #     datos = {'usuario': aux_usuario, 'nombre': request.user.username, 'correo': request.user.email,
+#         #                 'error': "Ese nombre de usuario ya esta ocupado"}
+#         # else:
+#         #     datos = {'usuario': aux_usuario, 'nombre': request.user.username, 'correo': request.user.email}
+#         return render(request, 'configuracion.html', {"datos": aux_usuario})

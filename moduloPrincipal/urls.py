@@ -46,7 +46,7 @@ urlpatterns = [
     path('reset/done',
          PasswordResetCompleteView.as_view(template_name='recuperar_contra/recuperar_contra_complete.html'),
          name='password_reset_complete'),
-
+    path('configuracion/', Configuracion.as_view(), name='configuracion'),
     # Urls de Paciente
     path('inicio', InicioEspecialista.as_view(), name='inicio_especialista'),
     path('inicio', InicioPaciente.as_view(), name='inicio_paciente'),
