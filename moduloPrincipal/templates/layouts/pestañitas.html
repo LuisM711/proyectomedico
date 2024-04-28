@@ -18,9 +18,45 @@
         });
         document.getElementById(id).style.display = 'block';
     }
-    const siguiente = () => {
+    const siguiente = (actual = "") => {
+        //console.log(actual);
+        let pasa = true;
+        switch (actual) {
+            case "pa":
+                if(creatininaInput.value == "")pasa = false;
+                if(glucosaInput.value == "")pasa = false;
+                if(tasisInput.value == "")pasa = false;
+                if(tadiaInput.value == "")pasa = false;
+                if(fcardInput.value == "")pasa = false;
+                if(frespInput.value == "")pasa = false;
+                if(tempInput.value == "")pasa = false;
+                if(desc.value == "")pasa = false;
+                break;
+            case "dx-tx":
+                if(diagnostico.value == "")pasa = false;
+                break;
+            case "menu":
+                break;
+            // case "pa":
+            //     break;
+
+            default:
+                alert("Hubo un error en el paremetro actual");
+                return;
+                break;
+        }
+        if(!pasa)
+        {
+            alert("Faltan campos por llenar");
+            return;
+        }
+
         let contenido = document.querySelectorAll('.pestañitas button');
-        contenido = Array.from(contenido).map((element) => element.id); 
+        contenido = Array.from(contenido).map((element) => element.id);
         console.log(contenido);
+        let posicion = contenido.indexOf(actual);
+        console.log(posicion);
+        document.getElementById(contenido[posicion+1]).click();
+
     }
 </script>

@@ -3,13 +3,13 @@
     <div class="padecimientos-motivo">
         <h3>Entro al prellenado=si del nutri</h3>
         <h2>Padecimiento o motivo de la consulta</h2>
-        <textarea rows="15" cols="50" disabled>{{cita.motivo}}</textarea>
+        <textarea rows="15" cols="50" readonly disabled>{{cita.motivo}}</textarea>
         <div class="botones-PA">
             {% if pre_llenado == "no"  %}
                 <button id="anterior" onclick="mostrarContenido('graficas')">Ver graficas</button>
             {% endif %}
             <!-- <button id="aceptar" onclick="mostrarContenido('DX-TX')">Aceptar</button> -->
-            <button id="aceptar" onclick="siguiente()">Aceptar</button>
+            <button id="aceptar" onclick="siguiente('pa')">Siguiente</button>
 
         </div>
     </div>
@@ -102,7 +102,7 @@
 
             </div>
             <div class="descripcion">
-            <label>Descripción de la exploración</label> <center><textarea name="desc" rows="6" cols="50"></textarea></center>
+            <label>Descripción de la exploración</label> <center><textarea id="desc" name="desc" rows="6" cols="50"></textarea></center>
             </div>
         </div>
     </div>
