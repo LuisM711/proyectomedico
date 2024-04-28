@@ -1,14 +1,14 @@
 <div class="pestañitas">
     <button type="button" id="general" onclick="mostrarContenido('GENERAL')">General</button>
-    
+
     {% if especialidadJson.exploracion_fisica == "si" %}
-        <button type="button" id="pa" onclick="mostrarContenido('PA')">PA</button>
+    <button type="button" id="pa" onclick="mostrarContenido('PA')">PA</button>
     {% endif %}
     {% if especialidadJson.diagnostico_tratamiento == "si" %}
-        <button type="button" id="dx-tx" onclick="mostrarContenido('DX-TX')">DX/TX</button>
+    <button type="button" id="dx-tx" onclick="mostrarContenido('DX-TX')">DX/TX</button>
     {% endif %}
     {% if especialidadJson.asignacion_menu == "si" %}
-        <button type="button" id="menu" onclick="mostrarContenido('asignarMenu')">Asignacion Menu</button>
+    <button type="button" id="menu" onclick="mostrarContenido('asignarMenu')">Asignacion Menu</button>
     {% endif %}
 </div>
 <script>
@@ -17,5 +17,10 @@
             contenido.style.display = 'none';
         });
         document.getElementById(id).style.display = 'block';
+    }
+    const siguiente = () => {
+        let contenido = document.querySelectorAll('.pestañitas button');
+        contenido = Array.from(contenido).map((element) => element.id); 
+        console.log(contenido);
     }
 </script>
