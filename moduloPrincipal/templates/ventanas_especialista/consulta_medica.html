@@ -50,7 +50,7 @@
         <center><button>Descargar Documento</button></center>
         
     </div>
-	<form class="historial-clinico" method="post" action="{% url 'ConsultaMedica' ID_cita %}">
+	<form class="historial-clinico" method="post" action="{% url 'ConsultaMedicaa' ID_cita %}">
         {% csrf_token %}
         <div class="pestañitas">
             <button type="button" id="general" onclick="mostrarContenido('GENERAL')">General</button>

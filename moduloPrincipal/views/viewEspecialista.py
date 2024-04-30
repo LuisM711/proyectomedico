@@ -198,7 +198,7 @@ class CambiarUsernameEspecialista(View):
 
 # Clase para que el especialista pueda visualizar y registrar datos de una consulta medica
 class ConsultaMedica(View):
-    @method_decorator(login_required, name='dispatch')
+    @method_decorator(login_required(login_url='login'), name='dispatch')
     def get(self, request, id):
         aux_usuario = Usuario.objects.get(id_usuario_id=request.user.id)
         aux_especialista = Especialista.objects.get(id_usuario_id=aux_usuario.id)
