@@ -98,15 +98,11 @@
                             <label>Nombre</label>
                             <input type="text" required name="patologia"/>
                             <button>Registrar</button>
-
                         </form>
                         <br>
                         <br>
-                        
                         <button onClick="this.parentElement.close()" type="button">Cerrar</button>
-                    
                     </dialog>
-                  
                     <br>
 
 
@@ -149,9 +145,6 @@
                     <button onClick="this.parentElement.close()" type="button">Cerrar</button>
                 
                 </dialog>
-
-
-                
             </div>
             <div class="antecedentes-no-patologicos">
                 <h3>Antecedentes personales no patologicos</h3>
@@ -177,11 +170,7 @@
                         <button onClick="this.parentElement.close()" type="button">Cerrar</button>
                     
                     </dialog>
-                  
-
-
                     <br>
-                  
                     {% for toxicomania in toxicomanias %}
                         <div class="elemento_historial">
                             {% csrf_token %}
@@ -228,9 +217,6 @@
                         <button onClick="this.parentElement.close()" type="button">Cerrar</button>
                     
                     </dialog>
-
-
-
                 <h4>Antecendentes quirurjicos</h4>
 
                 <button class="botones_registrar" id="show_button_ant_quirurjico">Registrar antecedente quirurjico</button>
@@ -252,7 +238,6 @@
                         <button onClick="this.parentElement.close()" type="button">Cerrar</button>
                     
                     </dialog>
-                  
                     <br>
 
                     {% for quirurjico in ant_quirurjicos %}
@@ -262,8 +247,6 @@
                             <button class="editar_elemento" onclick="editar_ant_quirurjico('{{quirurjico.tipo}}', '{{quirurjico.tiempo}}', '{{quirurjico.id}}')">Editar</button>
                             <button class="eliminar_elemento" onclick="eliminar_ant_quirurjico('{{quirurjico.id}}')" >Eliminar</button>
                         </div>
-                        
-               
                     {% endfor %}
 
                     <!-- Dialogos para editar y eliminar un antecedente quirurjico -->
@@ -320,9 +303,7 @@
                     <button onClick="this.parentElement.close()" type="button">Cerrar</button>
                 
                 </dialog>
-              
                 <br>
-
                 {% for transfusional in ant_transfusionales %}
                     <div class="elemento_historial">
                         {% csrf_token %}
@@ -330,11 +311,7 @@
                         <button class="editar_elemento" onclick="editar_ant_transfusional('{{transfusional.tipo}}', '{{transfusional.tiempo}}', '{{transfusional.id}}')">Editar</button>
                         <button class="eliminar_elemento" onclick="eliminar_ant_transfusional('{{transfusional.id}}')" >Eliminar</button>
                     </div>
-
-           
                 {% endfor %}
-
-
                  <!-- Dialogos para editar y eliminar un antecedente quirurjico -->
                  <dialog id="alert_eliminar_ant_transfusional">
                     <h2>Seguro que quieres eliminar el antecedente transfusional</h2>

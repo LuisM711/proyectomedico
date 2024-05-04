@@ -17,7 +17,7 @@ from moduloPrincipal.views.viewPatologia import *
 from moduloPrincipal.views.viewPerfilClinico import *
 from moduloPrincipal.views.viewToxicomania import *
 from moduloPrincipal.views.viewVacuna import *
-
+from moduloNutricion.views.viewAlimentos import *
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
     PasswordResetCompleteView
 

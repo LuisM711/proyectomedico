@@ -9,13 +9,13 @@
 width: 80%;
 margin-left: 10%;
 }
-
+#lista{
+    display: flex;
+}
 .recomendaciones{
     width: 40%;
     padding: 25px 25px 30px;
-   
     margin-left: 10%;
-    
 }
 .recomendaciones textarea{
     width: 100%;
