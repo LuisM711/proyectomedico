@@ -21,19 +21,65 @@
     const siguiente = (actual = "") => {
         //console.log(actual);
         let pasa = true;
-        switch (actual) {
+        // if (!pasa) {
+        //     alert("Faltan campos por llenar");
+        //     return;
+        // }
+
+        let contenido = document.querySelectorAll('.pestañitas button');
+        contenido = Array.from(contenido).map((element) => element.id);
+        console.log(contenido);
+        let posicion = contenido.indexOf(actual);
+        //console.log(posicion);
+        if (posicion == contenido.length - 1) {
+
+            contenido.forEach(element => {
+                console.log(element);
+                if (verificar(element) == false) { alert("Faltan campos por llenar en " + element); pasa = false; }
+            });
+            if (pasa) {
+                document.getElementById("consultaForm").submit();
+            }
+        }
+        else {
+            if (verificar(actual) == false) {
+                alert("Faltan campos por llenar en " + actual);
+                return;
+            }
+            document.getElementById(contenido[posicion + 1]).click();
+
+        }
+
+    }
+    const verificar = (modulo = "") => {
+        let pasa = true;
+        let faltantes = [];
+        switch (modulo) {
+            case "general": break;
             case "pa":
-                if(creatininaInput.value == "")pasa = false;
-                if(glucosaInput.value == "")pasa = false;
-                if(tasisInput.value == "")pasa = false;
-                if(tadiaInput.value == "")pasa = false;
-                if(fcardInput.value == "")pasa = false;
-                if(frespInput.value == "")pasa = false;
-                if(tempInput.value == "")pasa = false;
-                if(desc.value == "")pasa = false;
+                // if(creatininaInput.value == "")pasa = false;
+                // if(glucosaInput.value == "")pasa = false;
+                // if(tasisInput.value == "")pasa = false;
+                // if(tadiaInput.value == "")pasa = false;
+                // if(fcardInput.value == "")pasa = false;
+                // if(frespInput.value == "")pasa = false;
+                // if(tempInput.value == "")pasa = false;
+                // if(desc.value == "")pasa = false;
+                const inputs = document.querySelectorAll('#PA input');
+                //verificar que todos los inputs esten llenos
+                inputs.forEach((input) => {
+                    if (input.value == "") {
+                        pasa = false;
+                        faltantes.push("Exploracion fisica");
+                    }
+                });
+                //console.log(inputs);
                 break;
             case "dx-tx":
-                if(diagnostico.value == "")pasa = false;
+                if (diagnostico.value == "") {
+                    pasa = false;
+                    faltantes.push("Diagnostico y tratamiento");
+                }
                 break;
             case "menu":
                 break;
@@ -45,18 +91,7 @@
                 return;
                 break;
         }
-        if(!pasa)
-        {
-            alert("Faltan campos por llenar");
-            return;
-        }
-
-        let contenido = document.querySelectorAll('.pestañitas button');
-        contenido = Array.from(contenido).map((element) => element.id);
-        console.log(contenido);
-        let posicion = contenido.indexOf(actual);
-        console.log(posicion);
-        document.getElementById(contenido[posicion+1]).click();
-
+        return pasa;
+        //return [pasa, faltantes];
     }
 </script>
