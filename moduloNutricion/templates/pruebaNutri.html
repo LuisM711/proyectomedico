@@ -171,17 +171,29 @@
                 </select>
                 <textarea name="" id="" cols="30" rows="10"></textarea>
             </section>
-            <input type="button" value="Lista de Alimentos" id="lista" onclick="openIngredientDialog()">
+            <input type="button" value="Lista de Alimentos" id="lista">
             <dialog id="alimentos">
                 <div class="model-content">
-                    <div id="modalContent"></div>
+                    <input type="button" class="close" value="X">
+                    <div id="modalContent">
+                    </div>
                 </div>
-                    Hola
-                </p>
             </dialog>
         </div>
 </div>
 <script>
+    var modal = document.getElementById("alimentos");
+    var span = modal.querySelector(".close");
+    span.onclick = function(){
+        modal.close();
+        modal.style.display='none';
+    }
+    window.onclick=function(event){
+        if(event.target == modal){
+            modal.close();
+            modal.style.display='none';
+        }
+    }
     const buttonLista = document.querySelector("#lista");
     buttonLista.addEventListener("click", function(){
         fetch('{% static "alimentos.json" %}')
@@ -192,25 +204,63 @@
         alertDialog.showModal();
     });
     function fillModalWithData(jsonData){
-        var verduras = jsonData.alimentos.verduras;
+
+        var alimentos = jsonData.alimentos;
         var modelData = '';
-        for(var key in verduras){
-            var item = verduras[key];
-            modelData += `
-                            <h2> ${key}</h2>
-                            <ul>
-                                <li>Categoria:${item.Categoria}</li>
-                                <li>Porcion:${item.Porcion}</li>
-                                <li>Unidad:${item.Unidad}</li>
-                                <li>Energía:${item.Energia}</li>
-                                <li>Proteina:${item.Proteina}</li>
-                                <li>Lipidos:${item.Lipidos}</li>
-                                    
-                            </ul>
-            `
+            modelData = `<table class="table  table-bordered border-primary border border-primary-subtle table-hover" id="tabla">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th><b>Alimento</b></th>
+                                    <th><b>Categoría</b></th>
+                                    <th><b>Porción</b></th>
+                                    <th><b>Unidad</b></th>
+                                    <th><b>Energía</b></th>
+                                    <th><b>Proteína</b></th>
+                                    <th><b>Lipidos</b></th>
+                                </tr>
+                            </thead>
+                        `;
+        for(var category in alimentos){
+            var categoryObj = alimentos[category];
+            for(var key in categoryObj){
+                var item = categoryObj[key];
+                console.log(key)
+                console.log(item.Categoría)
+                console.log(item.Porcion)
+                console.log(item.Unidad)
+                console.log(item.Energia)
+                console.log(item.Proteina)
+                console.log(item.Lipidos)
+                modelData += `
+                    <tr>
+                        <td>
+                            ${key}
+                        </td>
+                        <td>
+                            ${item.Categoría}
+                        </td>
+                        <td>
+                            ${item.Porcion}
+                        </td>
+                        <td>
+                            ${item.Unidad}
+                        </td>
+                        <td>
+                            ${item.Energia}
+                        </td>
+                        <td>
+                            ${item.Proteina}
+                        </td>
+                        <td>
+                            ${item.Lipidos}
+                        </td>
+                    </tr>
+                `;
+            }
         }
         document.getElementById('modalContent').innerHTML=modelData;
-        document.getElementById('myModal').style.display='block'
+        document.getElementById('alimentos').style.display='block'
+        
     }
     /*function openIngredientDialog(){
         $.getJSON('/consulta_medica/<int:id>/alimentos', function(data){

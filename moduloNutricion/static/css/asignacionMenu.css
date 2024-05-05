@@ -4,7 +4,13 @@
     font-size: 30px;
     border-radius: 5px;
 }
-
+.close{
+    cursor: pointer;
+    margin-left: 90%;
+}
+.model-content{
+    justify-content: space-between;
+}
 #tabla{
 width: 80%;
 margin-left: 10%;
