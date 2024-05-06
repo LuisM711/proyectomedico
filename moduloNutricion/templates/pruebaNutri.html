@@ -215,9 +215,10 @@
                                     <th><b>Categoría</b></th>
                                     <th><b>Porción</b></th>
                                     <th><b>Unidad</b></th>
-                                    <th><b>Energía</b></th>
-                                    <th><b>Proteína</b></th>
-                                    <th><b>Lipidos</b></th>
+                                    <th><b>Energía (kcal)</b></th>
+                                    <th><b>Proteína (g)</b></th>
+                                    <th><b>Lipidos (g)</b></th>
+                                    <th><b>Hidratos de Carbono (g)</b></th>
                                 </tr>
                             </thead>
                         `;
@@ -225,13 +226,6 @@
             var categoryObj = alimentos[category];
             for(var key in categoryObj){
                 var item = categoryObj[key];
-                console.log(key)
-                console.log(item.Categoría)
-                console.log(item.Porcion)
-                console.log(item.Unidad)
-                console.log(item.Energia)
-                console.log(item.Proteina)
-                console.log(item.Lipidos)
                 modelData += `
                     <tr>
                         <td>
@@ -255,27 +249,14 @@
                         <td>
                             ${item.Lipidos}
                         </td>
+                        <td>
+                            ${item.HidratosDeCarbono}
+                        </td>
                     </tr>
                 `;
             }
         }
         document.getElementById('modalContent').innerHTML=modelData;
         document.getElementById('alimentos').style.display='block'
-        
     }
-    /*function openIngredientDialog(){
-        $.getJSON('/consulta_medica/<int:id>/alimentos', function(data){
-            var tableHtml = '<table class="table"><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody>';
-            $.each(data.alimentos, function(index, alimento){
-                tableHtml += `<tr><td>${alimento.verduras}</td><td>${alimento.frutas}</td></tr>`;
-            });
-            tableHtml+='</tbody></table>';
-            $('#lista').html(tableHtml);
-            var dialog = document.getElementById('alimentos');
-            dialog.showModal();
-        });
-    }*/
 </script>
-
-
-    
