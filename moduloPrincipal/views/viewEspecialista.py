@@ -13,6 +13,7 @@ from moduloNutricion.urls import nutriologo
 from django.views.decorators.csrf import csrf_exempt
 
 from moduloPrincipal.models.__init__ import *
+from moduloNutricion.models.modelMenu import Menu
 
 # Clase para enviar al especialista a su ventana de inicio
 class InicioEspecialista(View):
@@ -273,7 +274,9 @@ class ConsultaMedica(View):
     @method_decorator(login_required, name='dispatch')
     def post(self, request, id):
         cita = Cita.objects.get(id=id)
-
+        aux_usuario = Usuario.objects.get(id_usuario_id=request.user.id)
+        aux_especialista = Especialista.objects.get(id_usuario_id=aux_usuario.id)
+        paciente = Paciente.objects.get(id=cita.id_paciente.id)
         # Se valida que si se haya registrado exploracion fisica
         if 'glucosa' in request.POST:
             # TABLA DE EXPLORACION FISICA
@@ -374,7 +377,7 @@ class ConsultaMedica(View):
             colaGrasas2 = request.POST.get('colaGrasas2')
             colaAzucares2 = request.POST.get('colaAzucares2')
 
-            menu = {
+            menuJson = {
 
                 'desayuno':{
                     'verduras': desaVerduras,
@@ -436,6 +439,10 @@ class ConsultaMedica(View):
                 }
             }
 
+        menuString = json.dumps(menuJson)
+        print(menuString)
+        auxiliar_Menu = Menu.objects.create(id_cita=cita,id_Esp=aux_especialista, id_Paciente=paciente, fecha=date.today(),menu=menuString)
+        auxiliar_Menu.save()
         # solo se se cambia el estatus de la cita cuando no se esta pre llenando por una enfermera
         #if request.POST.get('pre_llenado') == "no":
         cita.estatus = 'A'
@@ -468,7 +475,8 @@ class VisualizarConsulta(View):
         #Obtenemos las especialidades en SI del especialista de dicha cita
         aux_explo= Exploracion_fisica.objects.get(id_cita_id=cita.id)
         aux_diagno=Diagnostico.objects.get(id_cita_id=cita.id)
-        data={'exploracionfisica': aux_explo, 'diagnostico': aux_diagno}
+        aux_menu=menu.objects.get(id_cita=cita.id)
+        data={'exploracionfisica': aux_explo, 'diagnostico': aux_diagno, 'menu': aux_menu}
 
         datosPaciente={'paciente': paciente,
                        'edad': edad,

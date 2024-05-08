@@ -55,8 +55,11 @@
             <button id="general" onclick="mostrarContenido('GENERAL')">General</button>
             {% if data.exploracionfisica %}
                 <button id="pa" onclick="mostrarContenido('PA')">PA</button>
-            {% endif %}
+            {% if data.diagnostico %}
             <button id="dx-tx" onclick="mostrarContenido('DX-TX')">DX/TX</button>
+            {% if data.menu %}
+            <button type="button" id="menu" onclick="mostrarContenido('asignarMenu')">Asignacion Menu</button>
+            {% endif %}
             
         </div>
         <div class="contenido" id="GENERAL">
@@ -235,6 +238,187 @@
                 
             </div>
         </div>
+        <div class="contenido" id="asignarMenu" style="display: none;">
+            <h2>Menú Alimenticio</h2>
+            <h3>Por porciones de Alimentos</h3>
+            <table class="table  table-bordered border-primary border border-primary-subtle table-hover" id="tabla">
+               <thead class="table-dark">
+                <tr>
+                    <th><b>Comidas</b></th>
+                    <th><i class="fa-solid fa-carrot"></i> Verduras</th>
+                    <th><i class="fa-solid fa-apple-whole"></i> Frutas</th>
+                    <th><i class="fa-solid fa-wheat-awn"></i> Cereales</th>
+                    <th><i class="fa-solid fa-wheat-awn"></i> Leguminosas</th>
+                    <th><i class="fa-solid fa-bacon"></i> Origen Animal</th>
+                    <th><i class="fa-solid fa-mug-saucer"></i> Leche y Derivados</th>
+                    <th><i class="fa-solid fa-cheese"></i> Grasas</th>
+                    <th><i class="fa-solid fa-ice-cream"></i> Azúcares</th>
+                </tr>
+               </thead>
+          
+              
+                <tr>
+                    <th><i class="fa-solid fa-egg"></i><p>Desayunos</p></th>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="desaVerduras">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="desaFrutas">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="desaCereales">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="desaLeguminosas">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="desaOrigen">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="desaLeche">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="desaGrasas">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="desaAzucares">
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <th><i class="fa-solid fa-apple-whole"></i><p>Colación</p></th>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaVerduras">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaFrutas">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaCereales">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaLeguminosas">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaOrigen">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaLeche">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaGrasas">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaAzucares">
+                    </td>
+                </tr> 
+                <tr>
+                    <th><i class="fa-solid fa-drumstick-bite"></i><p>Comidas</p</th>
+                        <td>
+                            <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiVerduras">
+                        </td>
+                        <td>
+                            <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiFrutas">
+                        </td>
+                        <td>
+                            <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiCereales">
+                        </td>
+                        <td>
+                            <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiLeguninosas">
+                        </td>
+                        <td>
+                            <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiOrigen">
+                        </td>
+                        <td>
+                            <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiLeche">
+                        </td>
+                        <td>
+                            <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiGrasas">
+                        </td>
+                        <td>
+                            <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiAzucares">
+                        </td>
+                
+                </tr>
+                <tr>
+                        <th><i class="fa-solid fa-apple-whole"></i><p>Colación</p></th>
+                        <td>
+                            <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaVerdurs2">
+                        </td>
+                        <td>
+                            <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaFrutas2">
+                        </td>
+                        <td>
+                            <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaCereales2">
+                        </td>
+                        <td>
+                            <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaLeguminosas2">
+                        </td>
+                        <td>
+                            <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaOrigen2">
+                        </td>
+                        <td>
+                            <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaLeche2">
+                        </td>
+                        <td>
+                            <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaGrasas2">
+                        </td>
+                        <td>
+                            <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaAzucares2">
+                        </td>
+                </tr> 
+                <tr>
+                    <th><i class="fa-solid fa-mug-saucer"></i><p>Cenas</p></th>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="cenaVerduras">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="cenaFrutas">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="cenaCereales">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="cenaLeguminosas">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="cenaOrigen">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="cenaLeche">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="cenaGrasas">
+                    </td>
+                    <td>
+                        <input type="number" required min="0" required max="20" value="0" class="porciones" name="cenaAzucares">
+                    </td>
+                </tr> 
+            </table>
+                
+                <div class="recomendaciones">
+                    <section>
+                        <h2>Recomendaciones</h2>
+                        <select class="form-select form-select-lg mb-3" aria-label="Large select example">
+                            <option selected>Seleccione una comida</option>
+                            <option value="1">Desayuno</option>
+                            <option value="2">Comida</option>
+                            <option value="3">Cena</option>
+                            <option value="4">Colación</option>
+                        </select>
+                        <textarea name="" id="" cols="30" rows="10"></textarea>
+                    </section>
+                    <input type="button" value="Lista de Alimentos" id="lista" onclick="openIngredientDialog()">
+                    <input type="button" onclick="siguiente('menu')" value="Siguiente">
+                    <dialog id="alimentos">
+                        <div class="model-content">
+                            <input type="button" class="close" value="X">
+                            <div id="modalContent">
+                            </div>
+                        </div>
+                    </dialog>
+                </div>
+        </div>
 	</div>
     {% endif %}
 	
@@ -269,7 +453,6 @@
         xhttp.open("GET", url, true);
         xhttp.send();
     }
-    
     function verificarGlucosa() {
         var inputGlucosa = document.getElementById('glucosaInput');
         var valorGlucosa = inputGlucosa.value;
@@ -288,8 +471,6 @@
             document.getElementById('ginvalida').style.display = 'block';
         }
     }
-
-
     function verificarPresion() {
         var inputSist = document.getElementById('tasisInput');
         var inputDias = document.getElementById('tadiaInput');
@@ -315,8 +496,6 @@
             document.getElementById('pinvalida').style.display = 'block';
         }
     }
-
-
     function verificarFreCardiaca(){
         var inputFCardiaca = document.getElementById('fcardInput');
         var inputedad = document.getElementById('edadInput');
@@ -346,9 +525,6 @@
             document.getElementById('fcanormal').style.display = 'block';
         }
     }
-
-
-
     function verificarFreResp(){
         var inputFRespiratoria = document.getElementById('frespInput');
         var inputedad2 = document.getElementById('edadInput2');
@@ -382,9 +558,6 @@
             document.getElementById('franormal2').style.display = 'block';
         }
     }
-
-
-
     function verificartemperatura(){
         var inputTemperatura = document.getElementById('tempInput');
         var valortemp = parseFloat(inputTemperatura.value);
@@ -399,10 +572,6 @@
             document.getElementById('tanormal2').style.display = 'block';
         }
     }
-
-
-
-    
     function verificarcreatinina(){
         var inputCreatinina = document.getElementById('creatininaInput');
         var inputsexo = document.getElementById('sexoinput');

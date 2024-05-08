@@ -4,7 +4,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/consulta_medica.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/asignacionMenu.css' %}">
     {% include 'layouts/fichaIdentificacion.html' %}
-    <form class="historial-clinico" id="consultaForm" method="post" action="/sriubier">
+    <form class="historial-clinico" id="consultaForm" method="post" action="{% url 'ConsultaMedica' ID_cita %}">
 
         {% csrf_token %}
         {% include 'layouts/pestañitas.html' %}
