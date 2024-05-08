@@ -374,7 +374,7 @@ class ConsultaMedica(View):
             colaGrasas2 = request.POST.get('colaGrasas2')
             colaAzucares2 = request.POST.get('colaAzucares2')
 
-            menu = {
+            menuJSON = {
 
                 'desayuno':{
                     'verduras': desaVerduras,
@@ -435,6 +435,8 @@ class ConsultaMedica(View):
                     'azucares': colaAzucares2
                 }
             }
+            menuString = json.dumps(menuJSON)
+            print(menuString)
 
         # solo se se cambia el estatus de la cita cuando no se esta pre llenando por una enfermera
         #if request.POST.get('pre_llenado') == "no":
