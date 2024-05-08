@@ -475,7 +475,7 @@ class VisualizarConsulta(View):
         #Obtenemos las especialidades en SI del especialista de dicha cita
         aux_explo= Exploracion_fisica.objects.get(id_cita_id=cita.id)
         aux_diagno=Diagnostico.objects.get(id_cita_id=cita.id)
-        aux_menu=menu.objects.get(id_cita=cita.id)
+        aux_menu=Menu.objects.get(id_cita=cita.id)
         data={'exploracionfisica': aux_explo, 'diagnostico': aux_diagno, 'menu': aux_menu}
 
         datosPaciente={'paciente': paciente,
