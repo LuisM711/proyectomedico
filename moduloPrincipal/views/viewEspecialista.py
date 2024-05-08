@@ -10,8 +10,9 @@ from django.http.response import JsonResponse
 import json
 from moduloNutricion.urls import nutriologo
 
-from django.views.decorators.csrf import csrf_exempt
 
+from django.views.decorators.csrf import csrf_exempt
+from moduloNutricion.models.modelMenuBien import Menu_Bien
 from moduloPrincipal.models.__init__ import *
 
 # Clase para enviar al especialista a su ventana de inicio
@@ -435,7 +436,13 @@ class ConsultaMedica(View):
                     'azucares': colaAzucares2
                 }
             }
-
+            paciente = Paciente.objects.get(id=cita.id_paciente.id)
+            aux_usuario = Usuario.objects.get(id_usuario_id=request.user.id)
+            aux_especialista = Especialista.objects.get(id_usuario_id=aux_usuario.id)
+            menuString = json.dumps(menu)
+            print(menuString)
+            auxMenuBien=Menu_Bien.objects.create(id_cita=cita,especialista=aux_especialista,paciente=paciente,menu=menuString)
+            auxMenuBien.save()
         # solo se se cambia el estatus de la cita cuando no se esta pre llenando por una enfermera
         #if request.POST.get('pre_llenado') == "no":
         cita.estatus = 'A'
