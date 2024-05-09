@@ -473,9 +473,23 @@ class VisualizarConsulta(View):
         edad = fecha_act.year - fecha_na.year - ((fecha_act.month, fecha_act.day) < (fecha_na.month, fecha_na.day))
         
         #Obtenemos las especialidades en SI del especialista de dicha cita
-        aux_explo= Exploracion_fisica.objects.get(id_cita_id=cita.id)
-        aux_diagno=Diagnostico.objects.get(id_cita_id=cita.id)
-        data={'exploracionfisica': aux_explo, 'diagnostico': aux_diagno}
+        data={}
+        if cita.diagnosticos.exists():
+            aux_diagno=Diagnostico.objects.get(id_cita_id=cita.id)
+            data.update({'diagnostico':aux_diagno})
+        
+        if cita.exploraciones.exists():
+            aux_explo= Exploracion_fisica.objects.get(id_cita_id=cita.id)
+            data.update({'exploracionfisica':aux_explo})
+
+        if cita.menus.exists():
+            auxMenu=Menu_Bien.objects.get(id_cita=cita.id)
+            auxMenu2=auxMenu.menu
+            auxMenu3 = json.loads(auxMenu2)
+            data.update({'menu':auxMenu3})
+        #("es la visualizacion")
+        #print(auxMenu2)
+        #data={'exploracionfisica': aux_explo, 'diagnostico': aux_diagno}
 
         datosPaciente={'paciente': paciente,
                        'edad': edad,
@@ -492,6 +506,7 @@ class VisualizarConsulta(View):
 
         # SI el especialista no registra exploracion fisica, ese datos no se busca ni envia
         #if (aux_especialista.id_especialidad.exploracion_fisica == "no"):
+        print(data)
         return render(request, "ventanas_especialista/visualizar_consulta.html", {'datosPaciente': datosPaciente,
                                                                                         'data': data})
         #else:

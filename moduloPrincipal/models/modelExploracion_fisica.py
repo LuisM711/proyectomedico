@@ -6,7 +6,7 @@ from .modelCita import Cita
 
 
 class Exploracion_fisica(models.Model):
-    id_cita = models.ForeignKey(Cita, on_delete=models.DO_NOTHING)
+    id_cita = models.ForeignKey(Cita, on_delete=models.DO_NOTHING, related_name='exploraciones')
     peso = models.FloatField()
     talla = models.FloatField()
     glucosa = models.IntegerField()
