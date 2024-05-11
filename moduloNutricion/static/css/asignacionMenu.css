@@ -21,7 +21,11 @@ margin-left: 10%;
 .recomendaciones{
     width: 40%;
     padding: 25px 25px 30px;
-    margin-left: 10%;
+    margin-left: 30%;
+}
+.recomendacion{
+    text-align: center;
+    justify-content: center;
 }
 .recomendaciones textarea{
     width: 100%;

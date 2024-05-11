@@ -79,6 +79,7 @@
                 {% if request.user_type == "P" %}
                 <li><a href="{% url 'listarcitaspaciente' %}">Mis Citas</a></li>
                 <li><a href="{% url 'listarespecialistas' %}">Mostrar Especialistas</a></li>
+                <li><a href="{% url 'menu_paciente' %}">Mi Menú</a></li>
                 <li><a href="{% url 'perfil_clinico' %}">Perfil Clinico</a></li>
                 {% endif %}
                 {% if request.user_type == "E" %}

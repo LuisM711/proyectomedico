@@ -18,6 +18,7 @@ from moduloPrincipal.views.viewPerfilClinico import *
 from moduloPrincipal.views.viewToxicomania import *
 from moduloPrincipal.views.viewVacuna import *
 from moduloNutricion.views.viewAlimentos import *
+from moduloNutricion.views.viewMenuPaciente import *
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
     PasswordResetCompleteView
 
@@ -63,6 +64,7 @@ urlpatterns = [
          Informacion_especialista.as_view(), name='info_especialista'),
     path('enviar_solicitud/<int:id_especialista>', Enviar_solicitud.as_view(), name='enviar_solicitud'),
     path('perfil_clinico', Perfil_Clinico.as_view(), name="perfil_clinico"),
+    path('menu_paciente', Menu_paciente.as_view(), name='menu_paciente'),
     path('registrar_toxicomanias', Registrar_Toxicomania.as_view(), name='registrar_toxicomania'),
     path('registrar_patologia', Registrar_Patologia.as_view(), name='registrar_patologia'),
     path('registrar_ant_quirurjico', Registrar_Ant_Quirurjico.as_view(), name='registrar_ant_quirurjico'),

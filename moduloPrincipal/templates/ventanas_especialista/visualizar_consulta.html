@@ -3,6 +3,7 @@
 {% block content %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/consulta_medica.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/asignacionMenu.css' %}">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <div class="login-page" >
@@ -400,16 +401,9 @@
     </table>
         
     <div class="recomendaciones">
-        <section>
+        <section class="recomendacion">
              <h2>Recomendaciones</h2>
-            <select class="form-select form-select-lg mb-3" aria-label="Large select example">
-                <option selected>Seleccione una comida</option>
-                <option value="1">Desayuno</option>
-                <option value="2">Comida</option>
-                <option value="3">Cena</option>
-                <option value="4">Colación</option>
-            </select>
-            <textarea name="" id="" cols="30" rows="10"></textarea>
+            <textarea name="" id="" cols="50" rows="10"></textarea>
         </section>
         <input type="button" value="Lista de Alimentos" id="lista" onclick="openIngredientDialog()">
         <dialog id="alimentos">
