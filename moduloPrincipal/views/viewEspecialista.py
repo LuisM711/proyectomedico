@@ -224,7 +224,7 @@ class ConsultaMedica(View):
             else:
                 pre_llenado = 'si'
         # Se obtienen los datos del usuario para mostrarlos en la interfaz
-        print("Es el mismo")
+        #print("Es el mismo")
         paciente = Paciente.objects.get(id=cita.id_paciente.id)
         fecha_act = date.today()
         fecha_na = paciente.id_usuario.fecha_nacimiento
@@ -264,7 +264,7 @@ class ConsultaMedica(View):
             #               'ID_cita': id, "cita": cita, "pre_llenado": pre_llenado, "exp_fisica": aux_exp_fisica})
         #JEFE, ESTE ES EL CODIGO REALMENTE FUNCIONAL DE LA VISTA
         else:
-            print("no hay prelleno")
+            #print("no hay prelleno")
             return render(request, 'layouts/consulta.html',
                           {'paciente': paciente, 'edad': edad, 'imc': imc, 'fgm': fgm, 'AP_toxi': AP_toxi,
                            'AP_qui': AP_qui, 'AP_tran': AP_tran, 'AP_vac': AP_vac, 'AP': AP, 'AP_al': AP_al,
@@ -440,7 +440,7 @@ class ConsultaMedica(View):
             aux_usuario = Usuario.objects.get(id_usuario_id=request.user.id)
             aux_especialista = Especialista.objects.get(id_usuario_id=aux_usuario.id)
             menuString = json.dumps(menu)
-            print(menuString)
+            #print(menuString)
             auxMenuBien=Menu_Bien.objects.create(id_cita=cita,especialista=aux_especialista,paciente=paciente,menu=menuString)
             auxMenuBien.save()
         # solo se se cambia el estatus de la cita cuando no se esta pre llenando por una enfermera
@@ -506,7 +506,7 @@ class VisualizarConsulta(View):
 
         # SI el especialista no registra exploracion fisica, ese datos no se busca ni envia
         #if (aux_especialista.id_especialidad.exploracion_fisica == "no"):
-        print(data)
+        #print(data)
         return render(request, "ventanas_especialista/visualizar_consulta.html", {'datosPaciente': datosPaciente,
                                                                                         'data': data})
         #else:

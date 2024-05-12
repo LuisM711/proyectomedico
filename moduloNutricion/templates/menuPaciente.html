@@ -1,5 +1,256 @@
 {% extends 'layouts/nav.html' %}
 {% load static %}
 {% block content %}
-<h1>Hola</h1>
+{% if menu %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/menuPaciente.css' %}">
+<table class="table  table-bordered border-primary border border-primary-subtle table-hover" id="tabla">
+    <thead class="table-dark">
+        <tr>
+            <th><b>Comidas</b></th>
+            <th><i class="fa-solid fa-carrot"></i> Verduras</th>
+            <th><i class="fa-solid fa-apple-whole"></i> Frutas</th>
+            <th><i class="fa-solid fa-wheat-awn"></i> Cereales</th>
+            <th><i class="fa-solid fa-wheat-awn"></i> Leguminosas</th>
+            <th><i class="fa-solid fa-bacon"></i> Origen Animal</th>
+            <th><i class="fa-solid fa-mug-saucer"></i> Leche y Derivados</th>
+            <th><i class="fa-solid fa-cheese"></i> Grasas</th>
+            <th><i class="fa-solid fa-ice-cream"></i> Azúcares</th>
+        </tr>
+   </thead>
+    <tr>
+        <th><i class="fa-solid fa-egg"></i><p>Desayunos</p></th>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.desayuno.verduras}}" class="porciones" name="desaVerduras" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.desayuno.frutas}}" class="porciones" name="desaFrutas" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.desayuno.cereales}}" class="porciones" name="desaCereales" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.desayuno.leguminosas}}" class="porciones" name="desaLeguminosas" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.desayuno.origen}}" class="porciones" name="desaOrigen" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.desayuno.leche}}" class="porciones" name="desaLeche" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.desayuno.grasas}}" class="porciones" name="desaGrasas" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.desayuno.azucares}}" class="porciones" name="desaAzucares" disabled>
+        </td>
+        
+    </tr>
+    <tr>
+        <th><i class="fa-solid fa-apple-whole"></i><p>Colación</p></th>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.colacion.verduras}}" class="porciones" name="colaVerduras" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.colacion.frutas}}" class="porciones" name="colaFrutas" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.colacion.cereales}}" class="porciones" name="colaCereales" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.colacion.leguminosas}}" class="porciones" name="colaLeguminosas" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.colacion.origen}}" class="porciones" name="colaOrigen" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.colacion.leche}}" class="porciones" name="colaLeche" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.colacion.grasas}}" class="porciones" name="colaGrasas" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.colacion.azucares}}" class="porciones" name="colaAzucares" disabled>
+        </td>
+    </tr> 
+    <tr>
+        <th><i class="fa-solid fa-drumstick-bite"></i><p>Comidas</p</th>
+            <td>
+                <input type="number" required min="0" required max="20" value="{{menu.comida.verduras}}" class="porciones" name="comiVerduras" disabled>
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="{{menu.comida.frutas}}" class="porciones" name="comiFrutas" disabled>
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="{{menu.comida.cereales}}" class="porciones" name="comiCereales" disabled>
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="{{menu.comida.leguminosas}}" class="porciones" name="comiLeguminosas" disabled>
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="{{menu.comida.origen}}" class="porciones" name="comiOrigen" disabled>
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="{{menu.comida.leche}}" class="porciones" name="comiLeche" disabled>
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="{{menu.comida.grasas}}" class="porciones" name="comiGrasas" disabled>
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="{{menu.comida.azucares}}" class="porciones" name="comiAzucares" disabled>
+            </td>
+    
+    </tr>
+    <tr>
+            <th><i class="fa-solid fa-apple-whole"></i><p>Colación</p></th>
+            <td>
+                <input type="number" required min="0" required max="20" value="{{menu.colacion2.verduras}}" class="porciones" name="colaVerduras2" disabled>
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="{{menu.colacion2.frutas}}" class="porciones" name="colaFrutas2" disabled>
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="{{menu.colacion2.cereales}}" class="porciones" name="colaCereales2" disabled>
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="{{menu.colacion2.leguminosas}}" class="porciones" name="colaLeguminosas2" disabled>
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="{{menu.colacion2.origen}}" class="porciones" name="colaOrigen2" disabled>
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="{{menu.colacion2.leche}}" class="porciones" name="colaLeche2" disabled>
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="{{menu.colacion2.grasas}}" class="porciones" name="colaGrasas2" disabled>
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="{{menu.colacion2.azucares}}" class="porciones" name="colaAzucares2" disabled>
+            </td>
+    </tr> 
+    <tr>
+        <th><i class="fa-solid fa-mug-saucer"></i><p>Cenas</p></th>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.cena.verduras}}" class="porciones" name="cenaVerduras" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.cena.frutas}}" class="porciones" name="cenaFrutas" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.cena.cereales}}" class="porciones" name="cenaCereales" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.cena.leguminosas}}" class="porciones" name="cenaLeguminosas" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.cena.origen}}" class="porciones" name="cenaOrigen" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.cena.leche}}" class="porciones" name="cenaLeche" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.cena.grasas}}" class="porciones" name="cenaGrasas" disabled>
+        </td>
+        <td>
+            <input type="number" required min="0" required max="20" value="{{menu.cena.azucares}}" class="porciones" name="cenaAzucares" disabled>
+        </td>
+    </tr> 
+</table>
+<div class="recomendaciones">
+    <section class="recomendacion">
+         <h2>Recomendaciones</h2>
+        <textarea name="" id="" cols="50" rows="10"></textarea>
+    </section>
+    <input type="button" value="Lista de Alimentos" id="lista" onclick="openIngredientDialog()">
+    <dialog id="alimentos">
+        <div class="model-content">
+            <input type="button" class="close" value="X">
+            <div id="modalContent">
+            </div>
+        </div>
+    </dialog>
+</div>
+<script>
+    var modal = document.getElementById("alimentos");
+    var span = modal.querySelector(".close");
+    span.onclick = function(){
+        modal.close();
+        modal.style.display='none';
+    }
+    window.onclick=function(event){
+        if(event.target == modal){
+            modal.close();
+            modal.style.display='none';
+        }
+    }
+    const buttonLista = document.querySelector("#lista");
+    buttonLista.addEventListener("click", function(){
+        fetch('{% static "alimentos.json" %}')
+        .then(response => response.json())
+        .then(data => fillModalWithData(data))
+        .catch(error => console.error('Error fetching JSON:',error));
+        const alertDialog = document.querySelector("#alimentos");
+        alertDialog.showModal();
+    });
+    function fillModalWithData(jsonData){
+
+        var alimentos = jsonData.alimentos;
+        var modelData = '';
+            modelData = `<table class="table  table-bordered border-primary border border-primary-subtle table-hover" id="tabla">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th><b>Alimento</b></th>
+                                    <th><b>Categoría</b></th>
+                                    <th><b>Porción</b></th>
+                                    <th><b>Unidad</b></th>
+                                    <th><b>Energía (kcal)</b></th>
+                                    <th><b>Proteína (g)</b></th>
+                                    <th><b>Lipidos (g)</b></th>
+                                    <th><b>Hidratos de Carbono (g)</b></th>
+                                </tr>
+                            </thead>
+                        `;
+        for(var category in alimentos){
+            var categoryObj = alimentos[category];
+            for(var key in categoryObj){
+                var item = categoryObj[key];
+                modelData += `
+                    <tr>
+                        <td>
+                            ${key}
+                        </td>
+                        <td>
+                            ${item.Categoría}
+                        </td>
+                        <td>
+                            ${item.Porcion}
+                        </td>
+                        <td>
+                            ${item.Unidad}
+                        </td>
+                        <td>
+                            ${item.Energia}
+                        </td>
+                        <td>
+                            ${item.Proteina}
+                        </td>
+                        <td>
+                            ${item.Lipidos}
+                        </td>
+                        <td>
+                            ${item.HidratosDeCarbono}
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+        document.getElementById('modalContent').innerHTML=modelData;
+        document.getElementById('alimentos').style.display='block'
+    }
+</script>
+{% else %}
+<div class="contenido">
+    <h1>Al parecer aun no cuentas con un menu asignado. Agenda cita con uno de nuestros especialistas hoy mismo para que asignen un plan alimenticio pensado para ti.</h1>
+    <button onclick="window.location.href = 'listarespecialistas/'">Agendar Cita con especialista</button>
+</div>
+{% endif %}
 {% endblock %}

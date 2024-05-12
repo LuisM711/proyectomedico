@@ -249,7 +249,7 @@ class Horario(View):
                         arreglo_horas = (hora2_turno1).split(":")
                         aux_hora2_turno1 = arreglo_horas[0]
                         aux_min2_turno1 = arreglo_horas[1]
-                        print(hora2_turno1)
+                        #print(hora2_turno1)
                         Jueves = {"hora1_turno1": aux_hora1_turno1, "min1_turno1": aux_min1_turno1,
                                   "hora2_turno1": aux_hora2_turno1, "min2_turno1": aux_min2_turno1,
                                   "hora1_turno2": "", "min1_turno2": "", "hora2_turno2": "", "min2_turno2": ""}
@@ -430,7 +430,7 @@ class Horario(View):
 
                 json_horario = {"Lunes": Lunes, "Martes": Martes, "Miercoles": Miercoles, "Jueves": Jueves,
                                 "Viernes": Viernes, "Sabado": Sabado, "Domingo": Domingo}
-                print(Jueves["min2_turno1"])
+                #print(Jueves["min2_turno1"])
                 datos = {"horario": json_horario}
 
                 return render(request, "ventanas_especialista/horario.html", {"datos": datos})

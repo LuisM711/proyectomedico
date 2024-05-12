@@ -118,7 +118,7 @@
                     <label>{{data.exploracionfisica.talla}}  m</label>
                     <label>IMC: </label>
                     <label style="width: 20%;">{{data.exploracionfisica.imc}} kg/m<sup>2</sup></label>
-                    <input type="text" name="imc" id="imcinput" value={{exploracionfisica.imc}} style="display: none;">
+                    
                     {% if data.exploracionfisica.imc %}
                         {% if data.exploracionfisica.imc  < 18.50 %}
                             <label>IMC: {{data.exploracionfisica.imc}} Bajo peso</label><br>
@@ -325,7 +325,7 @@
                     <input type="number" required min="0" required max="20" value="{{data.menu.comida.frutas}}" class="porciones" name="comiFrutas" disabled>
                 </td>
                 <td>
-                    <input type="number" required min="0" required max="20" value="{{data.menu.comida.cerelaes}}" class="porciones" name="comiCereales" disabled>
+                    <input type="number" required min="0" required max="20" value="{{data.menu.comida.cereales}}" class="porciones" name="comiCereales" disabled>
                 </td>
                 <td>
                     <input type="number" required min="0" required max="20" value="{{data.menu.comida.leguminosas}}" class="porciones" name="comiLeguminosas" disabled>
