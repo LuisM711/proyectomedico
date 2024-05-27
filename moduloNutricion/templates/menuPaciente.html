@@ -155,12 +155,7 @@
         </td>
     </tr> 
 </table>
-<div class="recomendaciones">
-    <section class="recomendacion">
-         <h2>Recomendaciones</h2>
-        <textarea name="" id="" cols="50" rows="10"></textarea>
-    </section>
-    <input type="button" value="Lista de Alimentos" id="lista" onclick="openIngredientDialog()">
+<button type="button" class="btn btn-primary" id="lista" onclick="openIngredientDialog()">Lista de Alimentos</button>
     <dialog id="alimentos">
         <div class="model-content">
             <input type="button" class="close" value="X">
@@ -168,6 +163,11 @@
             </div>
         </div>
     </dialog>
+<div class="recomendaciones">
+    <section class="recomendacion">
+         <h2>Recomendaciones</h2>
+        <textarea name="reco" id="" cols="50" rows="10" disabled>{{menu.recomendacion}}</textarea>
+    </section>
 </div>
 <script>
     var modal = document.getElementById("alimentos");

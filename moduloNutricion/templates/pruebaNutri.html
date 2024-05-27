@@ -157,22 +157,33 @@
             </td>
         </tr> 
     </table>
-        
+    <button type="button" class="btn btn-primary" id="lista" onclick="openIngredientDialog()">Lista de Alimentos</button>
+            
+    <dialog id="alimentos">
+        <div class="model-content">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-primary"><i class="fa-solid fa-carrot"></i> Verduras</button>
+                <button type="button" class="btn btn-primary"><i class="fa-solid fa-apple-whole"></i> Frutas</button>
+                <button type="button" class="btn btn-primary"><i class="fa-solid fa-wheat-awn"></i> Cereales</button>
+                <button type="button" class="btn btn-primary"><i class="fa-solid fa-wheat-awn"></i> Leguminosas</button>
+                <button type="button" class="btn btn-primary"><i class="fa-solid fa-bacon"></i> Origen Animal</button>
+                <button type="button" class="btn btn-primary"><i class="fa-solid fa-mug-saucer"></i> Leche</button>
+                <button type="button" class="btn btn-primary"><i class="fa-solid fa-cheese"></i> Grasas</button>
+                <button type="button" class="btn btn-primary"><i class="fa-solid fa-ice-cream"></i> Azúcares</button>
+                <button type="button" class="btn btn-primary"><i class="fa-solid fa-face-smile-wink"></i> Libres</button>
+            </div>
+            <input type="button" class="close" value="X">
+            <div id="modalContent">
+            </div>
+        </div>
+    </dialog>
         <div class="recomendaciones">
             <section class="recomendacion">
-                <h2>Recomendaciones de Alimentos y Comidas</h2>
-                <textarea name="" id="" cols="50" rows="10"></textarea>
+                <h2>Recomendaciones</h2>
+                <textarea name="reco" id="" cols="50" rows="10"></textarea>
             </section>
-            <input type="button" value="Lista de Alimentos" id="lista" onclick="openIngredientDialog()">
-            <input type="button" onclick="siguiente('menu')" value="Siguiente">
-            <dialog id="alimentos">
-                <div class="model-content">
-                    <input type="button" class="close" value="X">
-                    <div id="modalContent">
-                    </div>
-                </div>
-            </dialog>
         </div>
+        <input type="button" onclick="siguiente('menu')" value="Siguiente">
 </div>
 <script>
     var modal = document.getElementById("alimentos");

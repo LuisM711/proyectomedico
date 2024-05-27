@@ -1,11 +1,15 @@
 <div class="contenido" id="GENERAL">
-    <h2>Historial clinico</h2>
+    <center><h2>Historial clinico</h2></center>
     <div class="antecedentes-patologicos">
-        <h3>Antecedentes personales no patologicos</h3>
+        <h3>Antecedentes No Patologicos</h3>
         <h4>Toxicomania</h4>
-        {% for item in AP_toxi %}
-            <p>{{item.nombre}}: Si  Cantidad: {{item.cantidad}}  Frecuencia: {{item.frecuencia}}  Tiempo: {{item.tiempo}} años</p>
-        {% endfor %}
+        {% if item in AP_toxi %}
+            {% for item in AP_toxi %}
+                <h6>{{item.nombre}}: Si  Cantidad: {{item.cantidad}}  Frecuencia: {{item.frecuencia}}  Tiempo: {{item.tiempo}} años</h6>
+            {% endfor %}
+        {% else %}
+            <h5>El paciente no cuenta con ninguna Toxicomania registrada.</h5>
+        {% endif %}
         <h4>Antecendentes quirurjicos</h4>
         {% for item in AP_qui %}
             <p>Tipo: {{item.tipo}} Tiempo: {{item.tiempo}} años</p>
@@ -24,7 +28,7 @@
         {% endfor %}
     </div>
     <div class="antecedentes-no-patologicos">
-        <h3>Antecedentes personales patologicos</h3>
+        <h3>Antecedentes Patologicos</h3>
         {% for item in AP %}
             <p>{{item.patologia}}</p>
         {% endfor %}

@@ -375,6 +375,9 @@ class ConsultaMedica(View):
             colaGrasas2 = request.POST.get('colaGrasas2')
             colaAzucares2 = request.POST.get('colaAzucares2')
 
+            #recomendacion
+            recomendacion = request.POST.get('reco')
+
             menu = {
 
                 'desayuno':{
@@ -434,7 +437,8 @@ class ConsultaMedica(View):
                     'leche': colaLeche2,
                     'grasas': colaGrasas2,
                     'azucares': colaAzucares2
-                }
+                },
+                 'recomendacion': recomendacion
             }
             paciente = Paciente.objects.get(id=cita.id_paciente.id)
             aux_usuario = Usuario.objects.get(id_usuario_id=request.user.id)
