@@ -68,35 +68,64 @@
             
         </div>
         <div class="contenido" id="GENERAL">
-            <h2>Historial clinico</h2>
+            <center><h2>Historial clinico</h2></center>
             <div class="antecedentes-patologicos">
-                <h3>Antecedentes personales no patologicos</h3>
+                <h3>Antecedentes No Patologicos</h3>
                 <h4>Toxicomania</h4>
-                {% for item in datosPaciente.AP_toxi %}
-                    <p>{{item.nombre}}: Si  Cantidad: {{item.cantidad}}  Frecuencia: {{item.frecuencia}}  Tiempo: {{item.tiempo}} años</p>
-                {% endfor %}
-                <h4>Antecendentes quirurjicos</h4>
-                {% for item in datosPaciente.AP_qui %}
-                    <p>Tipo: {{item.tipo}} Tiempo: {{item.tiempo}} años</p>
-                {% endfor %}
+                {% if datosPaciente.AP_toxi %}
+                    {% for item in AP_toxi %}
+                        <p>{{item.nombre}}: Si  Cantidad: {{item.cantidad}}  Frecuencia: {{item.frecuencia}}  Tiempo: {{item.tiempo}} años</p>
+                    {% endfor %}
+                {% else %}
+                    <p>El paciente no cuenta con ninguna Toxicomania registrada.</p>
+                {% endif %}
+                <br>
+                <h4>Antecendentes quirurgicos</h4>
+                {% if datosPaciente.AP_qui %}
+                    {% for item in datosPaciente.AP_qui %}
+                        <p>Tipo: {{item.tipo}} Tiempo: {{item.tiempo}} años</p>
+                    {% endfor %}
+                {% else %}
+                    <p>El paciente no cuenta con ningún Antecedente quirurgico registrado.</p>
+                {% endif %} 
+                <br>
                 <h4>Antecedentes transfuncionales</h4>
-                {% for item in datosPaciente.AP_tran %}
-                    <p>Tipo: {{item.tipo}} Tiempo: {{item.tiempo}} años</p>
-                {% endfor %}
+                {% if datosPaciente.AP_tran %}
+                    {% for item in datosPaciente.AP_tran %}
+                        <p>Tipo: {{item.tipo}} Tiempo: {{item.tiempo}} años</p>
+                    {% endfor %}
+                {% else %}
+                    <p>El paciente no cuenta con ningún Antecedente transfuncional registrado.</p>
+                {% endif %}
+                <br>
                 <h4>Alergias</h4>
-                {% for item in datosPaciente.AP_al %}
-                    <p>{{item.nombre}}</p>
-                {% endfor %}
+                {% if datosPaciente.AP_al %}
+                    {% for item in datosPaciente.AP_al %}
+                        <p>{{item.nombre}}</p>
+                    {% endfor %}
+                {% else %}
+                    <p>El paciente no cuenta con ninguna Alergia registrada.</p>
+                {% endif %}
+                <br>
                 <h4>Vacunación</h4>
-                {% for item in datosPaciente.AP_vac %}
-                    <p>Nombre: {{item.nombre}}  Dosis: {{item.dosis}}  Año: {{item.año}}</p>
-                {% endfor %}
+                {% if datosPaciente.AP_vac %}
+                    {% for item in datosPaciente.AP_vac %}
+                        <p>Nombre: {{item.nombre}}  Dosis: {{item.dosis}}  Año: {{item.año}}</p>
+                    {% endfor %}
+                {% else %}
+                    <p>El paciente no cuenta con ninguna Vacuna registrada.</p>
+                {% endif %}
+                <br>
             </div>
             <div class="antecedentes-no-patologicos">
-                <h3>Antecedentes personales patologicos</h3>
-                {% for item in datosPaciente.AP %}
-                    <p>{{item.patologia}}</p>
-                {% endfor %}
+                <h3>Antecedentes Patologicos</h3>
+                 {% if datosPaciente.AP %}
+                    {% for item in datosPaciente.AP %}
+                        <p>{{item.patologia}}</p>
+                    {% endfor %}
+                {% else %}
+                    <p>El paciente no cuenta con ninguna Patología registrada.</p>
+                {% endif %}
             </div>
         </div>
 
@@ -399,20 +428,30 @@
             </td>
         </tr> 
     </table>
-        
+    <button type="button" class="btn btn-primary" id="lista" onclick="openIngredientDialog()">Lista de Alimentos</button>
+    <dialog id="alimentos">
+        <div class="model-content">
+            <input type="button" class="close" value="X">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-primary" id="verduras" onclick="fetchCategoryData('verduras')"><i class="fa-solid fa-carrot"></i> Verduras</button>
+                <button type="button" class="btn btn-primary" id="frutas" onclick="fetchCategoryData('frutas')"><i class="fa-solid fa-apple-whole"></i> Frutas</button>
+                <button type="button" class="btn btn-primary" id="cereales" onclick="fetchCategoryData('cereales')"><i class="fa-solid fa-wheat-awn"></i> Cereales</button>
+                <button type="button" class="btn btn-primary" id="leguminosas" onclick="fetchCategoryData('leguminosas')"><i class="fa-solid fa-wheat-awn"></i> Leguminosas</button>
+                <button type="button" class="btn btn-primary" id="origen" onclick="fetchCategoryData('origen_animal')"><i class="fa-solid fa-bacon"></i> Origen Animal</button>
+                <button type="button" class="btn btn-primary" id="leche" onclick="fetchCategoryData('leche')"><i class="fa-solid fa-mug-saucer"></i> Leche</button>
+                <button type="button" class="btn btn-primary" id="grasas" onclick="fetchCategoryData('grasas')"><i class="fa-solid fa-cheese"></i> Grasas</button>
+                <button type="button" class="btn btn-primary" id="azucares" onclick="fetchCategoryData('azucares')"><i class="fa-solid fa-ice-cream"></i> Azúcares</button>
+                <button type="button" class="btn btn-primary" id="libres" onclick="fetchCategoryData('libres')"><i class="fa-solid fa-face-smile-wink"></i> Libres</button>
+            </div>
+            <div id="modalContent">
+            </div>
+        </div>
+    </dialog>
     <div class="recomendaciones">
         <section class="recomendacion">
              <h2>Recomendaciones</h2>
             <textarea name="" id="" cols="50" rows="10"></textarea>
         </section>
-        <input type="button" value="Lista de Alimentos" id="lista" onclick="openIngredientDialog()">
-        <dialog id="alimentos">
-            <div class="model-content">
-                <input type="button" class="close" value="X">
-                <div id="modalContent">
-                </div>
-            </div>
-        </dialog>
     </div>
     </div>
     </div>
@@ -648,18 +687,21 @@
             modal.style.display='none';
         }
     }
-    const buttonLista = document.querySelector("#lista");
-    buttonLista.addEventListener("click", function(){
+    function fetchCategoryData(category){
         fetch('{% static "alimentos.json" %}')
         .then(response => response.json())
-        .then(data => fillModalWithData(data))
+        .then(data => {
+            const categoryData = data.alimentos[category];
+            fillModalWithData(categoryData);
+        })
         .catch(error => console.error('Error fetching JSON:',error));
+    }
+    function openIngredientDialog(){
+        fetchCategoryData('verduras');
         const alertDialog = document.querySelector("#alimentos");
         alertDialog.showModal();
-    });
-    function fillModalWithData(jsonData){
-
-        var alimentos = jsonData.alimentos;
+    }
+    function fillModalWithData(categoryData){
         var modelData = '';
             modelData = `<table class="table  table-bordered border-primary border border-primary-subtle table-hover" id="tabla">
                             <thead class="table-dark">
@@ -675,40 +717,21 @@
                                 </tr>
                             </thead>
                         `;
-        for(var category in alimentos){
-            var categoryObj = alimentos[category];
-            for(var key in categoryObj){
-                var item = categoryObj[key];
+            for(var key in categoryData){
+                var item = categoryData[key];
                 modelData += `
                     <tr>
-                        <td>
-                            ${key}
-                        </td>
-                        <td>
-                            ${item.Categoría}
-                        </td>
-                        <td>
-                            ${item.Porcion}
-                        </td>
-                        <td>
-                            ${item.Unidad}
-                        </td>
-                        <td>
-                            ${item.Energia}
-                        </td>
-                        <td>
-                            ${item.Proteina}
-                        </td>
-                        <td>
-                            ${item.Lipidos}
-                        </td>
-                        <td>
-                            ${item.HidratosDeCarbono}
-                        </td>
+                        <td>${key}</td>
+                        <td>${item.Categoría}</td>
+                        <td>${item.Porcion}</td>
+                        <td>${item.Unidad}</td>
+                        <td>${item.Energia}</td>
+                        <td>${item.Proteina}</td>
+                        <td>${item.Lipidos}</td>
+                        <td>${item.HidratosDeCarbono}</td>
                     </tr>
                 `;
             }
-        }
         document.getElementById('modalContent').innerHTML=modelData;
         document.getElementById('alimentos').style.display='block'
     }

@@ -158,21 +158,24 @@
         </tr> 
     </table>
     <button type="button" class="btn btn-primary" id="lista" onclick="openIngredientDialog()">Lista de Alimentos</button>
-            
+    <br>
+    <br>
+    <!--<input type="button" onclick="siguiente('menu')" value="Siguiente">-->
+    <button type="button" class="btn btn-primary" id="nutri" onclick="siguiente('menu')">Siguiente</button>
     <dialog id="alimentos">
         <div class="model-content">
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-primary"><i class="fa-solid fa-carrot"></i> Verduras</button>
-                <button type="button" class="btn btn-primary"><i class="fa-solid fa-apple-whole"></i> Frutas</button>
-                <button type="button" class="btn btn-primary"><i class="fa-solid fa-wheat-awn"></i> Cereales</button>
-                <button type="button" class="btn btn-primary"><i class="fa-solid fa-wheat-awn"></i> Leguminosas</button>
-                <button type="button" class="btn btn-primary"><i class="fa-solid fa-bacon"></i> Origen Animal</button>
-                <button type="button" class="btn btn-primary"><i class="fa-solid fa-mug-saucer"></i> Leche</button>
-                <button type="button" class="btn btn-primary"><i class="fa-solid fa-cheese"></i> Grasas</button>
-                <button type="button" class="btn btn-primary"><i class="fa-solid fa-ice-cream"></i> Azúcares</button>
-                <button type="button" class="btn btn-primary"><i class="fa-solid fa-face-smile-wink"></i> Libres</button>
-            </div>
             <input type="button" class="close" value="X">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-primary" id="verduras" onclick="fetchCategoryData('verduras')"><i class="fa-solid fa-carrot"></i> Verduras</button>
+                <button type="button" class="btn btn-primary" id="frutas" onclick="fetchCategoryData('frutas')"><i class="fa-solid fa-apple-whole"></i> Frutas</button>
+                <button type="button" class="btn btn-primary" id="cereales" onclick="fetchCategoryData('cereales')"><i class="fa-solid fa-wheat-awn"></i> Cereales</button>
+                <button type="button" class="btn btn-primary" id="leguminosas" onclick="fetchCategoryData('leguminosas')"><i class="fa-solid fa-wheat-awn"></i> Leguminosas</button>
+                <button type="button" class="btn btn-primary" id="origen" onclick="fetchCategoryData('origen_animal')"><i class="fa-solid fa-bacon"></i> Origen Animal</button>
+                <button type="button" class="btn btn-primary" id="leche" onclick="fetchCategoryData('leche')"><i class="fa-solid fa-mug-saucer"></i> Leche</button>
+                <button type="button" class="btn btn-primary" id="grasas" onclick="fetchCategoryData('grasas')"><i class="fa-solid fa-cheese"></i> Grasas</button>
+                <button type="button" class="btn btn-primary" id="azucares" onclick="fetchCategoryData('azucares')"><i class="fa-solid fa-ice-cream"></i> Azúcares</button>
+                <button type="button" class="btn btn-primary" id="libres" onclick="fetchCategoryData('libres')"><i class="fa-solid fa-face-smile-wink"></i> Libres</button>
+            </div>
             <div id="modalContent">
             </div>
         </div>
@@ -183,7 +186,6 @@
                 <textarea name="reco" id="" cols="50" rows="10"></textarea>
             </section>
         </div>
-        <input type="button" onclick="siguiente('menu')" value="Siguiente">
 </div>
 <script>
     var modal = document.getElementById("alimentos");
@@ -198,18 +200,21 @@
             modal.style.display='none';
         }
     }
-    const buttonLista = document.querySelector("#lista");
-    buttonLista.addEventListener("click", function(){
+    function fetchCategoryData(category){
         fetch('{% static "alimentos.json" %}')
         .then(response => response.json())
-        .then(data => fillModalWithData(data))
+        .then(data => {
+            const categoryData = data.alimentos[category];
+            fillModalWithData(categoryData);
+        })
         .catch(error => console.error('Error fetching JSON:',error));
+    }
+    function openIngredientDialog(){
+        fetchCategoryData('verduras');
         const alertDialog = document.querySelector("#alimentos");
         alertDialog.showModal();
-    });
-    function fillModalWithData(jsonData){
-
-        var alimentos = jsonData.alimentos;
+    }
+    function fillModalWithData(categoryData){
         var modelData = '';
             modelData = `<table class="table  table-bordered border-primary border border-primary-subtle table-hover" id="tabla">
                             <thead class="table-dark">
@@ -225,40 +230,21 @@
                                 </tr>
                             </thead>
                         `;
-        for(var category in alimentos){
-            var categoryObj = alimentos[category];
-            for(var key in categoryObj){
-                var item = categoryObj[key];
+            for(var key in categoryData){
+                var item = categoryData[key];
                 modelData += `
                     <tr>
-                        <td>
-                            ${key}
-                        </td>
-                        <td>
-                            ${item.Categoría}
-                        </td>
-                        <td>
-                            ${item.Porcion}
-                        </td>
-                        <td>
-                            ${item.Unidad}
-                        </td>
-                        <td>
-                            ${item.Energia}
-                        </td>
-                        <td>
-                            ${item.Proteina}
-                        </td>
-                        <td>
-                            ${item.Lipidos}
-                        </td>
-                        <td>
-                            ${item.HidratosDeCarbono}
-                        </td>
+                        <td>${key}</td>
+                        <td>${item.Categoría}</td>
+                        <td>${item.Porcion}</td>
+                        <td>${item.Unidad}</td>
+                        <td>${item.Energia}</td>
+                        <td>${item.Proteina}</td>
+                        <td>${item.Lipidos}</td>
+                        <td>${item.HidratosDeCarbono}</td>
                     </tr>
                 `;
             }
-        }
         document.getElementById('modalContent').innerHTML=modelData;
         document.getElementById('alimentos').style.display='block'
     }

@@ -1,3 +1,4 @@
+
 .porciones{
     margin-top: 5%;
     width: 60px;
@@ -45,4 +46,88 @@ margin-top: 2%;
     border-color: black;
     border-width: 2px;
     padding: 14px;
+}
+.btn-group{
+    margin-left: 8%;
+}
+#verduras {
+    background-color: #166088;
+    border-color: #166088;
+}
+#verduras:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#frutas {
+    background-color: #166088;
+    border-color: #166088;
+}
+#frutas:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#cereales {
+    background-color: #166088;
+    border-color: #166088;
+}
+#cereales:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#leguminosas {
+    background-color: #166088;
+    border-color: #166088;
+}
+#leguminosas:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#origen {
+    background-color: #166088;
+    border-color: #166088;
+}
+#origen:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#leche {
+    background-color: #166088;
+    border-color: #166088;
+}
+#leche:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#grasas {
+    background-color: #166088;
+    border-color: #166088;
+}
+#grasas:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+
+#azucares {
+    background-color: #166088;
+    border-color: #166088;
+}
+#azucares:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#libres {
+    background-color: #166088;
+    border-color: #166088;
+}
+#libres:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
 }

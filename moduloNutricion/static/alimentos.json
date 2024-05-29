@@ -201,7 +201,7 @@
                 "Carga Glicémica": 10
             }
         },
-        "origen animal":{
+        "origen_animal":{
             "Abulón fresco":{
                 "Categoría": "Muy bajo aporte de grasa",
                 "Porcion": "40", 
