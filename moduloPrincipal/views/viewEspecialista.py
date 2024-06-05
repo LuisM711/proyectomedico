@@ -257,7 +257,7 @@ class ConsultaMedica(View):
         aux_exp_fisica = Exploracion_fisica.objects.filter(id_cita_id=cita.id)
 
         if aux_exp_fisica.exists():
-            print("hay prelleno")
+            print("hay")
          #   return render(request, 'layouts/consulta.html',
           #                {'paciente': paciente, 'edad': edad, 'imc': imc, 'fgm': fgm, 'AP_toxi': AP_toxi,
            #                'AP_qui': AP_qui, 'AP_tran': AP_tran, 'AP_vac': AP_vac, 'AP': AP, 'AP_al': AP_al,
