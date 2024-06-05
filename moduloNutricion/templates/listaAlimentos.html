@@ -3,15 +3,24 @@
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/listaAlimentos.css' %}">
 <div class="btn-group" role="group" aria-label="Basic example">
-    <button type="button" class="btn btn-primary" id="verduras" onclick="fetchCategoryData('verduras')"><i class="fa-solid fa-carrot"></i> Verduras</button>
-    <button type="button" class="btn btn-primary" id="frutas" onclick="fetchCategoryData('frutas')"><i class="fa-solid fa-apple-whole"></i> Frutas</button>
-    <button type="button" class="btn btn-primary" id="cereales" onclick="fetchCategoryData('cereales')"><i class="fa-solid fa-wheat-awn"></i> Cereales</button>
-    <button type="button" class="btn btn-primary" id="leguminosas" onclick="fetchCategoryData('leguminosas')"><i class="fa-solid fa-wheat-awn"></i> Leguminosas</button>
-    <button type="button" class="btn btn-primary" id="origen" onclick="fetchCategoryData('origen_animal')"><i class="fa-solid fa-bacon"></i> Origen Animal</button>
-    <button type="button" class="btn btn-primary" id="leche" onclick="fetchCategoryData('leche')"><i class="fa-solid fa-mug-saucer"></i> Leche</button>
-    <button type="button" class="btn btn-primary" id="grasas" onclick="fetchCategoryData('grasas')"><i class="fa-solid fa-cheese"></i> Grasas</button>
-    <button type="button" class="btn btn-primary" id="azucares" onclick="fetchCategoryData('azucares')"><i class="fa-solid fa-ice-cream"></i> Azúcares</button>
-    <button type="button" class="btn btn-primary" id="libres" onclick="fetchCategoryData('libres')"><i class="fa-solid fa-face-smile-wink"></i> Libres</button>
+    <button type="button" class="btn btn-primary" id="verduras" onclick="fetchCategoryData(1)"><i
+            class="fa-solid fa-carrot"></i> Verduras</button>
+    <button type="button" class="btn btn-primary" id="frutas" onclick="fetchCategoryData('frutas')"><i
+            class="fa-solid fa-apple-whole"></i> Frutas</button>
+    <button type="button" class="btn btn-primary" id="cereales" onclick="fetchCategoryData('cereales')"><i
+            class="fa-solid fa-wheat-awn"></i> Cereales</button>
+    <button type="button" class="btn btn-primary" id="leguminosas" onclick="fetchCategoryData('leguminosas')"><i
+            class="fa-solid fa-wheat-awn"></i> Leguminosas</button>
+    <button type="button" class="btn btn-primary" id="origen" onclick="fetchCategoryData('origen_animal')"><i
+            class="fa-solid fa-bacon"></i> Origen Animal</button>
+    <button type="button" class="btn btn-primary" id="leche" onclick="fetchCategoryData('leche')"><i
+            class="fa-solid fa-mug-saucer"></i> Leche</button>
+    <button type="button" class="btn btn-primary" id="grasas" onclick="fetchCategoryData('grasas')"><i
+            class="fa-solid fa-cheese"></i> Grasas</button>
+    <button type="button" class="btn btn-primary" id="azucares" onclick="fetchCategoryData('azucares')"><i
+            class="fa-solid fa-ice-cream"></i> Azúcares</button>
+    <button type="button" class="btn btn-primary" id="libres" onclick="fetchCategoryData('libres')"><i
+            class="fa-solid fa-face-smile-wink"></i> Libres</button>
 </div>
 <div class="form">
     <h1>Verduras</h1>
@@ -19,8 +28,11 @@
         <thead>
             <tr class="titulo">
                 <th class="sticky">Nombre</th>
-                <th>Porción</th>
+                <th>Tipo</th>
                 <th>Unidad</th>
+                <th>Porción</th>
+                <th>Peso</th>
+                <th>Peso neto</th>
                 <th>Energía (kcal)</th>
                 <th>Proteína (g)</th>
                 <th>Lípidos (g)</th>
@@ -42,55 +54,58 @@
                 <th>Etanol (g)</th>
                 <th>IG</th>
                 <th>Carga Glicémica</th>
+
+
             </tr>
         </thead>
         <tbody id="food-table-body">
             {% if alimentos %}
-                {% for alimento in alimentos %}
-                    <tr>
-                        <td class="sticky">{{ alimento.nombre }}</td>
-                        <td>{{ alimento.tipo.tipo_nombre }}</td>
-                        <td>{{ alimento.porcion }}</td>
-                        <td>{{ alimento.uni.unidad }}</td>
-                        <td>{{ alimento.peso }}</td>
-                        <td>{{ alimento.peso_neto }}</td>
-                        <td>{{ alimento.energia }}</td>
-                        <td>{{ alimento.proteina }}</td>
-                        <td>{{ alimento.lipidos }}</td>
-                        <td>{{ alimento.carbos }}</td>
-                        <td>{{ alimento.ag_satur }}</td>
-                        <td>{{ alimento.ag_mono }}</td>
-                        <td>{{ alimento.ag_poli }}</td>
-                        <td>{{ alimento.colesterol }}</td>
-                        <td>{{ alimento.azucar }}</td>
-                        <td>{{ alimento.fibra }}</td>
-                        <td>{{ alimento.vita_A }}</td>
-                        <td>{{ alimento.aci_asc }}</td>
-                        <td>{{ alimento.aci_foli }}</td>
-                        <td>{{ alimento.calcio }}</td>
-                        <td>{{ alimento.hierro }}</td>
-                        <td>{{ alimento.potasio }}</td>
-                        <td>{{ alimento.sodio }}</td>
-                        <td>{{ alimento.fosforo }}</td>
-                        <td>{{ alimento.etanol }}</td>
-                        <td>{{ alimento.ig }}</td>
-                        <td>{{ alimento.carga_gli }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-            {% else %}
-            </tbody>
-             </table>
-             <h5>No hay datos ingresados</h5>
-            {% endif %}
-        
-       
+            {% for alimento in alimentos %}
+            <tr>
+                <td class="sticky">{{ alimento.nombre }}</td>
+                <td>{{ alimento.tipo.tipo_nombre }}</td>
+                <td>{{ alimento.uni.unidad }}</td>
+                <td>{{ alimento.porcion }}</td>
+                <td>{{ alimento.peso }}</td>
+                <td>{{ alimento.peso_neto }}</td>
+                <td>{{ alimento.energia }}</td>
+                <td>{{ alimento.proteina }}</td>
+                <td>{{ alimento.lipidos }}</td>
+                <td>{{ alimento.carbos }}</td>
+                <td>{{ alimento.ag_satur }}</td>
+                <td>{{ alimento.ag_mono }}</td>
+                <td>{{ alimento.ag_poli }}</td>
+                <td>{{ alimento.colesterol }}</td>
+                <td>{{ alimento.azucar }}</td>
+                <td>{{ alimento.fibra }}</td>
+                <td>{{ alimento.vita_A }}</td>
+                <td>{{ alimento.aci_asc }}</td>
+                <td>{{ alimento.aci_foli }}</td>
+                <td>{{ alimento.calcio }}</td>
+                <td>{{ alimento.hierro }}</td>
+                <td>{{ alimento.potasio }}</td>
+                <td>{{ alimento.sodio }}</td>
+                <td>{{ alimento.fosforo }}</td>
+                <td>{{ alimento.etanol }}</td>
+                <td>{{ alimento.ig }}</td>
+                <td>{{ alimento.carga_gli }}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    </tbody>
+    </table>
+    <h5>No hay datos ingresados</h5>
+    {% endif %}
+
+
 </div>
 
 <script>
-    function fetchCategoryData(category){
-        var url = "/api/foods/?category=" + category;
+    function fetchCategoryData(category) {
+        let url = "/api/foods/?category=" + category;
 
         fetch(url)
             .then(response => {
@@ -106,12 +121,12 @@
                 console.error('There was a problem with the fetch operation:', error);
             });
     }
-    function displayData(data){
-        var tableBody = document.getElementById("food-table-body");
-        tableBody.innerHTML="";
+    function displayData(data) {
+        let tableBody = document.getElementById("food-table-body");
+        tableBody.innerHTML = "";
 
-        data.forEach(function(item){
-            var row = `<tr>
+        data.forEach(function (item) {
+            let row = `<tr>
                             <td class = "sticky">${item.nombre}</td>
                             <td>${item.porcion}</td>
                             <td>${item.unidad}</td>
@@ -138,7 +153,7 @@
                             <td>${item.etanol}</td>
                             <td>${item.ig}</td>
                             <td>${item.carga_gli}</td>`
-                            tableBody.innerHTML+=row
+            tableBody.innerHTML += row
         });
     }
 </script>
