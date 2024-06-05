@@ -16,59 +16,130 @@
 <div class="form">
     <h1>Verduras</h1>
     <table class="table table-hover">
-        <tr class="titulo">
-            <th class="sticky">Nombre</th>
-            <th>Porción</th>
-            <th>Unidad</th>
-            <th>Energía (kcal)</th>
-            <th>Proteína (g)</th>
-            <th>Lípidos (g)</th>
-            <th>Carbohidratos (g)</th>
-            <th>AG saturados (g)</th>
-            <th>AG monoinsaturados (g)</th>
-            <th>AG poliinsaturados (g)</th>
-            <th>Colesterol (g)</th>
-            <th>Azúcar (g)</th>
-            <th>Fibra (g)</th>
-            <th>Vitamina A (mg RE)</th>
-            <th>Ácido Ascórbico (mg)</th>
-            <th>Ácido Fólico (mg)</th>
-            <th>Calcio (mg)</th>
-            <th>Hierro (mg)</th>
-            <th>Potasio (mg)</th>
-            <th>Sodio (mg)</th>
-            <th>Fósforo (mg)</th>
-            <th>Etanol (g)</th>
-            <th>IG</th>
-            <th>Carga Glicémica</th>
-        </tr>
-        <tr>
-            <td class="sticky">
-                azucar de caña
-            </td>
-            <td>
-                1
-            </td>
-            <td>
-                3
-            </td>
-            <td>
-                4
-            </td>
-            <td>
-                5
-            </td>
-            <td>
-                pieza
-            </td>
-            <td>
-                56
-            </td>
-            <td>
-                7.0
-            </td>
-        </tr>
+        <thead>
+            <tr class="titulo">
+                <th class="sticky">Nombre</th>
+                <th>Porción</th>
+                <th>Unidad</th>
+                <th>Energía (kcal)</th>
+                <th>Proteína (g)</th>
+                <th>Lípidos (g)</th>
+                <th>Carbohidratos (g)</th>
+                <th>AG saturados (g)</th>
+                <th>AG monoinsaturados (g)</th>
+                <th>AG poliinsaturados (g)</th>
+                <th>Colesterol (g)</th>
+                <th>Azúcar (g)</th>
+                <th>Fibra (g)</th>
+                <th>Vitamina A (mg RE)</th>
+                <th>Ácido Ascórbico (mg)</th>
+                <th>Ácido Fólico (mg)</th>
+                <th>Calcio (mg)</th>
+                <th>Hierro (mg)</th>
+                <th>Potasio (mg)</th>
+                <th>Sodio (mg)</th>
+                <th>Fósforo (mg)</th>
+                <th>Etanol (g)</th>
+                <th>IG</th>
+                <th>Carga Glicémica</th>
+            </tr>
+        </thead>
+        <tbody id="food-table-body">
+            {% if alimentos %}
+                {% for alimento in alimentos %}
+                    <tr>
+                        <td class="sticky">{{ alimento.nombre }}</td>
+                        <td>{{ alimento.tipo.tipo_nombre }}</td>
+                        <td>{{ alimento.porcion }}</td>
+                        <td>{{ alimento.uni.unidad }}</td>
+                        <td>{{ alimento.peso }}</td>
+                        <td>{{ alimento.peso_neto }}</td>
+                        <td>{{ alimento.energia }}</td>
+                        <td>{{ alimento.proteina }}</td>
+                        <td>{{ alimento.lipidos }}</td>
+                        <td>{{ alimento.carbos }}</td>
+                        <td>{{ alimento.ag_satur }}</td>
+                        <td>{{ alimento.ag_mono }}</td>
+                        <td>{{ alimento.ag_poli }}</td>
+                        <td>{{ alimento.colesterol }}</td>
+                        <td>{{ alimento.azucar }}</td>
+                        <td>{{ alimento.fibra }}</td>
+                        <td>{{ alimento.vita_A }}</td>
+                        <td>{{ alimento.aci_asc }}</td>
+                        <td>{{ alimento.aci_foli }}</td>
+                        <td>{{ alimento.calcio }}</td>
+                        <td>{{ alimento.hierro }}</td>
+                        <td>{{ alimento.potasio }}</td>
+                        <td>{{ alimento.sodio }}</td>
+                        <td>{{ alimento.fosforo }}</td>
+                        <td>{{ alimento.etanol }}</td>
+                        <td>{{ alimento.ig }}</td>
+                        <td>{{ alimento.carga_gli }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            </tbody>
+             </table>
+             <h5>No hay datos ingresados</h5>
+            {% endif %}
+        
+       
 </div>
 
+<script>
+    function fetchCategoryData(category){
+        var url = "/api/foods/?category=" + category;
 
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                displayData(data);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
+    function displayData(data){
+        var tableBody = document.getElementById("food-table-body");
+        tableBody.innerHTML="";
+
+        data.forEach(function(item){
+            var row = `<tr>
+                            <td class = "sticky">${item.nombre}</td>
+                            <td>${item.porcion}</td>
+                            <td>${item.unidad}</td>
+                            <td>${item.peso}</td>
+                            <td>${item.peso_neto}</td>
+                            <td>${item.energia}</td>
+                            <td>${item.proteina}</td>
+                            <td>${item.lipidos}</td>
+                            <td>${item.carbos}</td>
+                            <td>${item.ag_satur}</td>
+                            <td>${item.ag_mono}</td>
+                            <td>${item.ag_poli}</td>
+                            <td>${item.colesterol}</td>
+                            <td>${item.azucar}</td>
+                            <td>${item.fibra}</td>
+                            <td>${item.vita_A}</td>
+                            <td>${item.aci_asc}</td>
+                            <td>${item.aci_foli}</td>
+                            <td>${item.calcio}</td>
+                            <td>${item.hierro}</td>
+                            <td>${item.potasio}</td>
+                            <td>${item.sodio}</td>
+                            <td>${item.fosforo}</td>
+                            <td>${item.etanol}</td>
+                            <td>${item.ig}</td>
+                            <td>${item.carga_gli}</td>`
+                            tableBody.innerHTML+=row
+        });
+    }
+</script>
 {% endblock %}

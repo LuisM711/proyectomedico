@@ -9,7 +9,7 @@ class Unidad(models.Model):
 
 class Tipo(models.Model):
     id = models.AutoField(primary_key=True)
-    tipo = models.TextField()
+    tipo_nombre = models.TextField()
 
     class Meta:
         app_label = 'moduloNutricion'

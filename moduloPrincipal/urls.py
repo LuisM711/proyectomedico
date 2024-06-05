@@ -92,6 +92,7 @@ urlpatterns = [
     path('graficas/', Graficas.as_view(), name='graficas'),
     path('grafica2/<int:id>/<int:tipo>', grafica_EXP, name='grafica_exp'),
     path('listaAlimentos/', Lista_Alimentos.as_view(), name='listaAlimentos'),
+    path('api/foods/', fetch_category_data, name='fetch_category_data'),
 
     # Urls del administrador
     path('inicio/admin/', InicioAdmin.as_view(), name='inicio_admin'),
