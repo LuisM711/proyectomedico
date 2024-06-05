@@ -1,0 +1,74 @@
+{% extends 'layouts/nav.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/listaAlimentos.css' %}">
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-primary" id="verduras" onclick="fetchCategoryData('verduras')"><i class="fa-solid fa-carrot"></i> Verduras</button>
+    <button type="button" class="btn btn-primary" id="frutas" onclick="fetchCategoryData('frutas')"><i class="fa-solid fa-apple-whole"></i> Frutas</button>
+    <button type="button" class="btn btn-primary" id="cereales" onclick="fetchCategoryData('cereales')"><i class="fa-solid fa-wheat-awn"></i> Cereales</button>
+    <button type="button" class="btn btn-primary" id="leguminosas" onclick="fetchCategoryData('leguminosas')"><i class="fa-solid fa-wheat-awn"></i> Leguminosas</button>
+    <button type="button" class="btn btn-primary" id="origen" onclick="fetchCategoryData('origen_animal')"><i class="fa-solid fa-bacon"></i> Origen Animal</button>
+    <button type="button" class="btn btn-primary" id="leche" onclick="fetchCategoryData('leche')"><i class="fa-solid fa-mug-saucer"></i> Leche</button>
+    <button type="button" class="btn btn-primary" id="grasas" onclick="fetchCategoryData('grasas')"><i class="fa-solid fa-cheese"></i> Grasas</button>
+    <button type="button" class="btn btn-primary" id="azucares" onclick="fetchCategoryData('azucares')"><i class="fa-solid fa-ice-cream"></i> Azúcares</button>
+    <button type="button" class="btn btn-primary" id="libres" onclick="fetchCategoryData('libres')"><i class="fa-solid fa-face-smile-wink"></i> Libres</button>
+</div>
+<div class="form">
+    <h1>Verduras</h1>
+    <table class="table table-hover">
+        <tr class="titulo">
+            <th class="sticky">Nombre</th>
+            <th>Porción</th>
+            <th>Unidad</th>
+            <th>Energía (kcal)</th>
+            <th>Proteína (g)</th>
+            <th>Lípidos (g)</th>
+            <th>Carbohidratos (g)</th>
+            <th>AG saturados (g)</th>
+            <th>AG monoinsaturados (g)</th>
+            <th>AG poliinsaturados (g)</th>
+            <th>Colesterol (g)</th>
+            <th>Azúcar (g)</th>
+            <th>Fibra (g)</th>
+            <th>Vitamina A (mg RE)</th>
+            <th>Ácido Ascórbico (mg)</th>
+            <th>Ácido Fólico (mg)</th>
+            <th>Calcio (mg)</th>
+            <th>Hierro (mg)</th>
+            <th>Potasio (mg)</th>
+            <th>Sodio (mg)</th>
+            <th>Fósforo (mg)</th>
+            <th>Etanol (g)</th>
+            <th>IG</th>
+            <th>Carga Glicémica</th>
+        </tr>
+        <tr>
+            <td class="sticky">
+                azucar de caña
+            </td>
+            <td>
+                1
+            </td>
+            <td>
+                3
+            </td>
+            <td>
+                4
+            </td>
+            <td>
+                5
+            </td>
+            <td>
+                pieza
+            </td>
+            <td>
+                56
+            </td>
+            <td>
+                7.0
+            </td>
+        </tr>
+</div>
+
+
+{% endblock %}

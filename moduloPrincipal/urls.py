@@ -19,6 +19,7 @@ from moduloPrincipal.views.viewToxicomania import *
 from moduloPrincipal.views.viewVacuna import *
 from moduloNutricion.views.viewAlimentos import *
 from moduloNutricion.views.viewMenuPaciente import *
+from moduloNutricion.views.viewListaAlimentos import *
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
     PasswordResetCompleteView
 
@@ -90,6 +91,7 @@ urlpatterns = [
     path('grafica/<int:id>/<int:tipo>', grafica, name='grafica'),
     path('graficas/', Graficas.as_view(), name='graficas'),
     path('grafica2/<int:id>/<int:tipo>', grafica_EXP, name='grafica_exp'),
+    path('listaAlimentos/', Lista_Alimentos.as_view(), name='listaAlimentos'),
 
     # Urls del administrador
     path('inicio/admin/', InicioAdmin.as_view(), name='inicio_admin'),

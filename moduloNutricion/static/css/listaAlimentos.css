@@ -1,0 +1,120 @@
+.form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 90%;
+    margin: 0 auto 100px;
+    min-height: 360px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    margin-top: 3%;
+    border-radius: 5px;
+    overflow: auto;
+}
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.table th,
+    .table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    .table th.sticky,
+    .table td.sticky {
+        position: sticky;
+        left: 0;
+        background: white; /* Optional: to ensure the sticky column has a background */
+        z-index: 1; /* To keep it above other cells */
+    }
+
+    .table th.titulo {
+        background-color: #f2f2f2; /* Header row background */
+    }
+    .btn-group{
+        margin-left: 25%;
+        margin-top: 1%;
+    }
+#verduras {
+    background-color: #166088;
+    border-color: #166088;
+}
+#verduras:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#frutas {
+    background-color: #166088;
+    border-color: #166088;
+}
+#frutas:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#cereales {
+    background-color: #166088;
+    border-color: #166088;
+}
+#cereales:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#leguminosas {
+    background-color: #166088;
+    border-color: #166088;
+}
+#leguminosas:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#origen {
+    background-color: #166088;
+    border-color: #166088;
+}
+#origen:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#leche {
+    background-color: #166088;
+    border-color: #166088;
+}
+#leche:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#grasas {
+    background-color: #166088;
+    border-color: #166088;
+}
+#grasas:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+
+#azucares {
+    background-color: #166088;
+    border-color: #166088;
+}
+#azucares:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#libres {
+    background-color: #166088;
+    border-color: #166088;
+}
+#libres:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
