@@ -59,20 +59,15 @@
             </tr>
         </thead>
         <tbody id="food-table-body">
-            <!-- {% if alimentos %} -->
-            <!-- {% for alimento in alimentos %} -->
-            <tr>
-            </tr>
-            <!-- {% endfor %} -->
+
         </tbody>
     </table>
-    <!-- {% else %} -->
     </tbody>
     </table>
-    <!-- <h5>No hay datos ingresados</h5> -->
-    <input type="button" class="sticky form-control downButtons btn btn-primary" value="Guardar cambios" onclick="subir()">
-    <input type="button" class="sticky form-control downButtons btn btn-success" value="Agregar nuevo alimento" onclick="agregarRow()">
-    <!-- {% endif %} -->
+    <input type="button" class="sticky form-control downButtons btn btn-primary" value="Guardar cambios"
+        onclick="subir()">
+    <input type="button" class="sticky form-control downButtons btn btn-success" value="Agregar nuevo alimento"
+        onclick="agregarRow()">
 
 
 </div>
@@ -106,7 +101,7 @@
         fetchCategoryData(1);
     }
     function fetchCategoryData(category) {
-        form.scrollLeft = 0;
+        tabla.scrollLeft = 0;
         tipoActual = category;
         let url = "/api/foods/?category=" + category;
         tableBody.innerHTML = "";
@@ -126,7 +121,7 @@
         console.log(data);
         if (data.error) {
             //tipos where tipo = tipoActual
-            asd = tipos.find(item => item.id==tipoActual).tipo_nombre;
+            asd = tipos.find(item => item.id == tipoActual).tipo_nombre;
             console.log(asd)
             h1.innerHTML = `${asd} (no hay datos registrados)`;
             //h1.innerHTML = `${Object.entries(t) } (no hay datos registrados)`;
@@ -138,22 +133,22 @@
         });
     }
     let agregarRow = (item = {}) => {
-        let row = `<tr class ='renglon' id = ${item.id || null} name = 'renglon'>
+        let row = `<tr class ='renglon' name = 'renglon'>
                             <td class='hidden'> <input type = "text" value = '${item.id || null}' disabled></td>
                             <td class="sticky"> <input type = "text" onclick="this.select()" placeholder='Nombre del alimento' name='nombre' value = '${item.nombre || ""}'></td>
                             <td> 
                                 <select>
                                     ${Object.keys(tipos).map(key => {
-                                        return `<option value="${tipos[key].id}" ${item.tipo === tipos[key].id ? 'selected' : ''}>${tipos[key].tipo_nombre}</option>`;
-                                    }).join('')}
+            return `<option value="${tipos[key].id}" ${item.tipo === tipos[key].id ? 'selected' : tipoActual === tipos[key].id ? 'selected' : ''}>${tipos[key].tipo_nombre}</option>`;
+        }).join('')}
                                 </select>
                             
                             </td>
                             <td> 
                                 <select>
                                     ${Object.keys(unidades).map(key => {
-                                    return `<option value="${unidades[key].id}" ${item.unidad === unidades[key].id ? 'selected' : ''}>${unidades[key].unidad}</option>`;
-                                }).join('')}
+            return `<option value="${unidades[key].id}" ${item.unidad === unidades[key].id ? 'selected' : ''}>${unidades[key].unidad}</option>`;
+        }).join('')}
                                 </select>
                             </td>
 
@@ -182,9 +177,9 @@
                             <td> <input type = "text" onclick="this.select()" placeholder='ig' value = '${item.ig || 0}'></td>
                             <td> <input type = "text" onclick="this.select()" placeholder='carga_gli' value = '${item.carga_gli || 0}'></td>
                             <td> <button class="btn btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa-solid fa-delete-left"></i></button></td>
-                        </tr>`
-                    
-        tableBody.innerHTML += row
+                        </tr>`;
+
+        tableBody.insertAdjacentHTML('beforeend', row);
     }
     let subir = () => {
         const data = {};
@@ -254,9 +249,11 @@
     .renglon>td>input[type="text"] {
         text-align: center;
     }
+
     .hidden {
         display: none;
     }
+
     .downButtons {
         width: fit-content;
         margin: 0 auto;
