@@ -6,10 +6,20 @@
 }
 .close{
     cursor: pointer;
-    margin-left: 90%;
+    position: sticky;
+    top: 0;
+    left: 95%;
 }
 .model-content{
     justify-content: space-between;
+    overflow: auto;
+}
+.btn-group{
+
+    width: 80%;
+    position: sticky;
+    top: 0;
+    left: 10%;
 }
 #lista{
     display: flex;
