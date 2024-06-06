@@ -3,31 +3,31 @@
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/listaAlimentos.css' %}">
 <div class="btn-group" role="group" aria-label="Basic example">
-    <button type="button" class="btn btn-primary" id="verduras" onclick="fetchCategoryData('Verduras')"><i
+    <button type="button" class="btn btn-primary" id="verduras" onclick="fetchCategoryData(1)"><i
             class="fa-solid fa-carrot"></i> Verduras</button>
-    <button type="button" class="btn btn-primary" id="frutas" onclick="fetchCategoryData('Frutas')"><i
+    <button type="button" class="btn btn-primary" id="frutas" onclick="fetchCategoryData(2)"><i
             class="fa-solid fa-apple-whole"></i> Frutas</button>
-    <button type="button" class="btn btn-primary" id="cereales" onclick="fetchCategoryData('Cereales')"><i
+    <button type="button" class="btn btn-primary" id="cereales" onclick="fetchCategoryData(3)"><i
             class="fa-solid fa-wheat-awn"></i> Cereales</button>
-    <button type="button" class="btn btn-primary" id="leguminosas" onclick="fetchCategoryData('Leguminosas')"><i
+    <button type="button" class="btn btn-primary" id="leguminosas" onclick="fetchCategoryData(4)"><i
             class="fa-solid fa-wheat-awn"></i> Leguminosas</button>
-    <button type="button" class="btn btn-primary" id="origen" onclick="fetchCategoryData('Origen animal')"><i
+    <button type="button" class="btn btn-primary" id="origen" onclick="fetchCategoryData(5)"><i
             class="fa-solid fa-bacon"></i> Origen animal</button>
-    <button type="button" class="btn btn-primary" id="leche" onclick="fetchCategoryData('Leche')"><i
+    <button type="button" class="btn btn-primary" id="leche" onclick="fetchCategoryData(6)"><i
             class="fa-solid fa-mug-saucer"></i> Leche</button>
-    <button type="button" class="btn btn-primary" id="grasas" onclick="fetchCategoryData('Grasas')"><i
+    <button type="button" class="btn btn-primary" id="grasas" onclick="fetchCategoryData(7)"><i
             class="fa-solid fa-cheese"></i> Grasas</button>
-    <button type="button" class="btn btn-primary" id="azucares" onclick="fetchCategoryData('Azucares')"><i
+    <button type="button" class="btn btn-primary" id="azucares" onclick="fetchCategoryData(8)"><i
             class="fa-solid fa-ice-cream"></i> Azúcares</button>
-    <button type="button" class="btn btn-primary" id="libres" onclick="fetchCategoryData('Libres')"><i
+    <button type="button" class="btn btn-primary" id="libres" onclick="fetchCategoryData(9)"><i
             class="fa-solid fa-face-smile-wink"></i> Libres</button>
 </div>
-<div class="form">
+<div class="form" id="form">
     <h1 id="h1"></h1>
     <table class="table table-hover" id="tabla">
         <thead>
             <tr class="titulo">
-                <th>ID</th>
+                <th class="hidden">ID</th>
                 <th class="sticky">Nombre</th>
                 <th>Tipo</th>
                 <th>Unidad</th>
@@ -55,6 +55,7 @@
                 <th>Etanol (g)</th>
                 <th>IG</th>
                 <th>Carga Glicémica</th>
+                <th>Eliminar</th>
             </tr>
         </thead>
         <tbody id="food-table-body">
@@ -68,8 +69,9 @@
     <!-- {% else %} -->
     </tbody>
     </table>
-    <input type="button" value="subir" onclick="subir()">
     <!-- <h5>No hay datos ingresados</h5> -->
+    <input type="button" class="sticky form-control downButtons btn btn-primary" value="Guardar cambios" onclick="subir()">
+    <input type="button" class="sticky form-control downButtons btn btn-success" value="Agregar nuevo alimento" onclick="agregarRow()">
     <!-- {% endif %} -->
 
 
@@ -78,6 +80,8 @@
 <script>
     let tipos = {}
     let unidades = {}
+    let tableBody = document.getElementById("food-table-body");
+    let tipoActual = -1;
     onload = async () => {
 
         await fetch("/api/types/")
@@ -97,11 +101,15 @@
                 unidades = data;
                 console.log(unidades);
             })
-        fetchCategoryData('Verduras');
+        tabla.style.display = "block";
+
+        fetchCategoryData(1);
     }
     function fetchCategoryData(category) {
+        form.scrollLeft = 0;
+        tipoActual = category;
         let url = "/api/foods/?category=" + category;
-
+        tableBody.innerHTML = "";
         fetch(url)
             .then(response => {
                 console.log(response)
@@ -117,22 +125,27 @@
     function displayData(data) {
         console.log(data);
         if (data.error) {
-            h1.innerHTML = `${data.nombre} (no hay datos registrados)`;
+            //tipos where tipo = tipoActual
+            asd = tipos.find(item => item.id==tipoActual).tipo_nombre;
+            console.log(asd)
+            h1.innerHTML = `${asd} (no hay datos registrados)`;
+            //h1.innerHTML = `${Object.entries(t) } (no hay datos registrados)`;
             return;
         }
-        tabla.style.display = "block";
-        let tableBody = document.getElementById("food-table-body");
-        tableBody.innerHTML = "";
         h1.innerHTML = data[0].tipo_nombre;
-        data.forEach(function (item) {
-            let row = `<tr class ='renglon' id = ${item.id} name = 'renglon'>
-                            <td> <input type = "text" value = '${item.id}' disabled></td>
-                            <td class="sticky"> <input type = "text" name='nombre' value = '${item.nombre}'></td>
+        data.forEach(item => {
+            agregarRow(item);
+        });
+    }
+    let agregarRow = (item = {}) => {
+        let row = `<tr class ='renglon' id = ${item.id || null} name = 'renglon'>
+                            <td class='hidden'> <input type = "text" value = '${item.id || null}' disabled></td>
+                            <td class="sticky"> <input type = "text" onclick="this.select()" placeholder='Nombre del alimento' name='nombre' value = '${item.nombre || ""}'></td>
                             <td> 
                                 <select>
                                     ${Object.keys(tipos).map(key => {
-                return `<option value="${tipos[key].id}" ${item.tipo === tipos[key].id ? 'selected' : ''}>${tipos[key].tipo_nombre}</option>`;
-            }).join('')}
+                                        return `<option value="${tipos[key].id}" ${item.tipo === tipos[key].id ? 'selected' : ''}>${tipos[key].tipo_nombre}</option>`;
+                                    }).join('')}
                                 </select>
                             
                             </td>
@@ -144,35 +157,39 @@
                                 </select>
                             </td>
 
-                            <td> <input type = "text" value = '${item.porcion}'></td>
-                            <td> <input type = "text" value = '${item.peso}'></td>
-                            <td> <input type = "text" value = '${item.peso_neto}'></td>
-                            <td> <input type = "text" value = '${item.energia}'></td>
-                            <td> <input type = "text" value = '${item.proteina}'></td>
-                            <td> <input type = "text" value = '${item.lipidos}'></td>
-                            <td> <input type = "text" value = '${item.carbos}'></td>
-                            <td> <input type = "text" value = '${item.ag_satur}'></td>
-                            <td> <input type = "text" value = '${item.ag_mono}'></td>
-                            <td> <input type = "text" value = '${item.ag_poli}'></td>
-                            <td> <input type = "text" value = '${item.colesterol}'></td>
-                            <td> <input type = "text" value = '${item.azucar}'></td>
-                            <td> <input type = "text" value = '${item.fibra}'></td>
-                            <td> <input type = "text" value = '${item.vita_A}'></td>
-                            <td> <input type = "text" value = '${item.aci_asc}'></td>
-                            <td> <input type = "text" value = '${item.aci_foli}'></td>
-                            <td> <input type = "text" value = '${item.calcio}'></td>
-                            <td> <input type = "text" value = '${item.hierro}'></td>
-                            <td> <input type = "text" value = '${item.potasio}'></td>
-                            <td> <input type = "text" value = '${item.sodio}'></td>
-                            <td> <input type = "text" value = '${item.fosforo}'></td>
-                            <td> <input type = "text" value = '${item.etanol}'></td>
-                            <td> <input type = "text" value = '${item.ig}'></td>
-                            <td> <input type = "text" value = '${item.carga_gli}'></td>`
-            tableBody.innerHTML += row
-        });
+                            <td> <input type = "text" onclick="this.select()" placeholder='porcion' value = '${item.porcion || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='peso' value = '${item.peso || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='peso_neto' value = '${item.peso_neto || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='energia' value = '${item.energia || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='proteina' value = '${item.proteina || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='lipidos' value = '${item.lipidos || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='carbos' value = '${item.carbos || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='ag_satur' value = '${item.ag_satur || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='ag_mono' value = '${item.ag_mono || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='ag_poli' value = '${item.ag_poli || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='colesterol' value = '${item.colesterol || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='azucar' value = '${item.azucar || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='fibra' value = '${item.fibra || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='vita_A' value = '${item.vita_A || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='aci_asc' value = '${item.aci_asc || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='aci_foli' value = '${item.aci_foli || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='calcio' value = '${item.calcio || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='hierro' value = '${item.hierro || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='potasio' value = '${item.potasio || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='sodio' value = '${item.sodio || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='fosforo' value = '${item.fosforo || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='etanol' value = '${item.etanol || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='ig' value = '${item.ig || 0}'></td>
+                            <td> <input type = "text" onclick="this.select()" placeholder='carga_gli' value = '${item.carga_gli || 0}'></td>
+                            <td> <button class="btn btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa-solid fa-delete-left"></i></button></td>
+                        </tr>`
+                    
+        tableBody.innerHTML += row
     }
     let subir = () => {
-        const data = [];
+        const data = {};
+        data.datos = [];
+        data.tipo = tipoActual;
         const rows = document.getElementsByName('renglon');
         rows.forEach(row => {
             const inputs = row.getElementsByTagName('input');
@@ -208,14 +225,41 @@
                 ig: inputs[24].value,
                 carga_gli: inputs[25].value
             }
-            data.push(obj);
+            data.datos.push(obj);
         });
-        console.log(data);
+        console.log(JSON.stringify(data));
+        fetch('/listaAlimentos/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                alert('Datos guardados correctamente');
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            }).finally(() => {
+                window.location.reload();
+            });
     }
 </script>
 <style>
     .renglon>td>input[type="text"] {
         text-align: center;
+    }
+    .hidden {
+        display: none;
+    }
+    .downButtons {
+        width: fit-content;
+        margin: 0 auto;
     }
 </style>
 {% endblock %}

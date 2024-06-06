@@ -10,13 +10,59 @@ class Lista_Alimentos(View):
       alimentos = Alimento.objects.all()
       #return render(request, 'listaAlimentos.html',{'alimentos': alimentos})
       return render(request, 'listaAlimentos.html')
+   def post(self, request):
+      #print(json.loads( request.body)[0].get('tipo'))
+      objeto = json.loads(request.body)
+      print(objeto.get('tipo'))
+      #eliminar todos los alimentos de la categoria
+      alimentos = Alimento.objects.filter(tipo__id=objeto.get('tipo'))
+      alimentos.delete()
+      #insertar los nuevos alimentos
+      for alimento in objeto.get('datos'):
+         alimento = Alimento(
+            nombre = alimento.get('nombre'),
+            tipo = Tipo.objects.get(id=objeto.get('tipo')),
+            uni = Unidad.objects.get(id=alimento.get('unidad')),
+            porcion = alimento.get('porcion'),
+            peso = alimento.get('peso'),
+            peso_neto = alimento.get('peso_neto'),
+            energia = alimento.get('energia'),
+            proteina = alimento.get('proteina'),
+            lipidos = alimento.get('lipidos'),
+            carbos = alimento.get('carbos'),
+            ag_satur = alimento.get('ag_satur'),
+            ag_mono = alimento.get('ag_mono'),
+            ag_poli = alimento.get('ag_poli'),
+            colesterol = alimento.get('colesterol'),
+            azucar = alimento.get('azucar'),
+            fibra = alimento.get('fibra'),
+            vita_A = alimento.get('vita_A'),
+            aci_asc = alimento.get('aci_asc'),
+            aci_foli = alimento.get('aci_foli'),
+            calcio = alimento.get('calcio'),
+            hierro = alimento.get('hierro'),
+            potasio = alimento.get('potasio'),
+            sodio = alimento.get('sodio'),
+            fosforo = alimento.get('fosforo'),
+            etanol = alimento.get('etanol'),
+            ig = alimento.get('ig'),
+            carga_gli = alimento.get('carga_gli'),
+         )
+         alimento.save()
+         
+
+
+
+
+      return JsonResponse({'error':'skibidi toilet'} , status=200)
+
+
 
 def fetch_category_data(request):
    if request.method == 'GET':
       category = request.GET.get('category')
-      print(category)
       if category:
-         alimentos = Alimento.objects.filter(tipo__tipo_nombre=category).select_related('tipo','uni')
+         alimentos = Alimento.objects.filter(tipo__id=category).select_related('tipo','uni')
          if(len(alimentos) == 0):
             return JsonResponse({"nombre":category, "error":"No hay datos"}, status=200)
          data = [
