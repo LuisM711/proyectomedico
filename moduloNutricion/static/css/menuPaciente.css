@@ -7,10 +7,14 @@
 }
 .close{
     cursor: pointer;
-    margin-left: 90%;
+    position: sticky;
+    top: 0;
+    left: 95%;
 }
+
 .model-content{
     justify-content: space-between;
+    overflow: auto;
 }
 #tabla{
 width: 80%;
@@ -48,7 +52,11 @@ margin-top: 2%;
     padding: 14px;
 }
 .btn-group{
-    margin-left: 8%;
+
+    width: 80%;
+    position: sticky;
+    top: 0;
+    left: 10%;
 }
 #verduras {
     background-color: #166088;

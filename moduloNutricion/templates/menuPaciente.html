@@ -251,8 +251,8 @@
                     <tr>
                         <td>${key}</td>
                         <td>${item.Categoría}</td>
-                        <td>${item.Porcion}</td>
                         <td>${item.Unidad}</td>
+                        <td>${item.Porcion}</td>
                         <td>${item.Energia}</td>
                         <td>${item.Proteina}</td>
                         <td>${item.Lipidos}</td>
@@ -267,36 +267,37 @@
 
                 modelData += `
                     <tr>
-                         <td> <input type = "text" value = '${item.id}'></td>
-                          <td> <input type = "text" value = '${item.nombre}'></td>
-                           <td> <input type = "text" value = '${tipoNombre}'></td>
-                           <td> <input type = "text" value = '${unidadNombre}'></td>
-                         <td> <input type = "text" value = '${item.porcion}'></td>
-                            <td> <input type = "text" value = '${item.peso}' disabled></td>
-                            <td> <input type = "text" value = '${item.peso_neto}'></td>
-                            <td> <input type = "text" value = '${item.energia}'></td>
-                            <td> <input type = "text" value = '${item.proteina}'></td>
-                            <td> <input type = "text" value = '${item.lipidos}'></td>
-                            <td> <input type = "text" value = '${item.carbos}'></td>
-                            <td> <input type = "text" value = '${item.ag_satur}'></td>
-                            <td> <input type = "text" value = '${item.ag_mono}'></td>
-                            <td> <input type = "text" value = '${item.ag_poli}'></td>
-                            <td> <input type = "text" value = '${item.colesterol}'></td>
-                            <td> <input type = "text" value = '${item.azucar}'></td>
-                            <td> <input type = "text" value = '${item.fibra}'></td>
-                            <td> <input type = "text" value = '${item.vita_A}'></td>
-                            <td> <input type = "text" value = '${item.aci_asc}'></td>
-                            <td> <input type = "text" value = '${item.aci_foli}'></td>
-                            <td> <input type = "text" value = '${item.calcio}'></td>
-                            <td> <input type = "text" value = '${item.hierro}'></td>
-                            <td> <input type = "text" value = '${item.potasio}'></td>
-                            <td> <input type = "text" value = '${item.sodio}'></td>
-                            <td> <input type = "text" value = '${item.fosforo}'></td>
-                            <td> <input type = "text" value = '${item.etanol}'></td>
-                            <td> <input type = "text" value = '${item.ig}'></td>
-                            <td> <input type = "text" value = '${item.carga_gli}'></td></tr>`
-           });
-           modelData += `</table>`
+                         <td> ${item.id}</td>
+                          <td> ${item.nombre}</td>
+                           <td>  ${tipoNombre}</td>
+                           <td>  ${item.porcion}</td>
+                           <td>  ${unidadNombre}</td>
+                            <td>  ${item.peso}</td>
+                            <td>  ${item.peso_neto}</td>
+                            <td>  ${item.energia}</td>
+                            <td>  ${item.proteina}</td>
+                            <td>  ${item.lipidos}</td>
+                            <td>  ${item.carbos}</td>
+                            <td>  ${item.ag_satur}</td>
+                            <td>  ${item.ag_mono}</td>
+                            <td>  ${item.ag_poli}</td>
+                            <td>  ${item.colesterol}</td>
+                            <td>  ${item.azucar}</td>
+                            <td>  ${item.fibra}</td>
+                            <td>  ${item.vita_A}</td>
+                            <td>  ${item.aci_asc}</td>
+                            <td>  ${item.aci_foli}</td>
+                            <td>  ${item.calcio}</td>
+                            <td>  ${item.hierro}</td>
+                            <td>  ${item.potasio}</td>
+                            <td>  ${item.sodio}</td>
+                            <td>  ${item.fosforo}</td>
+                            <td>  ${item.etanol}</td>
+                            <td>  ${item.ig}</td>
+                            <td>  ${item.carga_gli}</td>`
+                    });
+           
+                            modelData += `</table>`
         document.getElementById('modalContent').innerHTML=modelData;
         document.getElementById('alimentos').style.display='block'
     }
