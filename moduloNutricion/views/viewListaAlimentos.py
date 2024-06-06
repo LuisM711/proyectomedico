@@ -49,12 +49,12 @@ class Lista_Alimentos(View):
             carga_gli = alimento.get('carga_gli'),
          )
          alimento.save()
-         
 
 
 
 
-      return JsonResponse({'error':'skibidi toilet'} , status=200)
+
+      return JsonResponse({'success':'Alimento guardado con exito'} , status=200)
 
 
 
