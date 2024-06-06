@@ -3,30 +3,31 @@
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/listaAlimentos.css' %}">
 <div class="btn-group" role="group" aria-label="Basic example">
-    <button type="button" class="btn btn-primary" id="verduras" onclick="fetchCategoryData(1)"><i
+    <button type="button" class="btn btn-primary" id="verduras" onclick="fetchCategoryData('Verduras')"><i
             class="fa-solid fa-carrot"></i> Verduras</button>
-    <button type="button" class="btn btn-primary" id="frutas" onclick="fetchCategoryData('frutas')"><i
+    <button type="button" class="btn btn-primary" id="frutas" onclick="fetchCategoryData('Frutas')"><i
             class="fa-solid fa-apple-whole"></i> Frutas</button>
-    <button type="button" class="btn btn-primary" id="cereales" onclick="fetchCategoryData('cereales')"><i
+    <button type="button" class="btn btn-primary" id="cereales" onclick="fetchCategoryData('Cereales')"><i
             class="fa-solid fa-wheat-awn"></i> Cereales</button>
-    <button type="button" class="btn btn-primary" id="leguminosas" onclick="fetchCategoryData('leguminosas')"><i
+    <button type="button" class="btn btn-primary" id="leguminosas" onclick="fetchCategoryData('Leguminosas')"><i
             class="fa-solid fa-wheat-awn"></i> Leguminosas</button>
-    <button type="button" class="btn btn-primary" id="origen" onclick="fetchCategoryData('origen_animal')"><i
-            class="fa-solid fa-bacon"></i> Origen Animal</button>
-    <button type="button" class="btn btn-primary" id="leche" onclick="fetchCategoryData('leche')"><i
+    <button type="button" class="btn btn-primary" id="origen" onclick="fetchCategoryData('Origen animal')"><i
+            class="fa-solid fa-bacon"></i> Origen animal</button>
+    <button type="button" class="btn btn-primary" id="leche" onclick="fetchCategoryData('Leche')"><i
             class="fa-solid fa-mug-saucer"></i> Leche</button>
-    <button type="button" class="btn btn-primary" id="grasas" onclick="fetchCategoryData('grasas')"><i
+    <button type="button" class="btn btn-primary" id="grasas" onclick="fetchCategoryData('Grasas')"><i
             class="fa-solid fa-cheese"></i> Grasas</button>
-    <button type="button" class="btn btn-primary" id="azucares" onclick="fetchCategoryData('azucares')"><i
+    <button type="button" class="btn btn-primary" id="azucares" onclick="fetchCategoryData('Azucares')"><i
             class="fa-solid fa-ice-cream"></i> Azúcares</button>
-    <button type="button" class="btn btn-primary" id="libres" onclick="fetchCategoryData('libres')"><i
+    <button type="button" class="btn btn-primary" id="libres" onclick="fetchCategoryData('Libres')"><i
             class="fa-solid fa-face-smile-wink"></i> Libres</button>
 </div>
 <div class="form">
-    <h1>Verduras</h1>
-    <table class="table table-hover">
+    <h1 id="h1"></h1>
+    <table class="table table-hover" id="tabla">
         <thead>
             <tr class="titulo">
+                <th>ID</th>
                 <th class="sticky">Nombre</th>
                 <th>Tipo</th>
                 <th>Unidad</th>
@@ -59,10 +60,10 @@
             </tr>
         </thead>
         <tbody id="food-table-body">
-            {% if alimentos %}
-            {% for alimento in alimentos %}
+            <!-- {% if alimentos %} -->
+            <!-- {% for alimento in alimentos %} -->
             <tr>
-                <td class="sticky">{{ alimento.nombre }}</td>
+                <!-- <td class="sticky">{{ alimento.nombre }}</td>
                 <td>{{ alimento.tipo.tipo_nombre }}</td>
                 <td>{{ alimento.uni.unidad }}</td>
                 <td>{{ alimento.porcion }}</td>
@@ -88,30 +89,55 @@
                 <td>{{ alimento.fosforo }}</td>
                 <td>{{ alimento.etanol }}</td>
                 <td>{{ alimento.ig }}</td>
-                <td>{{ alimento.carga_gli }}</td>
+                <td>{{ alimento.carga_gli }}</td> -->
 
             </tr>
-            {% endfor %}
+            <!-- {% endfor %} -->
         </tbody>
     </table>
-    {% else %}
+    <!-- {% else %} -->
     </tbody>
     </table>
-    <h5>No hay datos ingresados</h5>
-    {% endif %}
+    <input type="button" value="subir" onclick="subir()">
+    <!-- <h5>No hay datos ingresados</h5> -->
+    <!-- {% endif %} -->
 
 
 </div>
 
 <script>
+    let tipos = {}
+    let unidades = {}
+    onload = async () => {
+
+        await fetch("/api/types/")
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                tipos = data;
+                console.log(tipos);
+            })
+
+        await fetch("/api/units/")
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                unidades = data;
+                console.log(unidades);
+            })
+        fetchCategoryData('Verduras');
+    }
     function fetchCategoryData(category) {
         let url = "/api/foods/?category=" + category;
 
         fetch(url)
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
+                // if (!response.ok) {
+                //     throw new Error('Network response was not ok');
+                // }
+                console.log(response)
                 return response.json();
             })
             .then(data => {
@@ -122,40 +148,107 @@
             });
     }
     function displayData(data) {
+        console.log(data);
+        if (data.error) {
+            h1.innerHTML = `${data.nombre} (no hay datos registrados)`;
+            return;
+        }
+        tabla.style.display = "block";
         let tableBody = document.getElementById("food-table-body");
         tableBody.innerHTML = "";
-
+        h1.innerHTML = data[0].tipo_nombre;
         data.forEach(function (item) {
-            let row = `<tr>
-                            <td class = "sticky">${item.nombre}</td>
-                            <td>${item.tipo_nombre}</td>
-                            <td>${item.unidad}</td>
-                            <td>${item.porcion}</td>
-                            <td>${item.peso}</td>
-                            <td>${item.peso_neto}</td>
-                            <td>${item.energia}</td>
-                            <td>${item.proteina}</td>
-                            <td>${item.lipidos}</td>
-                            <td>${item.carbos}</td>
-                            <td>${item.ag_satur}</td>
-                            <td>${item.ag_mono}</td>
-                            <td>${item.ag_poli}</td>
-                            <td>${item.colesterol}</td>
-                            <td>${item.azucar}</td>
-                            <td>${item.fibra}</td>
-                            <td>${item.vita_A}</td>
-                            <td>${item.aci_asc}</td>
-                            <td>${item.aci_foli}</td>
-                            <td>${item.calcio}</td>
-                            <td>${item.hierro}</td>
-                            <td>${item.potasio}</td>
-                            <td>${item.sodio}</td>
-                            <td>${item.fosforo}</td>
-                            <td>${item.etanol}</td>
-                            <td>${item.ig}</td>
-                            <td>${item.carga_gli}</td>`
+            let row = `<tr class ='renglon' id = ${item.id} name = 'renglon'>
+                            <td> <input type = "text" value = '${item.id}' disabled></td>
+                            <td> <input class = "sticky" type = "text" name='nombre' value = '${item.nombre}'></td>
+                            <td> 
+                                <select>
+                                    ${Object.keys(tipos).map(key => {
+                return `<option value="${tipos[key].id}" ${item.tipo === tipos[key].id ? 'selected' : ''}>${tipos[key].tipo_nombre}</option>`;
+            }).join('')}
+                                </select>
+                            
+                            </td>
+                            <td> 
+                                <select>
+                                    ${Object.keys(unidades).map(key => {
+                                    return `<option value="${unidades[key].id}" ${item.unidad === unidades[key].id ? 'selected' : ''}>${unidades[key].unidad}</option>`;
+                                }).join('')}
+                                </select>
+                            </td>
+
+                            <td> <input type = "text" value = '${item.porcion}'></td>
+                            <td> <input type = "text" value = '${item.peso}'></td>
+                            <td> <input type = "text" value = '${item.peso_neto}'></td>
+                            <td> <input type = "text" value = '${item.energia}'></td>
+                            <td> <input type = "text" value = '${item.proteina}'></td>
+                            <td> <input type = "text" value = '${item.lipidos}'></td>
+                            <td> <input type = "text" value = '${item.carbos}'></td>
+                            <td> <input type = "text" value = '${item.ag_satur}'></td>
+                            <td> <input type = "text" value = '${item.ag_mono}'></td>
+                            <td> <input type = "text" value = '${item.ag_poli}'></td>
+                            <td> <input type = "text" value = '${item.colesterol}'></td>
+                            <td> <input type = "text" value = '${item.azucar}'></td>
+                            <td> <input type = "text" value = '${item.fibra}'></td>
+                            <td> <input type = "text" value = '${item.vita_A}'></td>
+                            <td> <input type = "text" value = '${item.aci_asc}'></td>
+                            <td> <input type = "text" value = '${item.aci_foli}'></td>
+                            <td> <input type = "text" value = '${item.calcio}'></td>
+                            <td> <input type = "text" value = '${item.hierro}'></td>
+                            <td> <input type = "text" value = '${item.potasio}'></td>
+                            <td> <input type = "text" value = '${item.sodio}'></td>
+                            <td> <input type = "text" value = '${item.fosforo}'></td>
+                            <td> <input type = "text" value = '${item.etanol}'></td>
+                            <td> <input type = "text" value = '${item.ig}'></td>
+                            <td> <input type = "text" value = '${item.carga_gli}'></td>`
             tableBody.innerHTML += row
         });
     }
+    let subir = () => {
+        const data = [];
+        const rows = document.getElementsByName('renglon');
+        rows.forEach(row => {
+            const inputs = row.getElementsByTagName('input');
+            const select = row.getElementsByTagName('select')[0];
+            const select2 = row.getElementsByTagName('select')[1];
+            const obj = {
+                id: inputs[0].value,
+                nombre: inputs[1].value,
+                tipo: select.value,
+                unidad: select2.value,
+                porcion: inputs[2].value,
+                peso: inputs[3].value,
+                peso_neto: inputs[4].value,
+                energia: inputs[5].value,
+                proteina: inputs[6].value,
+                lipidos: inputs[7].value,
+                carbos: inputs[8].value,
+                ag_satur: inputs[9].value,
+                ag_mono: inputs[10].value,
+                ag_poli: inputs[11].value,
+                colesterol: inputs[12].value,
+                azucar: inputs[13].value,
+                fibra: inputs[14].value,
+                vita_A: inputs[15].value,
+                aci_asc: inputs[16].value,
+                aci_foli: inputs[17].value,
+                calcio: inputs[18].value,
+                hierro: inputs[19].value,
+                potasio: inputs[20].value,
+                sodio: inputs[21].value,
+                fosforo: inputs[22].value,
+                etanol: inputs[23].value,
+                ig: inputs[24].value,
+                carga_gli: inputs[25].value
+            }
+            data.push(obj);
+        });
+        console.log(data);
+    }
 </script>
+<style>
+    .renglon>td>input[type="text"] {
+        text-align: center;
+    }
+</style>
 {% endblock %}

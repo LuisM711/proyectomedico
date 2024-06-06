@@ -7,20 +7,26 @@ from moduloNutricion.models.modelAlimento import *
 
 class Lista_Alimentos(View):
    def get(self, request):
-    alimentos = Alimento.objects.all()
-    return render(request, 'listaAlimentos.html',{'alimentos': alimentos})
+      alimentos = Alimento.objects.all()
+      #return render(request, 'listaAlimentos.html',{'alimentos': alimentos})
+      return render(request, 'listaAlimentos.html')
 
 def fetch_category_data(request):
    if request.method == 'GET':
       category = request.GET.get('category')
       print(category)
       if category:
-         alimentos = Alimento.objects.filter(tipo__id=category).select_related('tipo','uni')
+         alimentos = Alimento.objects.filter(tipo__tipo_nombre=category).select_related('tipo','uni')
+         if(len(alimentos) == 0):
+            return JsonResponse({"nombre":category, "error":"No hay datos"}, status=200)
          data = [
                 {
+                    'id': alimento.id,
                     'nombre': alimento.nombre,
-                    'tipo_nombre': alimento.tipo.tipo_nombre,  # Access the tipo_nombre field through the related tipo object
-                    'unidad': alimento.uni.unidad,      # Access the unidad field through the related uni object
+                    'tipo': alimento.tipo.id,            
+                    'tipo_nombre': alimento.tipo.tipo_nombre, 
+                    'unidad': alimento.uni.id,
+
                     'porcion': alimento.porcion,
                     'peso': alimento.peso,
                     'peso_neto': alimento.peso_neto,
@@ -48,4 +54,32 @@ def fetch_category_data(request):
                 } for alimento in alimentos
             ]
          return JsonResponse(data, safe=False)
-   return JsonResponse({"error":"Category not found."}, status=400)
+   return JsonResponse({"error":"Error, no hay categoria a buscar."}, status=200)
+#fetch tipos
+def fetch_tipo_data(request):
+   if request.method == 'GET':
+      tipos = Tipo.objects.all()
+      if(len(tipos) == 0):
+         return JsonResponse({"error":"No hay datos"}, status=200)
+      data = [
+             {
+                 'id': tipo.id,
+                 'tipo_nombre': tipo.tipo_nombre,
+             } for tipo in tipos
+         ]
+      return JsonResponse(data, safe=False)
+   return JsonResponse({"error":"Error, no hay categoria a buscar."}, status=200)
+#fetch unidades
+def fetch_unidades_data(request):
+   if request.method == 'GET':
+      unidades = Unidad.objects.all()
+      if(len(unidades) == 0):
+         return JsonResponse({"error":"No hay datos"}, status=200)
+      data = [
+             {
+                 'id': unidad.id,
+                 'unidad': unidad.unidad,
+             } for unidad in unidades
+         ]
+      return JsonResponse(data, safe=False)
+   return JsonResponse({"error":"Error, no hay categoria a buscar."}, status=200)
