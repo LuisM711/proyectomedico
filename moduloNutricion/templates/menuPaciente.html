@@ -160,15 +160,15 @@
         <div class="model-content">
             <input type="button" class="close" value="X">
             <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-primary" id="verduras" onclick="fetchCategoryData('verduras')"><i class="fa-solid fa-carrot"></i> Verduras</button>
-                <button type="button" class="btn btn-primary" id="frutas" onclick="fetchCategoryData('frutas')"><i class="fa-solid fa-apple-whole"></i> Frutas</button>
-                <button type="button" class="btn btn-primary" id="cereales" onclick="fetchCategoryData('cereales')"><i class="fa-solid fa-wheat-awn"></i> Cereales</button>
-                <button type="button" class="btn btn-primary" id="leguminosas" onclick="fetchCategoryData('leguminosas')"><i class="fa-solid fa-wheat-awn"></i> Leguminosas</button>
-                <button type="button" class="btn btn-primary" id="origen" onclick="fetchCategoryData('origen_animal')"><i class="fa-solid fa-bacon"></i> Origen Animal</button>
-                <button type="button" class="btn btn-primary" id="leche" onclick="fetchCategoryData('leche')"><i class="fa-solid fa-mug-saucer"></i> Leche</button>
-                <button type="button" class="btn btn-primary" id="grasas" onclick="fetchCategoryData('grasas')"><i class="fa-solid fa-cheese"></i> Grasas</button>
-                <button type="button" class="btn btn-primary" id="azucares" onclick="fetchCategoryData('azucares')"><i class="fa-solid fa-ice-cream"></i> Azúcares</button>
-                <button type="button" class="btn btn-primary" id="libres" onclick="fetchCategoryData('libres')"><i class="fa-solid fa-face-smile-wink"></i> Libres</button>
+                <button type="button" class="btn btn-primary" id="verduras" onclick="fetchCategoryData('Verduras')"><i class="fa-solid fa-carrot"></i> Verduras</button>
+                <button type="button" class="btn btn-primary" id="frutas" onclick="fetchCategoryData('Frutas')"><i class="fa-solid fa-apple-whole"></i> Frutas</button>
+                <button type="button" class="btn btn-primary" id="cereales" onclick="fetchCategoryData('Cereales')"><i class="fa-solid fa-wheat-awn"></i> Cereales</button>
+                <button type="button" class="btn btn-primary" id="leguminosas" onclick="fetchCategoryData('Leguminosas')"><i class="fa-solid fa-wheat-awn"></i> Leguminosas</button>
+                <button type="button" class="btn btn-primary" id="origen" onclick="fetchCategoryData('Origen_animal')"><i class="fa-solid fa-bacon"></i> Origen Animal</button>
+                <button type="button" class="btn btn-primary" id="leche" onclick="fetchCategoryData('Leche')"><i class="fa-solid fa-mug-saucer"></i> Leche</button>
+                <button type="button" class="btn btn-primary" id="grasas" onclick="fetchCategoryData('Grasas')"><i class="fa-solid fa-cheese"></i> Grasas</button>
+                <button type="button" class="btn btn-primary" id="azucares" onclick="fetchCategoryData('Azucares')"><i class="fa-solid fa-ice-cream"></i> Azúcares</button>
+                <button type="button" class="btn btn-primary" id="libres" onclick="fetchCategoryData('Libres')"><i class="fa-solid fa-face-smile-wink"></i> Libres</button>
             </div>
             <div id="modalContent">
             </div>
@@ -194,36 +194,58 @@
         }
     }
     function fetchCategoryData(category){
-        fetch('{% static "alimentos.json" %}')
+        url="/api/foods/?category=" + category
+        fetch(url)
         .then(response => response.json())
         .then(data => {
-            const categoryData = data.alimentos[category];
-            fillModalWithData(categoryData);
+            console.log(data);
+            fillModalWithData(data);
         })
         .catch(error => console.error('Error fetching JSON:',error));
     }
     function openIngredientDialog(){
-        fetchCategoryData('verduras');
+        fetchCategoryData('Verduras');
         const alertDialog = document.querySelector("#alimentos");
         alertDialog.showModal();
     }
-    function fillModalWithData(categoryData){
+    async function fillModalWithData(categoryData){
         var modelData = '';
-            modelData = `<table class="table  table-bordered border-primary border border-primary-subtle table-hover" id="tabla">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th><b>Alimento</b></th>
-                                    <th><b>Categoría</b></th>
-                                    <th><b>Porción</b></th>
-                                    <th><b>Unidad</b></th>
-                                    <th><b>Energía (kcal)</b></th>
-                                    <th><b>Proteína (g)</b></th>
-                                    <th><b>Lipidos (g)</b></th>
-                                    <th><b>Hidratos de Carbono (g)</b></th>
-                                </tr>
-                            </thead>
+            modelData = `<table class="table table-hover" id="tabla">
+        <thead>
+            <tr class="titulo">
+                <th>ID</th>
+                <th class="sticky">Nombre</th>
+                <th>Tipo</th>
+                <th>Unidad</th>
+                <th>Porción</th>
+                <th>Peso</th>
+                <th>Peso neto</th>
+                <th>Energía (kcal)</th>
+                <th>Proteína (g)</th>
+                <th>Lípidos (g)</th>
+                <th>Carbohidratos (g)</th>
+                <th>AG saturados (g)</th>
+                <th>AG monoinsaturados (g)</th>
+                <th>AG poliinsaturados (g)</th>
+                <th>Colesterol (g)</th>
+                <th>Azúcar (g)</th>
+                <th>Fibra (g)</th>
+                <th>Vitamina A (mg RE)</th>
+                <th>Ácido Ascórbico (mg)</th>
+                <th>Ácido Fólico (mg)</th>
+                <th>Calcio (mg)</th>
+                <th>Hierro (mg)</th>
+                <th>Potasio (mg)</th>
+                <th>Sodio (mg)</th>
+                <th>Fósforo (mg)</th>
+                <th>Etanol (g)</th>
+                <th>IG</th>
+                <th>Carga Glicémica</th>
+            </tr>
+        </thead>
+        <tbody id="food-table-body">
                         `;
-            for(var key in categoryData){
+            /*for(var key in categoryData){
                 var item = categoryData[key];
                 modelData += `
                     <tr>
@@ -237,9 +259,57 @@
                         <td>${item.HidratosDeCarbono}</td>
                     </tr>
                 `;
-            }
+            }*/
+           categoryData.forEach(item => {
+                const tipoNombre = item.tipo_nombre;
+                const unidadId = item.unidad;
+                const unidadNombre = item.unidad_nombre;
+
+                modelData += `
+                    <tr>
+                         <td> <input type = "text" value = '${item.id}'></td>
+                          <td> <input type = "text" value = '${item.nombre}'></td>
+                           <td> <input type = "text" value = '${tipoNombre}'></td>
+                           <td> <input type = "text" value = '${unidadNombre}'></td>
+                         <td> <input type = "text" value = '${item.porcion}'></td>
+                            <td> <input type = "text" value = '${item.peso}' disabled></td>
+                            <td> <input type = "text" value = '${item.peso_neto}'></td>
+                            <td> <input type = "text" value = '${item.energia}'></td>
+                            <td> <input type = "text" value = '${item.proteina}'></td>
+                            <td> <input type = "text" value = '${item.lipidos}'></td>
+                            <td> <input type = "text" value = '${item.carbos}'></td>
+                            <td> <input type = "text" value = '${item.ag_satur}'></td>
+                            <td> <input type = "text" value = '${item.ag_mono}'></td>
+                            <td> <input type = "text" value = '${item.ag_poli}'></td>
+                            <td> <input type = "text" value = '${item.colesterol}'></td>
+                            <td> <input type = "text" value = '${item.azucar}'></td>
+                            <td> <input type = "text" value = '${item.fibra}'></td>
+                            <td> <input type = "text" value = '${item.vita_A}'></td>
+                            <td> <input type = "text" value = '${item.aci_asc}'></td>
+                            <td> <input type = "text" value = '${item.aci_foli}'></td>
+                            <td> <input type = "text" value = '${item.calcio}'></td>
+                            <td> <input type = "text" value = '${item.hierro}'></td>
+                            <td> <input type = "text" value = '${item.potasio}'></td>
+                            <td> <input type = "text" value = '${item.sodio}'></td>
+                            <td> <input type = "text" value = '${item.fosforo}'></td>
+                            <td> <input type = "text" value = '${item.etanol}'></td>
+                            <td> <input type = "text" value = '${item.ig}'></td>
+                            <td> <input type = "text" value = '${item.carga_gli}'></td></tr>`
+           });
+           modelData += `</table>`
         document.getElementById('modalContent').innerHTML=modelData;
         document.getElementById('alimentos').style.display='block'
+    }
+    
+    async function getUnidadName(unidadId){
+        try{
+            const response = await fetch('api/units/?id=${unidadId}');
+            const data = await response.json();
+            return data.unidad;
+        } catch (error){
+            console.error('Error fetching unidad name:', error);
+            return 'Unknown';
+        }
     }
 </script>
 {% else %}

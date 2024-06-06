@@ -33,7 +33,7 @@
         position: sticky;
         left: 0;
         background: white; /* Optional: to ensure the sticky column has a background */
-        z-index: 1; /* To keep it above other cells */
+        z-index: 1; /* To keep it  other cells */
     }
 
     .table th.titulo {

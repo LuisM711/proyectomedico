@@ -46,7 +46,3 @@ class Alimento(models.Model):
 
     class Meta:
         app_label = 'moduloNutricion'
-
-
-
-

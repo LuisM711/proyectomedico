@@ -55,42 +55,12 @@
                 <th>Etanol (g)</th>
                 <th>IG</th>
                 <th>Carga Glicémica</th>
-
-
             </tr>
         </thead>
         <tbody id="food-table-body">
             <!-- {% if alimentos %} -->
             <!-- {% for alimento in alimentos %} -->
             <tr>
-                <!-- <td class="sticky">{{ alimento.nombre }}</td>
-                <td>{{ alimento.tipo.tipo_nombre }}</td>
-                <td>{{ alimento.uni.unidad }}</td>
-                <td>{{ alimento.porcion }}</td>
-                <td>{{ alimento.peso }}</td>
-                <td>{{ alimento.peso_neto }}</td>
-                <td>{{ alimento.energia }}</td>
-                <td>{{ alimento.proteina }}</td>
-                <td>{{ alimento.lipidos }}</td>
-                <td>{{ alimento.carbos }}</td>
-                <td>{{ alimento.ag_satur }}</td>
-                <td>{{ alimento.ag_mono }}</td>
-                <td>{{ alimento.ag_poli }}</td>
-                <td>{{ alimento.colesterol }}</td>
-                <td>{{ alimento.azucar }}</td>
-                <td>{{ alimento.fibra }}</td>
-                <td>{{ alimento.vita_A }}</td>
-                <td>{{ alimento.aci_asc }}</td>
-                <td>{{ alimento.aci_foli }}</td>
-                <td>{{ alimento.calcio }}</td>
-                <td>{{ alimento.hierro }}</td>
-                <td>{{ alimento.potasio }}</td>
-                <td>{{ alimento.sodio }}</td>
-                <td>{{ alimento.fosforo }}</td>
-                <td>{{ alimento.etanol }}</td>
-                <td>{{ alimento.ig }}</td>
-                <td>{{ alimento.carga_gli }}</td> -->
-
             </tr>
             <!-- {% endfor %} -->
         </tbody>
@@ -134,9 +104,6 @@
 
         fetch(url)
             .then(response => {
-                // if (!response.ok) {
-                //     throw new Error('Network response was not ok');
-                // }
                 console.log(response)
                 return response.json();
             })
@@ -160,7 +127,7 @@
         data.forEach(function (item) {
             let row = `<tr class ='renglon' id = ${item.id} name = 'renglon'>
                             <td> <input type = "text" value = '${item.id}' disabled></td>
-                            <td> <input class = "sticky" type = "text" name='nombre' value = '${item.nombre}'></td>
+                            <td class="sticky"> <input type = "text" name='nombre' value = '${item.nombre}'></td>
                             <td> 
                                 <select>
                                     ${Object.keys(tipos).map(key => {

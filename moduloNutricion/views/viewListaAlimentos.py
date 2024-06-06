@@ -26,7 +26,7 @@ def fetch_category_data(request):
                     'tipo': alimento.tipo.id,            
                     'tipo_nombre': alimento.tipo.tipo_nombre, 
                     'unidad': alimento.uni.id,
-
+                     'unidad_nombre':alimento.uni.unidad,
                     'porcion': alimento.porcion,
                     'peso': alimento.peso,
                     'peso_neto': alimento.peso_neto,
