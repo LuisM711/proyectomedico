@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -8,6 +8,7 @@
     <title>Proyecto médico</title>
     <script defer src="https://kit.fontawesome.com/7c4f6093dd.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/moduloPrincipal/static/bootstrap-5.3.3-dist/bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="{% static 'bootstrap-5.3.3-dist/css/bootstrap.min.css' %}"> -->
     <link rel="stylesheet" href="{% static 'css/nav.css' %}">
 </head>
 
@@ -111,7 +112,11 @@
         {% block content %}
         {% endblock %}
     </div>
-    <script src="/moduloPrincipal/static/bootstrap-5.3.3-dist/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+    <!-- moduloPrincipal\static\bootstrap-5.3.3-dist\bootstrap-5.3.3-dist\js\bootstrap.bundle.min.js -->
+    <!-- <script src="/moduloPrincipal\static\bootstrap-5.3.3-dist\bootstrap-5.3.3-dist\js\bootstrap.bundle.min.js"></script> -->
+    <!-- <script src="/moduloPrincipal/static/bootstrap-5.3.3-dist/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script> -->
+
+    <script type="text/javascript" src="{% static 'bootstrap-5.3.3-dist/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js' %}"></script>
     <style>
         .menu-toggle {
             display: none;
