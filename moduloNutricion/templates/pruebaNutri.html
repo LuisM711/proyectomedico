@@ -157,20 +157,23 @@
             </td>
         </tr> 
     </table>
-    <button type="button" class="btn btn-primary" id="lista" onclick="openIngredientDialog()">Lista de Alimentos</button>
+    <div id="botonesConte">
+        <button type="button" class="btn btn-primary" id="lista" onclick="openIngredientDialog()">Lista de Alimentos</button>
+        <input type="button"  class="btn btn-primary" id="siguiente"onclick="siguiente('menu')" value="Siguiente">
+    </div>
     <dialog id="alimentos">
         <div class="model-content">
             <input type="button" class="close" value="X">
             <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-primary" id="verduras" onclick="fetchCategoryData('Verduras')"><i class="fa-solid fa-carrot"></i> Verduras</button>
-                <button type="button" class="btn btn-primary" id="frutas" onclick="fetchCategoryData('Frutas')"><i class="fa-solid fa-apple-whole"></i> Frutas</button>
-                <button type="button" class="btn btn-primary" id="cereales" onclick="fetchCategoryData('Cereales')"><i class="fa-solid fa-wheat-awn"></i> Cereales</button>
-                <button type="button" class="btn btn-primary" id="leguminosas" onclick="fetchCategoryData('Leguminosas')"><i class="fa-solid fa-wheat-awn"></i> Leguminosas</button>
-                <button type="button" class="btn btn-primary" id="origen" onclick="fetchCategoryData('Origen_animal')"><i class="fa-solid fa-bacon"></i> Origen Animal</button>
-                <button type="button" class="btn btn-primary" id="leche" onclick="fetchCategoryData('Leche')"><i class="fa-solid fa-mug-saucer"></i> Leche</button>
-                <button type="button" class="btn btn-primary" id="grasas" onclick="fetchCategoryData('Grasas')"><i class="fa-solid fa-cheese"></i> Grasas</button>
-                <button type="button" class="btn btn-primary" id="azucares" onclick="fetchCategoryData('Azucares')"><i class="fa-solid fa-ice-cream"></i> Azúcares</button>
-                <button type="button" class="btn btn-primary" id="libres" onclick="fetchCategoryData('Libres')"><i class="fa-solid fa-face-smile-wink"></i> Libres</button>
+                <button type="button" class="btn btn-primary" id="verduras" onclick="fetchCategoryData(1)"><i class="fa-solid fa-carrot"></i> Verduras</button>
+                <button type="button" class="btn btn-primary" id="frutas" onclick="fetchCategoryData(2)"><i class="fa-solid fa-apple-whole"></i> Frutas</button>
+                <button type="button" class="btn btn-primary" id="cereales" onclick="fetchCategoryData(3)"><i class="fa-solid fa-wheat-awn"></i> Cereales</button>
+                <button type="button" class="btn btn-primary" id="leguminosas" onclick="fetchCategoryData(4)"><i class="fa-solid fa-wheat-awn"></i> Leguminosas</button>
+                <button type="button" class="btn btn-primary" id="origen" onclick="fetchCategoryData(5)"><i class="fa-solid fa-bacon"></i> Origen Animal</button>
+                <button type="button" class="btn btn-primary" id="leche" onclick="fetchCategoryData(6)"><i class="fa-solid fa-mug-saucer"></i> Leche</button>
+                <button type="button" class="btn btn-primary" id="grasas" onclick="fetchCategoryData(7)"><i class="fa-solid fa-cheese"></i> Grasas</button>
+                <button type="button" class="btn btn-primary" id="azucares" onclick="fetchCategoryData(8)"><i class="fa-solid fa-ice-cream"></i> Azúcares</button>
+                <button type="button" class="btn btn-primary" id="libres" onclick="fetchCategoryData(9)"><i class="fa-solid fa-face-smile-wink"></i> Libres</button>
             </div>
             <div id="modalContent">
             </div>
@@ -200,13 +203,18 @@
         fetch(url)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            fillModalWithData(data);
+            if(data.error){
+                //console.log(categoryData);
+                
+                alert("Aun no hay datos registrados en esa categoría")
+            } else {
+                fillModalWithData(data); 
+            }
         })
         .catch(error => console.error('Error fetching JSON:',error));
     }
     function openIngredientDialog(){
-        fetchCategoryData('Verduras');
+        fetchCategoryData(1);
         const alertDialog = document.querySelector("#alimentos");
         alertDialog.showModal();
     }
@@ -270,7 +278,7 @@
                 modelData += `
                     <tr>
                          <td> ${item.id}</td>
-                          <td> ${item.nombre}</td>
+                          <td class="sticky"> ${item.nombre}</td>
                            <td>  ${tipoNombre}</td>
                            <td>  ${item.porcion}</td>
                            <td>  ${unidadNombre}</td>

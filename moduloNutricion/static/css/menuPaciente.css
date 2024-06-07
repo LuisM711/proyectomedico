@@ -1,4 +1,10 @@
-
+.table th.sticky,
+    .table td.sticky {
+        position: sticky;
+        left: 0;
+        background: #edebeb; /* Optional: to ensure the sticky column has a background */
+        z-index: 1; /* To keep it  other cells */
+    }
 .porciones{
     margin-top: 5%;
     width: 60px;
