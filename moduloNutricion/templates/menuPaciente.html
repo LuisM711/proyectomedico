@@ -159,8 +159,8 @@
     <dialog id="alimentos">
         <div class="model-content">
             <div class="input-group mb-3">
-                <input type="text" class="form-control"  id="inputBuscar" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-                <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="filtrarTabla()">Buscar</button>
+                <input type="text" class="form-control"  id="inputBuscar" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2" onkeyup="filtrarTabla()">
+                <!-- <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="filtrarTabla()">Buscar</button> -->
               </div>
            
             <input type="button" class="close" value="X">
@@ -362,6 +362,7 @@ function filtrarTabla() {
             // Obtener solo el texto del <td>
             let txtValue1 = td.textContent || td.innerText;
             let txtValue = txtValue1.substring(1) 
+            console.log(txtValue)
             console.log(`Fila ${i}, contenido de td: ${txtValue.toLowerCase()}`);
             
             // Comprobar si el contenido del <td> coincide exactamente con el valor de búsqueda
