@@ -40,6 +40,12 @@ margin-top: 2%;
 #lista:hover{
     background: #1f83b8;
 }
+#stBuscar{
+    width: 80%;
+    position: sticky;
+    top: 0;
+    left: 10%;
+}
 .recomendaciones{
     width: 40%;
     margin-left: 10%;

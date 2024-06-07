@@ -158,11 +158,11 @@
 <button type="button" class="btn btn-primary" id="lista" onclick="openIngredientDialog()">Lista de Alimentos</button>
     <dialog id="alimentos">
         <div class="model-content">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control"  id="inputBuscar" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2" onkeyup="filtrarTabla()">
+            <div class="input-group mb-3" id="stBuscar">
+                <input type="text" class="form-control"  id="inputBuscar" placeholder="Buscar alimento..." aria-label="Recipient's username" aria-describedby="button-addon2" onkeyup="filtrarTabla()">
                 <!-- <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="filtrarTabla()">Buscar</button> -->
               </div>
-           
+
             <input type="button" class="close" value="X">
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" class="btn btn-primary" id="verduras" onclick="fetchCategoryData(1)"><i class="fa-solid fa-carrot"></i> Verduras</button>
