@@ -158,6 +158,11 @@
 <button type="button" class="btn btn-primary" id="lista" onclick="openIngredientDialog()">Lista de Alimentos</button>
     <dialog id="alimentos">
         <div class="model-content">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control"  id="inputBuscar" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="filtrarTabla()">Buscar</button>
+              </div>
+           
             <input type="button" class="close" value="X">
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" class="btn btn-primary" id="verduras" onclick="fetchCategoryData(1)"><i class="fa-solid fa-carrot"></i> Verduras</button>
@@ -171,6 +176,7 @@
                 <button type="button" class="btn btn-primary" id="libres" onclick="fetchCategoryData(9)"><i class="fa-solid fa-face-smile-wink"></i> Libres</button>
             </div>
             <div id="modalContent">
+                
                 <h1 id="h1"></h1>
             </div>
         </div>
@@ -227,7 +233,7 @@
     }
     async function fillModalWithData(categoryData){
         var modelData = '';
-            modelData = `<table class="table table-hover" id="tabla">
+            modelData = `<table class="table table-hover" id="tablaModal">
         <thead>
             <tr class="titulo">
                 <th>ID</th>
@@ -285,7 +291,7 @@
                 modelData += `
                     <tr>
                          <td> ${item.id}</td>
-                          <td class="sticky"> ${item.nombre}</td>
+                          <td class="sticky" id="nombre"> ${item.nombre}</td>
                            <td>  ${tipoNombre}</td>
                            <td>  ${item.porcion}</td>
                            <td>  ${unidadNombre}</td>
@@ -329,6 +335,48 @@
             return 'Unknown';
         }
     }
+
+// aqui inicia
+
+function filtrarTabla() {
+    debugger
+  //  console.log("estoy dentro")
+    // Obtener el valor de búsqueda y convertirlo a minúsculas
+    let input = document.getElementById('inputBuscar');
+    
+    let filter = input.value.toLowerCase();
+    console.log("soy filter ,", filter)
+    // Obtener la tabla y sus filas
+    let table = document.getElementById('tablaModal');
+    //console.log(table)
+    let tr = table.getElementsByTagName('tr');
+    //console.log("inicio")
+    //console.log(tr)
+    
+    // Recorrer todas las filas de la tabla (excepto el encabezado)
+    for (let i = 1; i < tr.length; i++) {
+        // Obtener el <td> con la clase 'sticky' y 'nombre' de la fila actual
+        let td = tr[i].getElementsByClassName('sticky')[0];
+        
+        if (td) {
+            // Obtener solo el texto del <td>
+            let txtValue1 = td.textContent || td.innerText;
+            let txtValue = txtValue1.substring(1) 
+            console.log(`Fila ${i}, contenido de td: ${txtValue.toLowerCase()}`);
+            
+            // Comprobar si el contenido del <td> coincide exactamente con el valor de búsqueda
+            if (filter === '' || txtValue.toLowerCase().includes(filter)) {
+                tr[i].style.display = "";  // Mostrar la fila si hay coincidencia
+            } else {
+                tr[i].style.display = "none";  // Ocultar la fila si no hay coincidencia
+            }
+        } else {
+            console.log(`Fila ${i} no tiene un <td> con la clase 'nombre'.`);
+        }
+    }
+}
+//aqui acaba
+
 </script>
 {% else %}
 <div class="contenido">
