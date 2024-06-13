@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.views import View
 from django.core.paginator import Paginator
 from django.http import Http404, HttpResponse
@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.http.response import JsonResponse
 import json
 from moduloNutricion.urls import nutriologo
-
+from django.forms.models import model_to_dict
 
 from django.views.decorators.csrf import csrf_exempt
 from moduloNutricion.models.modelMenuBien import Menu_Bien
@@ -225,6 +225,9 @@ class ConsultaMedica(View):
                 pre_llenado = 'si'
         # Se obtienen los datos del usuario para mostrarlos en la interfaz
         #print("Es el mismo")
+        paciente_obj = get_object_or_404(Paciente, id=cita.id_paciente.id)
+        paciente_dict = model_to_dict(paciente_obj)
+        paciente_json = json.dumps(paciente_dict)
         paciente = Paciente.objects.get(id=cita.id_paciente.id)
         fecha_act = date.today()
         fecha_na = paciente.id_usuario.fecha_nacimiento
@@ -266,7 +269,7 @@ class ConsultaMedica(View):
         else:
             #print("no hay prelleno")
             return render(request, 'layouts/consulta.html',
-                          {'paciente': paciente, 'edad': edad, 'imc': imc, 'fgm': fgm, 'AP_toxi': AP_toxi,
+                          {'paciente_json':paciente_json, 'paciente': paciente, 'edad': edad, 'imc': imc, 'fgm': fgm, 'AP_toxi': AP_toxi,
                            'AP_qui': AP_qui, 'AP_tran': AP_tran, 'AP_vac': AP_vac, 'AP': AP, 'AP_al': AP_al,
                            'ID_cita': id, "cita": cita, "pre_llenado": pre_llenado, 'especialidadJson': especialidadJson})
 
