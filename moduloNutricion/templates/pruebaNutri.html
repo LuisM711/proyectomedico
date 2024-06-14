@@ -83,7 +83,8 @@
         </tr>
         <tr>
             <th><i class="fa-solid fa-drumstick-bite"></i>
-                <p>Comidas</p< /th>
+                <p>Comidas</p>
+            </th>
             <td>
                 <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiVerduras">
             </td>
@@ -215,7 +216,11 @@
     <div class="recomendaciones">
         <section class="recomendacion">
             <h2>Recomendaciones</h2>
-            <textarea name="reco" id="" cols="50" rows="10" disabled>{{menu.recomendacion}}</textarea>
+            <!-- <textarea name="reco" id="" cols="50" rows="10" disabled>{{menu.recomendacion}}</textarea> -->
+            <div class="inputsRecomendacion">
+                <textarea name="reco" id="textarea" cols="50" rows="10"></textarea>
+                <div id="botonesRecomendacion"></div>
+            </div>
         </section>
     </div>
     <script>
@@ -251,8 +256,10 @@
             const imc = JSON.parse('{{ imc|safe }}');
             const edad = JSON.parse('{{ edad|safe }}');
             console.log(paciente);
-            console.log(imc)
+            console.log(imc);
+            let flagAlerta = false;
             if (parseInt(imc) > 25) {
+                flagAlerta = true;
                 console.log(imc)
                 let alerta = document.createElement('div');
                 alerta.innerHTML = `
@@ -264,6 +271,7 @@
                 alertasObservaciones.appendChild(alerta);
             }
             if (paciente.estilo_vida == 'S') {
+                flagAlerta = true;
                 console.log(paciente.estilo_vida)
 
                 let alerta = document.createElement('div');
@@ -278,6 +286,7 @@
             }
             console.log(edad);
             if (parseInt(edad) >= 45) {
+                flagAlerta = true;
                 let alerta = document.createElement('div');
 
                 alerta.innerHTML = `
@@ -288,16 +297,27 @@
             `;
                 alertasObservaciones.appendChild(alerta);
             }
-            // const alerta = `
-            //   <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            //     El paciente pesa <strong>{{paciente.peso}}</strong> blah.
-            //     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            //   </div>  
-            // `;
-            // alertasObservaciones.innerHTML+=alerta;  
+            if (flagAlerta) {
+                let alerta1 = document.createElement('div');
+
+                alerta1.innerHTML = `
+                <input type="button" class="btn btn-primary" onclick="agregarAlTextArea(this.value);this.disabled = true;" value = "Actividad física 150 minutos a la semana leve a moderada">
+            `;
+                botonesRecomendacion.appendChild(alerta1);
+                let alerta2 = document.createElement('div');
+
+                alerta2.innerHTML = `
+                <input type="button" class="btn btn-primary" onclick="agregarAlTextArea(this.value);this.disabled = true;" value = "Bajar de peso">
+                `;
+                botonesRecomendacion.appendChild(alerta2);
+            }
 
         }
-
+        function agregarAlTextArea(valor) {
+            console.log(valor);
+            textarea.value += '\n' + valor + '\n';
+            
+        }
 
         function fetchCategoryData(category) {
             url = "/api/foods/?category=" + category
@@ -425,7 +445,7 @@
         }
 
         function filtrarTabla() {
-            debugger
+            //debugger
             //  console.log("estoy dentro")
             // Obtener el valor de búsqueda y convertirlo a minúsculas
             let input = document.getElementById('inputBuscar');
@@ -463,3 +483,14 @@
             }
         }
     </script>
+    <style>
+        .inputsRecomendacion {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 880px;
+        }
+        #botonesRecomendacion > div {
+            margin: 10px;
+        }
+    </style>
