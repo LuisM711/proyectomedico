@@ -3,7 +3,7 @@
 <div id="asignarMenu" style="display: none;" class="contenido">
     <h2>Menú alimenticio</h2>
     <div id="alertasObservaciones"></div>
-    <h3>Por porciones de Alimentos</h3>
+    <h3>Por porciones de alimentos</h3>
     <table class="table  table-bordered border-primary border border-primary-subtle table-hover" id="tabla">
         <thead class="table-dark">
             <tr>
@@ -257,47 +257,73 @@
             const edad = JSON.parse('{{ edad|safe }}');
             console.log(paciente);
             console.log(imc);
+            factores = [];
             let flagAlerta = false;
             if (parseInt(imc) > 25) {
                 flagAlerta = true;
-                console.log(imc)
-                let alerta = document.createElement('div');
-                alerta.innerHTML = `
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    Debido a que el IMC del paciente es mayor a 25 <strong>(${imc})</strong>, se recomienda una dieta baja en grasas y alta en fibra.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>  
-            `;
-                alertasObservaciones.appendChild(alerta);
+                //     console.log(imc)
+                //     let alerta = document.createElement('div');
+                //     alerta.innerHTML = `
+                //     <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                //         Debido a que el IMC del paciente es mayor a 25 <strong>(${imc})</strong>, se recomienda una dieta baja en grasas y alta en fibra.
+                //         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                //     </div>  
+                // `;
+                //     alertasObservaciones.appendChild(alerta);
+                factores.push('IMC mayor a 25');
             }
             if (paciente.estilo_vida == 'S') {
                 flagAlerta = true;
-                console.log(paciente.estilo_vida)
+                //     console.log(paciente.estilo_vida)
 
-                let alerta = document.createElement('div');
+                //     let alerta = document.createElement('div');
 
-                alerta.innerHTML = `
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    Debido a que el paciente no realiza actividad física, se recomienda una dieta baja en grasas y alta en fibra.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>  
-            `;
-                alertasObservaciones.appendChild(alerta);
+                //     alerta.innerHTML = `
+                //     <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                //         Debido a que el paciente no realiza actividad física, se recomienda una dieta baja en grasas y alta en fibra.
+                //         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                //     </div>  
+                // `;
+                //     alertasObservaciones.appendChild(alerta);
+                factores.push('Sedentarismo');
             }
-            console.log(edad);
+            //console.log(edad);
             if (parseInt(edad) >= 45) {
                 flagAlerta = true;
-                let alerta = document.createElement('div');
+                //     let alerta = document.createElement('div');
 
+                //     alerta.innerHTML = `
+                //     <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                //         Debido a que el paciente tiene 45 años o más <strong>(${edad})</strong>, se recomienda una dieta baja en grasas y alta en fibra.
+                //         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                //     </div>  
+                // `;
+                //     alertasObservaciones.appendChild(alerta);
+                factores.push('Edad mayor o igual a 45 años');
+            }
+            console.log(flagAlerta)
+            if (flagAlerta) {
+                // Se recomendará 
+                // < 30% de grasas, <7% grasa saturada , máximo 15% grasa monoinsaturada
+                // 50-60% hidratos de carbono
+                // 15% proteínas 
+                // 14% fibra por cada 1000 kcal
+                let alerta = document.createElement('div');
                 alerta.innerHTML = `
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    Debido a que el paciente tiene 45 años o más <strong>(${edad})</strong>, se recomienda una dieta baja en grasas y alta en fibra.
+                    Se encontraron factores de riesgo para diabetes tipo 2: <strong>[${factores.join(', ')}]</strong>. <br><u>Se recomienda:</u> <br>
+                    <ul style="list-style: inside;">
+                        <li>Menos del 30% de grasas</li>
+                        <li>Menos del 7% de grasa saturada</li>
+                        <li>Máximo 15% de grasa monoinsaturada</li>
+                        <li>50-60% de hidratos de carbono</li>
+                        <li>15% de proteínas</li>
+                        <li>14% de fibra por cada 1000 kcal</li>
+                    </ul>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>  
             `;
                 alertasObservaciones.appendChild(alerta);
-            }
-            if (flagAlerta) {
                 let alerta1 = document.createElement('div');
 
                 alerta1.innerHTML = `
@@ -316,7 +342,7 @@
         function agregarAlTextArea(valor) {
             console.log(valor);
             textarea.value += '\n' + valor + '\n';
-            
+
         }
 
         function fetchCategoryData(category) {
@@ -490,7 +516,8 @@
             align-items: center;
             width: 880px;
         }
-        #botonesRecomendacion > div {
+
+        #botonesRecomendacion>div {
             margin: 10px;
         }
     </style>
