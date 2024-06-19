@@ -18,6 +18,8 @@ from moduloPrincipal.views.viewPerfilClinico import *
 from moduloPrincipal.views.viewToxicomania import *
 from moduloPrincipal.views.viewVacuna import *
 from moduloNutricion.views.viewAlimentos import *
+from moduloNutricion.views.viewMenuPaciente import *
+from moduloNutricion.views.viewListaAlimentos import *
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
     PasswordResetCompleteView
 
@@ -63,6 +65,7 @@ urlpatterns = [
          Informacion_especialista.as_view(), name='info_especialista'),
     path('enviar_solicitud/<int:id_especialista>', Enviar_solicitud.as_view(), name='enviar_solicitud'),
     path('perfil_clinico', Perfil_Clinico.as_view(), name="perfil_clinico"),
+    path('menu_paciente', Menu_paciente.as_view(), name='menu_paciente'),
     path('registrar_toxicomanias', Registrar_Toxicomania.as_view(), name='registrar_toxicomania'),
     path('registrar_patologia', Registrar_Patologia.as_view(), name='registrar_patologia'),
     path('registrar_ant_quirurjico', Registrar_Ant_Quirurjico.as_view(), name='registrar_ant_quirurjico'),
@@ -88,6 +91,10 @@ urlpatterns = [
     path('grafica/<int:id>/<int:tipo>', grafica, name='grafica'),
     path('graficas/', Graficas.as_view(), name='graficas'),
     path('grafica2/<int:id>/<int:tipo>', grafica_EXP, name='grafica_exp'),
+    path('listaAlimentos/', Lista_Alimentos.as_view(), name='listaAlimentos'),
+    path('api/foods/', fetch_category_data, name='fetch_category_data'),
+    path('api/types/', fetch_tipo_data, name='fetch_tipo_data'),
+    path('api/units/', fetch_unidades_data, name='fetch_unidades_data'),
 
     # Urls del administrador
     path('inicio/admin/', InicioAdmin.as_view(), name='inicio_admin'),

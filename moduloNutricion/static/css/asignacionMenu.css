@@ -1,3 +1,10 @@
+.table th.sticky,
+    .table td.sticky {
+        position: sticky;
+        left: 0;
+        background: #edebeb; /* Optional: to ensure the sticky column has a background */
+        z-index: 1; /* To keep it  other cells */
+    }
 .porciones{
     margin-top: 5%;
     width: 60px;
@@ -6,10 +13,160 @@
 }
 .close{
     cursor: pointer;
-    margin-left: 90%;
+    position: sticky;
+    top: 0;
+    left: 95%;
 }
 .model-content{
     justify-content: space-between;
+    overflow: auto;
+}
+#stBuscar{
+    width: 80%;
+    position: sticky;
+    top: 0;
+    left: 10%;
+}
+.btn-group{
+
+    width: 80%;
+    position: sticky;
+    top: 0;
+    left: 10%;
+}
+#lista{
+    display: flex;
+    margin-left: 1%;
+    width: 190px;
+    height: 80px;
+    font-size: larger;
+    text-align: justify;
+    background-color: #166088;
+    border-color: #166088;
+}
+#lista2{
+    display: flex;
+    margin-left: 10%;
+    width: 190px;
+    height: 50px;
+    font-size: larger;
+    text-align: justify;
+    background-color: #166088;
+    border-color: #166088;
+}
+#lista:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#siguiente{
+    display: flex;
+    margin-left: 85%;
+    width: 190px;
+    height: 80px;
+    font-size: larger;
+    text-align: center;
+    background-color: #166088;
+    border-color: #166088;
+}
+#siguiente:hover{
+
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#botonesConte{
+    display: inline-flex;
+}
+#verduras {
+    background-color: #166088;
+    border-color: #166088;
+}
+#verduras:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#frutas {
+    background-color: #166088;
+    border-color: #166088;
+}
+#frutas:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#cereales {
+    background-color: #166088;
+    border-color: #166088;
+}
+#cereales:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#leguminosas {
+    background-color: #166088;
+    border-color: #166088;
+}
+#leguminosas:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#origen {
+    background-color: #166088;
+    border-color: #166088;
+}
+#origen:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#leche {
+    background-color: #166088;
+    border-color: #166088;
+}
+#leche:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#grasas {
+    background-color: #166088;
+    border-color: #166088;
+}
+#grasas:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+
+#azucares {
+    background-color: #166088;
+    border-color: #166088;
+}
+#azucares:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#libres {
+    background-color: #166088;
+    border-color: #166088;
+}
+#libres:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
+}
+
+#nutri{
+    background-color: #166088;
+    border-color: #166088;
+}
+#nutri:hover{
+    background: #1f83b8;
+    border-color: #1f83b8;
 }
 #tabla{
 width: 80%;
@@ -20,8 +177,11 @@ margin-left: 10%;
 }
 .recomendaciones{
     width: 40%;
-    padding: 25px 25px 30px;
     margin-left: 10%;
+}
+.recomendacion{
+    text-align: center;
+    justify-content: center;
 }
 .recomendaciones textarea{
     width: 100%;

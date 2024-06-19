@@ -141,7 +141,22 @@ p{
   transition: all 0.3 ease;
   cursor: pointer;
 }
-
+#explo{
+  background-color: #166088;
+  border-color: #166088;
+}
+#explo:hover{
+  background: #1f83b8;
+  border-color: #1f83b8;
+}
+#diag{
+  background-color: #166088;
+  border-color: #166088;
+}
+#diag:hover{
+  background: #1f83b8;
+  border-color: #1f83b8;
+}
 .botones_registrar{
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;

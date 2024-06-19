@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" data-bs-theme="light">
+
 
 <head>
     <meta charset="UTF-8">
@@ -8,6 +9,7 @@
     <title>Proyecto médico</title>
     <script defer src="https://kit.fontawesome.com/7c4f6093dd.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/moduloPrincipal/static/bootstrap-5.3.3-dist/bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="{% static 'bootstrap-5.3.3-dist/css/bootstrap.min.css' %}"> -->
     <link rel="stylesheet" href="{% static 'css/nav.css' %}">
 </head>
 
@@ -79,14 +81,16 @@
                 {% if request.user_type == "P" %}
                 <li><a href="{% url 'listarcitaspaciente' %}">Mis Citas</a></li>
                 <li><a href="{% url 'listarespecialistas' %}">Mostrar Especialistas</a></li>
+                <li><a href="{% url 'menu_paciente' %}">Mi Menú</a></li>
                 <li><a href="{% url 'perfil_clinico' %}">Perfil Clinico</a></li>
                 {% endif %}
                 {% if request.user_type == "E" %}
                 <!-- configuracion -->
+                <li><a href="{% url 'listaAlimentos' %}">Lista de Alimentos</a></li>
                 <li><a href="{% url 'graficas' %}">Graficas</a></li>
                 <li><a href="{% url 'listarcitasespecialista' %}">Citas</a></li>
                 <li><a href="{% url 'listarpacientes' %}">Mostrar Pacientes</a></li>
-
+                
                 {% endif %}
                 {% if request.user_type == "admin" %}
                 <li><a href="{% url 'listarespecialistas_admin' %}">Especialistas</a></li>
@@ -109,7 +113,11 @@
         {% block content %}
         {% endblock %}
     </div>
-    <script src="/moduloPrincipal/static/bootstrap-5.3.3-dist/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+    <!-- moduloPrincipal\static\bootstrap-5.3.3-dist\bootstrap-5.3.3-dist\js\bootstrap.bundle.min.js -->
+    <!-- <script src="/moduloPrincipal\static\bootstrap-5.3.3-dist\bootstrap-5.3.3-dist\js\bootstrap.bundle.min.js"></script> -->
+    <!-- <script src="/moduloPrincipal/static/bootstrap-5.3.3-dist/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script> -->
+
+    <script type="text/javascript" src="{% static 'bootstrap-5.3.3-dist/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js' %}"></script>
     <style>
         .menu-toggle {
             display: none;

@@ -1,27 +1,29 @@
 {% load static %}
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="{% static 'css/asignacionMenu.css' %}">
 <div id="asignarMenu" style="display: none;" class="contenido">
-    <h2>Menú Alimenticio</h2>
-    <h3>Por porciones de Alimentos</h3>
+    <h2>Menú alimenticio</h2>
+    <div id="alertasObservaciones"></div>
+    <h3>Por porciones de alimentos</h3>
     <table class="table  table-bordered border-primary border border-primary-subtle table-hover" id="tabla">
-       <thead class="table-dark">
+        <thead class="table-dark">
+            <tr>
+                <th><b>Comidas</b></th>
+                <th><i class="fa-solid fa-carrot"></i> Verduras</th>
+                <th><i class="fa-solid fa-apple-whole"></i> Frutas</th>
+                <th><i class="fa-solid fa-wheat-awn"></i> Cereales</th>
+                <th><i class="fa-solid fa-wheat-awn"></i> Leguminosas</th>
+                <th><i class="fa-solid fa-bacon"></i> Origen Animal</th>
+                <th><i class="fa-solid fa-mug-saucer"></i> Leche y Derivados</th>
+                <th><i class="fa-solid fa-cheese"></i> Grasas</th>
+                <th><i class="fa-solid fa-ice-cream"></i> Azúcares</th>
+            </tr>
+        </thead>
+
+
         <tr>
-            <th><b>Comidas</b></th>
-            <th><i class="fa-solid fa-carrot"></i> Verduras</th>
-            <th><i class="fa-solid fa-apple-whole"></i> Frutas</th>
-            <th><i class="fa-solid fa-wheat-awn"></i> Cereales</th>
-            <th><i class="fa-solid fa-wheat-awn"></i> Leguminosas</th>
-            <th><i class="fa-solid fa-bacon"></i> Origen Animal</th>
-            <th><i class="fa-solid fa-mug-saucer"></i> Leche y Derivados</th>
-            <th><i class="fa-solid fa-cheese"></i> Grasas</th>
-            <th><i class="fa-solid fa-ice-cream"></i> Azúcares</th>
-        </tr>
-       </thead>
-  
-      
-        <tr>
-            <th><i class="fa-solid fa-egg"></i><p>Desayunos</p></th>
+            <th><i class="fa-solid fa-egg"></i>
+                <p>Desayunos</p>
+            </th>
             <td>
                 <input type="number" required min="0" required max="20" value="0" class="porciones" name="desaVerduras">
             </td>
@@ -32,7 +34,8 @@
                 <input type="number" required min="0" required max="20" value="0" class="porciones" name="desaCereales">
             </td>
             <td>
-                <input type="number" required min="0" required max="20" value="0" class="porciones" name="desaLeguminosas">
+                <input type="number" required min="0" required max="20" value="0" class="porciones"
+                    name="desaLeguminosas">
             </td>
             <td>
                 <input type="number" required min="0" required max="20" value="0" class="porciones" name="desaOrigen">
@@ -46,10 +49,12 @@
             <td>
                 <input type="number" required min="0" required max="20" value="0" class="porciones" name="desaAzucares">
             </td>
-            
+
         </tr>
         <tr>
-            <th><i class="fa-solid fa-apple-whole"></i><p>Colación</p></th>
+            <th><i class="fa-solid fa-apple-whole"></i>
+                <p>Colación</p>
+            </th>
             <td>
                 <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaVerduras">
             </td>
@@ -60,7 +65,8 @@
                 <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaCereales">
             </td>
             <td>
-                <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaLeguminosas">
+                <input type="number" required min="0" required max="20" value="0" class="porciones"
+                    name="colaLeguminosas">
             </td>
             <td>
                 <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaOrigen">
@@ -74,64 +80,75 @@
             <td>
                 <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaAzucares">
             </td>
-        </tr> 
-        <tr>
-            <th><i class="fa-solid fa-drumstick-bite"></i><p>Comidas</p</th>
-                <td>
-                    <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiVerduras">
-                </td>
-                <td>
-                    <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiFrutas">
-                </td>
-                <td>
-                    <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiCereales">
-                </td>
-                <td>
-                    <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiLeguninosas">
-                </td>
-                <td>
-                    <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiOrigen">
-                </td>
-                <td>
-                    <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiLeche">
-                </td>
-                <td>
-                    <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiGrasas">
-                </td>
-                <td>
-                    <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiAzucares">
-                </td>
-        
         </tr>
         <tr>
-                <th><i class="fa-solid fa-apple-whole"></i><p>Colación</p></th>
-                <td>
-                    <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaVerdurs2">
-                </td>
-                <td>
-                    <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaFrutas2">
-                </td>
-                <td>
-                    <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaCereales2">
-                </td>
-                <td>
-                    <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaLeguminosas2">
-                </td>
-                <td>
-                    <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaOrigen2">
-                </td>
-                <td>
-                    <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaLeche2">
-                </td>
-                <td>
-                    <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaGrasas2">
-                </td>
-                <td>
-                    <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaAzucares2">
-                </td>
-        </tr> 
+            <th><i class="fa-solid fa-drumstick-bite"></i>
+                <p>Comidas</p>
+            </th>
+            <td>
+                <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiVerduras">
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiFrutas">
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiCereales">
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="0" class="porciones"
+                    name="comiLeguminosas">
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiOrigen">
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiLeche">
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiGrasas">
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="0" class="porciones" name="comiAzucares">
+            </td>
+
+        </tr>
         <tr>
-            <th><i class="fa-solid fa-mug-saucer"></i><p>Cenas</p></th>
+            <th><i class="fa-solid fa-apple-whole"></i>
+                <p>Colación</p>
+            </th>
+            <td>
+                <input type="number" required min="0" required max="20" value="0" class="porciones"
+                    name="colaVerduras2">
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaFrutas2">
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="0" class="porciones"
+                    name="colaCereales2">
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="0" class="porciones"
+                    name="colaLeguminosas2">
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaOrigen2">
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaLeche2">
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="0" class="porciones" name="colaGrasas2">
+            </td>
+            <td>
+                <input type="number" required min="0" required max="20" value="0" class="porciones"
+                    name="colaAzucares2">
+            </td>
+        </tr>
+        <tr>
+            <th><i class="fa-solid fa-mug-saucer"></i>
+                <p>Cenas</p>
+            </th>
             <td>
                 <input type="number" required min="0" required max="20" value="0" class="porciones" name="cenaVerduras">
             </td>
@@ -142,7 +159,8 @@
                 <input type="number" required min="0" required max="20" value="0" class="porciones" name="cenaCereales">
             </td>
             <td>
-                <input type="number" required min="0" required max="20" value="0" class="porciones" name="cenaLeguminosas">
+                <input type="number" required min="0" required max="20" value="0" class="porciones"
+                    name="cenaLeguminosas">
             </td>
             <td>
                 <input type="number" required min="0" required max="20" value="0" class="porciones" name="cenaOrigen">
@@ -156,107 +174,350 @@
             <td>
                 <input type="number" required min="0" required max="20" value="0" class="porciones" name="cenaAzucares">
             </td>
-        </tr> 
+        </tr>
     </table>
-        
-        <div class="recomendaciones">
-            <section>
-                <h2>Recomendaciones</h2>
-                <select class="form-select form-select-lg mb-3" aria-label="Large select example">
-                    <option selected>Seleccione una comida</option>
-                    <option value="1">Desayuno</option>
-                    <option value="2">Comida</option>
-                    <option value="3">Cena</option>
-                    <option value="4">Colación</option>
-                </select>
-                <textarea name="" id="" cols="30" rows="10"></textarea>
-            </section>
-            <input type="button" value="Lista de Alimentos" id="lista" onclick="openIngredientDialog()">
-            <input type="button" onclick="siguiente('menu')" value="Siguiente">
-            <dialog id="alimentos">
-                <div class="model-content">
-                    <input type="button" class="close" value="X">
-                    <div id="modalContent">
-                    </div>
-                </div>
-            </dialog>
+    <div id="botonesConte">
+        <button type="button" class="btn btn-primary" id="lista" onclick="openIngredientDialog()">Lista de
+            Alimentos</button>
+        <input type="button" class="btn btn-primary" id="siguiente" onclick="siguiente('menu')" value="Siguiente">
+    </div>
+    <dialog id="alimentos">
+        <div class="model-content">
+            <div class="input-group mb-3" id="stBuscar">
+                <input type="text" class="form-control" id="inputBuscar" placeholder="Buscar alimento..."
+                    aria-label="Recipient's username" aria-describedby="button-addon2" onkeyup="filtrarTabla()">
+                <!-- <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="filtrarTabla()">Buscar</button> -->
+            </div>
+            <input type="button" class="close" value="X">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-primary" id="verduras" onclick="fetchCategoryData(1)"><i
+                        class="fa-solid fa-carrot"></i> Verduras</button>
+                <button type="button" class="btn btn-primary" id="frutas" onclick="fetchCategoryData(2)"><i
+                        class="fa-solid fa-apple-whole"></i> Frutas</button>
+                <button type="button" class="btn btn-primary" id="cereales" onclick="fetchCategoryData(3)"><i
+                        class="fa-solid fa-wheat-awn"></i> Cereales</button>
+                <button type="button" class="btn btn-primary" id="leguminosas" onclick="fetchCategoryData(4)"><i
+                        class="fa-solid fa-wheat-awn"></i> Leguminosas</button>
+                <button type="button" class="btn btn-primary" id="origen" onclick="fetchCategoryData(5)"><i
+                        class="fa-solid fa-bacon"></i> Origen Animal</button>
+                <button type="button" class="btn btn-primary" id="leche" onclick="fetchCategoryData(6)"><i
+                        class="fa-solid fa-mug-saucer"></i> Leche</button>
+                <button type="button" class="btn btn-primary" id="grasas" onclick="fetchCategoryData(7)"><i
+                        class="fa-solid fa-cheese"></i> Grasas</button>
+                <button type="button" class="btn btn-primary" id="azucares" onclick="fetchCategoryData(8)"><i
+                        class="fa-solid fa-ice-cream"></i> Azúcares</button>
+                <button type="button" class="btn btn-primary" id="libres" onclick="fetchCategoryData(9)"><i
+                        class="fa-solid fa-face-smile-wink"></i> Libres</button>
+            </div>
+            <div id="modalContent">
+            </div>
         </div>
-</div>
-<script>
-    var modal = document.getElementById("alimentos");
-    var span = modal.querySelector(".close");
-    span.onclick = function(){
-        modal.close();
-        modal.style.display='none';
-    }
-    window.onclick=function(event){
-        if(event.target == modal){
+    </dialog>
+    <div class="recomendaciones">
+        <section class="recomendacion">
+            <h2>Recomendaciones</h2>
+            <!-- <textarea name="reco" id="" cols="50" rows="10" disabled>{{menu.recomendacion}}</textarea> -->
+            <div class="inputsRecomendacion">
+                <textarea name="reco" id="textarea" cols="50" rows="10"></textarea>
+                <div id="botonesRecomendacion"></div>
+            </div>
+        </section>
+    </div>
+    <script>
+        var modal = document.getElementById("alimentos");
+        var span = modal.querySelector(".close");
+        span.onclick = function () {
             modal.close();
-            modal.style.display='none';
+            modal.style.display = 'none';
         }
-    }
-    const buttonLista = document.querySelector("#lista");
-    buttonLista.addEventListener("click", function(){
-        fetch('{% static "alimentos.json" %}')
-        .then(response => response.json())
-        .then(data => fillModalWithData(data))
-        .catch(error => console.error('Error fetching JSON:',error));
-        const alertDialog = document.querySelector("#alimentos");
-        alertDialog.showModal();
-    });
-    function fillModalWithData(jsonData){
-
-        var alimentos = jsonData.alimentos;
-        var modelData = '';
-            modelData = `<table class="table  table-bordered border-primary border border-primary-subtle table-hover" id="tabla">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th><b>Alimento</b></th>
-                                    <th><b>Categoría</b></th>
-                                    <th><b>Porción</b></th>
-                                    <th><b>Unidad</b></th>
-                                    <th><b>Energía (kcal)</b></th>
-                                    <th><b>Proteína (g)</b></th>
-                                    <th><b>Lipidos (g)</b></th>
-                                    <th><b>Hidratos de Carbono (g)</b></th>
-                                </tr>
-                            </thead>
-                        `;
-        for(var category in alimentos){
-            var categoryObj = alimentos[category];
-            for(var key in categoryObj){
-                var item = categoryObj[key];
-                modelData += `
-                    <tr>
-                        <td>
-                            ${key}
-                        </td>
-                        <td>
-                            ${item.Categoría}
-                        </td>
-                        <td>
-                            ${item.Porcion}
-                        </td>
-                        <td>
-                            ${item.Unidad}
-                        </td>
-                        <td>
-                            ${item.Energia}
-                        </td>
-                        <td>
-                            ${item.Proteina}
-                        </td>
-                        <td>
-                            ${item.Lipidos}
-                        </td>
-                        <td>
-                            ${item.HidratosDeCarbono}
-                        </td>
-                    </tr>
-                `;
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.close();
+                modal.style.display = 'none';
             }
         }
-        document.getElementById('modalContent').innerHTML=modelData;
-        document.getElementById('alimentos').style.display='block'
-    }
-</script>
+        onload = (event) => {
+            /*
+                Si tiene los siguientes factores de riesgo para diabetes tipo 2 
+                - IMC mayor a 25
+                - ⁠sedentarismo(no realiza actividad física)
+                - ⁠antecedentes de diabetes directos ( papá, mamá) 
+                - ⁠si tiene mayor o igual a 45 años
+                Se recomendará 
+                < 30% de grasas, <7% grasa saturada , máximo 15% grasa monoinsaturada
+                50-60% hidratos de carbono
+                15% proteínas 
+                14% fibra por cada 1000 kcal
+    
+                Actividad física 150 minutos a la semana leve a moderada 
+                Bajar de peso
+            */
+            const paciente = JSON.parse('{{ paciente_json|safe }}');
+            const imc = JSON.parse('{{ imc|safe }}');
+            const edad = JSON.parse('{{ edad|safe }}');
+            console.log(paciente);
+            console.log(imc);
+            factores = [];
+            let flagAlerta = false;
+            if (parseInt(imc) > 25) {
+                flagAlerta = true;
+                //     console.log(imc)
+                //     let alerta = document.createElement('div');
+                //     alerta.innerHTML = `
+                //     <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                //         Debido a que el IMC del paciente es mayor a 25 <strong>(${imc})</strong>, se recomienda una dieta baja en grasas y alta en fibra.
+                //         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                //     </div>  
+                // `;
+                //     alertasObservaciones.appendChild(alerta);
+                factores.push('IMC mayor a 25');
+            }
+            if (paciente.estilo_vida == 'S') {
+                flagAlerta = true;
+                //     console.log(paciente.estilo_vida)
+
+                //     let alerta = document.createElement('div');
+
+                //     alerta.innerHTML = `
+                //     <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                //         Debido a que el paciente no realiza actividad física, se recomienda una dieta baja en grasas y alta en fibra.
+                //         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                //     </div>  
+                // `;
+                //     alertasObservaciones.appendChild(alerta);
+                factores.push('Sedentarismo');
+            }
+            //console.log(edad);
+            if (parseInt(edad) >= 45) {
+                flagAlerta = true;
+                //     let alerta = document.createElement('div');
+
+                //     alerta.innerHTML = `
+                //     <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                //         Debido a que el paciente tiene 45 años o más <strong>(${edad})</strong>, se recomienda una dieta baja en grasas y alta en fibra.
+                //         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                //     </div>  
+                // `;
+                //     alertasObservaciones.appendChild(alerta);
+                factores.push('Edad mayor o igual a 45 años');
+            }
+            console.log(flagAlerta)
+            if (flagAlerta) {
+                // Se recomendará 
+                // < 30% de grasas, <7% grasa saturada , máximo 15% grasa monoinsaturada
+                // 50-60% hidratos de carbono
+                // 15% proteínas 
+                // 14% fibra por cada 1000 kcal
+                let alerta = document.createElement('div');
+                alerta.innerHTML = `
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    Se encontraron factores de riesgo para diabetes tipo 2: <strong>[${factores.join(', ')}]</strong>. <br><u>Se recomienda:</u> <br>
+                    <ul style="list-style: inside;">
+                        <li>Menos del 30% de grasas</li>
+                        <li>Menos del 7% de grasa saturada</li>
+                        <li>Máximo 15% de grasa monoinsaturada</li>
+                        <li>50-60% de hidratos de carbono</li>
+                        <li>15% de proteínas</li>
+                        <li>14% de fibra por cada 1000 kcal</li>
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>  
+            `;
+                alertasObservaciones.appendChild(alerta);
+                let alerta1 = document.createElement('div');
+
+                alerta1.innerHTML = `
+                <input type="button" class="btn btn-primary" onclick="agregarAlTextArea(this.value);this.disabled = true;" value = "Actividad física 150 minutos a la semana leve a moderada">
+            `;
+                botonesRecomendacion.appendChild(alerta1);
+                let alerta2 = document.createElement('div');
+
+                alerta2.innerHTML = `
+                <input type="button" class="btn btn-primary" onclick="agregarAlTextArea(this.value);this.disabled = true;" value = "Bajar de peso">
+                `;
+                botonesRecomendacion.appendChild(alerta2);
+            }
+
+        }
+        function agregarAlTextArea(valor) {
+            console.log(valor);
+            textarea.value += '\n' + valor + '\n';
+
+        }
+
+        function fetchCategoryData(category) {
+            url = "/api/foods/?category=" + category
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        //console.log(categoryData);
+
+                        alert("Aun no hay datos registrados en esa categoría")
+                    } else {
+                        fillModalWithData(data);
+                    }
+                })
+                .catch(error => console.error('Error fetching JSON:', error));
+        }
+        function openIngredientDialog() {
+            fetchCategoryData(1);
+            const alertDialog = document.querySelector("#alimentos");
+            alertDialog.showModal();
+        }
+        async function fillModalWithData(categoryData) {
+            var modelData = '';
+            modelData = `<table class="table table-hover" id="tablaModal">
+        <thead>
+            <tr class="titulo">
+                <th>ID</th>
+                <th class="sticky">Nombre</th>
+                <th>Tipo</th>
+                <th>Unidad</th>
+                <th>Porción</th>
+                <th>Peso</th>
+                <th>Peso neto</th>
+                <th>Energía (kcal)</th>
+                <th>Proteína (g)</th>
+                <th>Lípidos (g)</th>
+                <th>Carbohidratos (g)</th>
+                <th>AG saturados (g)</th>
+                <th>AG monoinsaturados (g)</th>
+                <th>AG poliinsaturados (g)</th>
+                <th>Colesterol (g)</th>
+                <th>Azúcar (g)</th>
+                <th>Fibra (g)</th>
+                <th>Vitamina A (mg RE)</th>
+                <th>Ácido Ascórbico (mg)</th>
+                <th>Ácido Fólico (mg)</th>
+                <th>Calcio (mg)</th>
+                <th>Hierro (mg)</th>
+                <th>Potasio (mg)</th>
+                <th>Sodio (mg)</th>
+                <th>Fósforo (mg)</th>
+                <th>Etanol (g)</th>
+                <th>IG</th>
+                <th>Carga Glicémica</th>
+            </tr>
+        </thead>
+        <tbody id="food-table-body">
+                        `;
+            /*for(var key in categoryData){
+                var item = categoryData[key];
+                modelData += `
+                    <tr>
+                        <td>${key}</td>
+                        <td>${item.Categoría}</td>
+                        <td>${item.Unidad}</td>
+                        <td>${item.Porcion}</td>
+                        <td>${item.Energia}</td>
+                        <td>${item.Proteina}</td>
+                        <td>${item.Lipidos}</td>
+                        <td>${item.HidratosDeCarbono}</td>
+                    </tr>
+                `;
+            }*/
+            categoryData.forEach(item => {
+                const tipoNombre = item.tipo_nombre;
+                const unidadId = item.unidad;
+                const unidadNombre = item.unidad_nombre;
+
+                modelData += `
+                    <tr>
+                         <td> ${item.id}</td>
+                          <td class="sticky"> ${item.nombre}</td>
+                           <td>  ${tipoNombre}</td>
+                           <td>  ${item.porcion}</td>
+                           <td>  ${unidadNombre}</td>
+                            <td>  ${item.peso}</td>
+                            <td>  ${item.peso_neto}</td>
+                            <td>  ${item.energia}</td>
+                            <td>  ${item.proteina}</td>
+                            <td>  ${item.lipidos}</td>
+                            <td>  ${item.carbos}</td>
+                            <td>  ${item.ag_satur}</td>
+                            <td>  ${item.ag_mono}</td>
+                            <td>  ${item.ag_poli}</td>
+                            <td>  ${item.colesterol}</td>
+                            <td>  ${item.azucar}</td>
+                            <td>  ${item.fibra}</td>
+                            <td>  ${item.vita_A}</td>
+                            <td>  ${item.aci_asc}</td>
+                            <td>  ${item.aci_foli}</td>
+                            <td>  ${item.calcio}</td>
+                            <td>  ${item.hierro}</td>
+                            <td>  ${item.potasio}</td>
+                            <td>  ${item.sodio}</td>
+                            <td>  ${item.fosforo}</td>
+                            <td>  ${item.etanol}</td>
+                            <td>  ${item.ig}</td>
+                            <td>  ${item.carga_gli}</td>`
+            });
+
+            modelData += `</table>`
+            document.getElementById('modalContent').innerHTML = modelData;
+            document.getElementById('alimentos').style.display = 'block'
+        }
+
+        async function getUnidadName(unidadId) {
+            try {
+                const response = await fetch('api/units/?id=${unidadId}');
+                const data = await response.json();
+                return data.unidad;
+            } catch (error) {
+                console.error('Error fetching unidad name:', error);
+                return 'Unknown';
+            }
+        }
+
+        function filtrarTabla() {
+            //debugger
+            //  console.log("estoy dentro")
+            // Obtener el valor de búsqueda y convertirlo a minúsculas
+            let input = document.getElementById('inputBuscar');
+
+            let filter = input.value.toLowerCase();
+            console.log("soy filter ,", filter)
+            // Obtener la tabla y sus filas
+            let table = document.getElementById('tablaModal');
+            //console.log(table)
+            let tr = table.getElementsByTagName('tr');
+            //console.log("inicio")
+            //console.log(tr)
+
+            // Recorrer todas las filas de la tabla (excepto el encabezado)
+            for (let i = 1; i < tr.length; i++) {
+                // Obtener el <td> con la clase 'sticky' y 'nombre' de la fila actual
+                let td = tr[i].getElementsByClassName('sticky')[0];
+
+                if (td) {
+                    // Obtener solo el texto del <td>
+                    let txtValue1 = td.textContent || td.innerText;
+                    let txtValue = txtValue1.substring(1)
+                    console.log(txtValue)
+                    console.log(`Fila ${i}, contenido de td: ${txtValue.toLowerCase()}`);
+
+                    // Comprobar si el contenido del <td> coincide exactamente con el valor de búsqueda
+                    if (filter === '' || txtValue.toLowerCase().includes(filter)) {
+                        tr[i].style.display = "";  // Mostrar la fila si hay coincidencia
+                    } else {
+                        tr[i].style.display = "none";  // Ocultar la fila si no hay coincidencia
+                    }
+                } else {
+                    console.log(`Fila ${i} no tiene un <td> con la clase 'nombre'.`);
+                }
+            }
+        }
+    </script>
+    <style>
+        .inputsRecomendacion {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 880px;
+        }
+
+        #botonesRecomendacion>div {
+            margin: 10px;
+        }
+    </style>

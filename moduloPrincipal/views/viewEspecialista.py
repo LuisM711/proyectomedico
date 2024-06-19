@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.views import View
 from django.core.paginator import Paginator
 from django.http import Http404, HttpResponse
@@ -9,11 +9,11 @@ from django.contrib.auth.models import User
 from django.http.response import JsonResponse
 import json
 from moduloNutricion.urls import nutriologo
+from django.forms.models import model_to_dict
 
 from django.views.decorators.csrf import csrf_exempt
-
+from moduloNutricion.models.modelMenuBien import Menu_Bien
 from moduloPrincipal.models.__init__ import *
-from moduloNutricion.models.modelMenu import Menu
 
 # Clase para enviar al especialista a su ventana de inicio
 class InicioEspecialista(View):
@@ -224,7 +224,10 @@ class ConsultaMedica(View):
             else:
                 pre_llenado = 'si'
         # Se obtienen los datos del usuario para mostrarlos en la interfaz
-        print("Es el mismo")
+        #print("Es el mismo")
+        paciente_obj = get_object_or_404(Paciente, id=cita.id_paciente.id)
+        paciente_dict = model_to_dict(paciente_obj)
+        paciente_json = json.dumps(paciente_dict)
         paciente = Paciente.objects.get(id=cita.id_paciente.id)
         fecha_act = date.today()
         fecha_na = paciente.id_usuario.fecha_nacimiento
@@ -257,16 +260,16 @@ class ConsultaMedica(View):
         aux_exp_fisica = Exploracion_fisica.objects.filter(id_cita_id=cita.id)
 
         if aux_exp_fisica.exists():
-            print("hay prelleno")
+            print("hay")
          #   return render(request, 'layouts/consulta.html',
           #                {'paciente': paciente, 'edad': edad, 'imc': imc, 'fgm': fgm, 'AP_toxi': AP_toxi,
            #                'AP_qui': AP_qui, 'AP_tran': AP_tran, 'AP_vac': AP_vac, 'AP': AP, 'AP_al': AP_al,
             #               'ID_cita': id, "cita": cita, "pre_llenado": pre_llenado, "exp_fisica": aux_exp_fisica})
         #JEFE, ESTE ES EL CODIGO REALMENTE FUNCIONAL DE LA VISTA
         else:
-            print("no hay prelleno")
+            #print("no hay prelleno")
             return render(request, 'layouts/consulta.html',
-                          {'paciente': paciente, 'edad': edad, 'imc': imc, 'fgm': fgm, 'AP_toxi': AP_toxi,
+                          {'paciente_json':paciente_json, 'paciente': paciente, 'edad': edad, 'imc': imc, 'fgm': fgm, 'AP_toxi': AP_toxi,
                            'AP_qui': AP_qui, 'AP_tran': AP_tran, 'AP_vac': AP_vac, 'AP': AP, 'AP_al': AP_al,
                            'ID_cita': id, "cita": cita, "pre_llenado": pre_llenado, 'especialidadJson': especialidadJson})
 
@@ -274,9 +277,7 @@ class ConsultaMedica(View):
     @method_decorator(login_required, name='dispatch')
     def post(self, request, id):
         cita = Cita.objects.get(id=id)
-        aux_usuario = Usuario.objects.get(id_usuario_id=request.user.id)
-        aux_especialista = Especialista.objects.get(id_usuario_id=aux_usuario.id)
-        paciente = Paciente.objects.get(id=cita.id_paciente.id)
+
         # Se valida que si se haya registrado exploracion fisica
         if 'glucosa' in request.POST:
             # TABLA DE EXPLORACION FISICA
@@ -324,10 +325,136 @@ class ConsultaMedica(View):
             tra1.save()
             tra2 = Tratamiento.objects.create(id_cita=cita, tipo=tipo_TRA2, descripcion=descripcion_TRA2)
             tra2.save()
+
+        if 'desaVerduras' in request.POST:
+
+            #Inputs Desayuno
+            desaVerduras = request.POST.get('desaVerduras')
+            desaFrutas = request.POST.get('desaFrutas')
+            desaCereales = request.POST.get('desaCereales')
+            desaLeguminosas = request.POST.get('desaLeguminosas')
+            desaOrigen = request.POST.get('desaOrigen')
+            desaLeche = request.POST.get('desaLeche')
+            desaGrasas = request.POST.get('desaGrasas')
+            desaAzucares = request.POST.get('desaAzucares')
+
+            #Inputs Comida
+            comiVerduras = request.POST.get('comiVerduras')
+            comiFrutas = request.POST.get('comiFrutas')
+            comiCereales = request.POST.get('comiCereales')
+            comiLeguminosas = request.POST.get('comiLeguminosas')
+            comiOrigen = request.POST.get('comiOrigen')
+            comiLeche = request.POST.get('comiLeche')
+            comiGrasas = request.POST.get('comiGrasas')
+            comiAzucares = request.POST.get('comiAzucares')
+
+            #Inputs Cena
+            cenaVerduras = request.POST.get('cenaVerduras')
+            cenaFrutas = request.POST.get('cenaFrutas')
+            cenaCereales = request.POST.get('cenaCereales')
+            cenaLeguminosas = request.POST.get('cenaLeguminosas')
+            cenaOrigen = request.POST.get('cenaOrigen')
+            cenaLeche = request.POST.get('cenaLeche')
+            cenaGrasas = request.POST.get('cenaGrasas')
+            cenaAzucares = request.POST.get('cenaAzucares')
+
+            #Inputs Colacion
+            colaVerduras = request.POST.get('colaVerduras')
+            colaFrutas = request.POST.get('colaFrutas')
+            colaCereales = request.POST.get('colaCereales')
+            colaLeguminosas = request.POST.get('colaLeguminosas')
+            colaOrigen = request.POST.get('colaOrigen')
+            colaLeche = request.POST.get('colaLeche')
+            colaGrasas = request.POST.get('colaGrasas')
+            colaAzucares = request.POST.get('colaAzucares')
+
+            #Inputs Colacion 2
+            colaVerduras2 = request.POST.get('colaVerduras2')
+            colaFrutas2 = request.POST.get('colaFrutas2')
+            colaCereales2 = request.POST.get('colaCereales2')
+            colaLeguminosas2 = request.POST.get('colaLeguminosas2')
+            colaOrigen2 = request.POST.get('colaOrigen2')
+            colaLeche2 = request.POST.get('colaLeche2')
+            colaGrasas2 = request.POST.get('colaGrasas2')
+            colaAzucares2 = request.POST.get('colaAzucares2')
+
+            #recomendacion
+            recomendacion = request.POST.get('reco')
+
+            menu = {
+
+                'desayuno':{
+                    'verduras': desaVerduras,
+                    'frutas': desaFrutas,
+                    'cereales': desaCereales,
+                    'leguminosas': desaLeguminosas,
+                    'origen': desaOrigen,
+                    'leche': desaLeche,
+                    'grasas': desaGrasas,
+                    'azucares': desaAzucares
+
+                },
+
+                'comida':{
+                    'verduras': comiVerduras,
+                    'frutas': comiFrutas,
+                    'cereales': comiCereales,
+                    'leguminosas': comiLeguminosas,
+                    'origen': comiOrigen,
+                    'leche': comiLeche,
+                    'grasas': comiGrasas,
+                    'azucares': comiAzucares
+
+                },
+
+                'cena':{
+                    'verduras': cenaVerduras,
+                    'frutas': cenaFrutas,
+                    'cereales': cenaCereales,
+                    'leguminosas': cenaLeguminosas,
+                    'origen': cenaOrigen,
+                    'leche': cenaLeche,
+                    'grasas': cenaGrasas,
+                    'azucares': cenaAzucares
+
+                },
+
+                'colacion':{
+                    'verduras': colaVerduras,
+                    'frutas': colaFrutas,
+                    'cereales': colaCereales,
+                    'leguminosas': colaLeguminosas,
+                    'origen': colaOrigen,
+                    'leche': colaLeche,
+                    'grasas': colaGrasas,
+                    'azucares': colaAzucares
+
+                },
+
+                 'colacion2':{
+                    'verduras': colaVerduras2,
+                    'frutas': colaFrutas2,
+                    'cereales': colaCereales2,
+                    'leguminosas': colaLeguminosas2,
+                    'origen': colaOrigen2,
+                    'leche': colaLeche2,
+                    'grasas': colaGrasas2,
+                    'azucares': colaAzucares2
+                },
+                 'recomendacion': recomendacion
+            }
+            paciente = Paciente.objects.get(id=cita.id_paciente.id)
+            aux_usuario = Usuario.objects.get(id_usuario_id=request.user.id)
+            aux_especialista = Especialista.objects.get(id_usuario_id=aux_usuario.id)
+            menuString = json.dumps(menu)
+            #print(menuString)
+            auxMenuBien=Menu_Bien.objects.create(id_cita=cita,especialista=aux_especialista,paciente=paciente,menu=menuString)
+            auxMenuBien.save()
         # solo se se cambia el estatus de la cita cuando no se esta pre llenando por una enfermera
         #if request.POST.get('pre_llenado') == "no":
         cita.estatus = 'A'
         cita.save()
+
         # REDIRIGE AL LISTADO DE CITAS
         return redirect('listarcitasespecialista')
 
@@ -353,10 +480,23 @@ class VisualizarConsulta(View):
         edad = fecha_act.year - fecha_na.year - ((fecha_act.month, fecha_act.day) < (fecha_na.month, fecha_na.day))
         
         #Obtenemos las especialidades en SI del especialista de dicha cita
-        aux_explo= Exploracion_fisica.objects.get(id_cita_id=cita.id)
-        aux_diagno=Diagnostico.objects.get(id_cita_id=cita.id)
-        aux_menu=Menu.objects.get(id_cita=cita.id)
-        data={'exploracionfisica': aux_explo, 'diagnostico': aux_diagno, 'menu': aux_menu}
+        data={}
+        if cita.diagnosticos.exists():
+            aux_diagno=Diagnostico.objects.get(id_cita_id=cita.id)
+            data.update({'diagnostico':aux_diagno})
+        
+        if cita.exploraciones.exists():
+            aux_explo= Exploracion_fisica.objects.get(id_cita_id=cita.id)
+            data.update({'exploracionfisica':aux_explo})
+
+        if cita.menus.exists():
+            auxMenu=Menu_Bien.objects.get(id_cita=cita.id)
+            auxMenu2=auxMenu.menu
+            auxMenu3 = json.loads(auxMenu2)
+            data.update({'menu':auxMenu3})
+        #("es la visualizacion")
+        #print(auxMenu2)
+        #data={'exploracionfisica': aux_explo, 'diagnostico': aux_diagno}
 
         datosPaciente={'paciente': paciente,
                        'edad': edad,
@@ -373,6 +513,7 @@ class VisualizarConsulta(View):
 
         # SI el especialista no registra exploracion fisica, ese datos no se busca ni envia
         #if (aux_especialista.id_especialidad.exploracion_fisica == "no"):
+        #print(data)
         return render(request, "ventanas_especialista/visualizar_consulta.html", {'datosPaciente': datosPaciente,
                                                                                         'data': data})
         #else:
