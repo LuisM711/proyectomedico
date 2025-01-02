@@ -1,0 +1,97 @@
+body{
+    background-color: #f2f3f9;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#map {
+    margin-top: 1%;
+    height: 600px; /* Ajusta la altura según tu necesidad */
+    width: 80%;
+    left: 10%;
+    border-radius: 10px;    
+  }
+
+
+#autocomplete{
+    margin-top: 20px;
+    margin-left: 40%;
+    width: 20%;
+    height: 40px;
+    border-radius: 10px;
+}
+
+
+
+            /* ---- detalles de marcador ---- 
+ */
+
+ h3 { 
+    color: #3498db;
+    font-size: 20px;
+    margin: 0 0 10px;
+    }
+
+p {
+    font-size: 16px;
+    margin: 0 0 10px;
+
+}
+#details {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+           /* ---- tablas ---- */
+
+           #tableContainer {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+          }
+          
+          #tableContainer table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+            color: #333;
+          }
+          
+          #tableContainer thead {
+            background-color: #3498db;
+            color: #fff;
+          }
+          
+          #tableContainer th {
+            text-align: left;
+            padding: 10px;
+            font-size: 16px;
+            border-bottom: 2px solid #2980b9;
+          }
+          
+          #tableContainer tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+          }
+          
+          #tableContainer tbody tr:hover {
+            background-color: #eaeaea;
+          }
+          
+          #tableContainer td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+          }
+          

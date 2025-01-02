@@ -20,6 +20,8 @@ from moduloPrincipal.views.viewVacuna import *
 from moduloNutricion.views.viewAlimentos import *
 from moduloNutricion.views.viewMenuPaciente import *
 from moduloNutricion.views.viewListaAlimentos import *
+from moduloNutricion.views.viewMapa import *
+from moduloNutricion.views.viewMapa import *
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
     PasswordResetCompleteView
 
@@ -92,9 +94,11 @@ urlpatterns = [
     path('graficas/', Graficas.as_view(), name='graficas'),
     path('grafica2/<int:id>/<int:tipo>', grafica_EXP, name='grafica_exp'),
     path('listaAlimentos/', Lista_Alimentos.as_view(), name='listaAlimentos'),
+    #path('mapa/',Mapa.as_view(),name='Mapa'),
     path('api/foods/', fetch_category_data, name='fetch_category_data'),
     path('api/types/', fetch_tipo_data, name='fetch_tipo_data'),
     path('api/units/', fetch_unidades_data, name='fetch_unidades_data'),
+    path('mapa/', visualizarMapa, name='mapa'),
 
     # Urls del administrador
     path('inicio/admin/', InicioAdmin.as_view(), name='inicio_admin'),
